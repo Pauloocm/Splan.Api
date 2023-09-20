@@ -2,12 +2,6 @@
 using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Domain.Employee;
-using Splan.Platform.Infrastructure.Database.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Splan.Platform.Tests
 {

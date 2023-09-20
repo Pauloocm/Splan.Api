@@ -11,7 +11,7 @@ namespace Splan.Platform.Application
         {
             employeesRepository = employeeRepository;
         }
-
+        
         public async Task<Guid> Add(AddEmployeeCommand addEmployeeCommand, CancellationToken cancellationToken = default)
         {
             if (addEmployeeCommand is null)
