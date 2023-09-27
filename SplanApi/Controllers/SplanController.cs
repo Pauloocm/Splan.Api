@@ -25,5 +25,16 @@ namespace SplanApi.Controllers
 
             return Ok(employeeId);
         }
+
+        [HttpPut("/Update")]
+        public async Task<IActionResult> Update([FromBody] UpdateEmployeeCommand updateEmployeeCommand, CancellationToken cancellationToken = default)
+        {
+            if (updateEmployeeCommand is null)
+                throw new ArgumentNullException(nameof(updateEmployeeCommand));
+
+            await SplanAppService.Update(updateEmployeeCommand, cancellationToken);
+
+            return Ok();
+        }
     }
 }

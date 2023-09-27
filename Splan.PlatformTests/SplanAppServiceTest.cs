@@ -11,7 +11,6 @@ namespace Splan.Platform.Tests
         private IEmployeeRepository employeeRepositoryMock;
         private ISplanAppService splanAppService;
 
-
         [SetUp]
         public void Setup()
         {
@@ -25,8 +24,7 @@ namespace Splan.Platform.Tests
         [Test]
         public void Add_Should_Throw_When_Command_Is_Null()
         {
-            
+            //splanAppService.GetById();
         }
-
     }
 }
