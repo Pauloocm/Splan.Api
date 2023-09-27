@@ -1,4 +1,5 @@
-﻿using Splan.Platform.Domain.Employee;
+﻿using Microsoft.EntityFrameworkCore;
+using Splan.Platform.Domain.Employee;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
 {
@@ -18,6 +19,23 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
             await DbContext.Employees.AddAsync(employee, cancellationToken);
             DbContext.SaveChanges();
+        }
+
+        public async Task<Employee> GetById(Guid id, CancellationToken cancellationToken = default)
+        {
+            var result = await DbContext.Employees.FindAsync(id, cancellationToken);
+
+            if (result is null)
+                throw new ArgumentNullException("Employee not found");
+
+            return result;
+        }
+
+        public async Task<Employee> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var employee = await DbContext.Employees.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+            return employee;
         }
     }
 }

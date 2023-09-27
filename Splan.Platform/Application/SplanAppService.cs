@@ -1,5 +1,6 @@
 ﻿using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Domain.Employee;
+using Splan.Platform.Domain.Employee.Exceptions;
 
 namespace Splan.Platform.Application
 {
@@ -11,7 +12,7 @@ namespace Splan.Platform.Application
         {
             employeesRepository = employeeRepository;
         }
-
+        
         public async Task<Guid> Add(AddEmployeeCommand addEmployeeCommand, CancellationToken cancellationToken = default)
         {
             if (addEmployeeCommand is null)
@@ -23,6 +24,40 @@ namespace Splan.Platform.Application
             await employeesRepository.AddAsync(employee, cancellationToken);
 
             return employee.Id;
+        }
+
+        public async Task<GetEmployeeCommand> GetById(Guid id)
+        {
+            if(id == Guid.Empty)
+                throw new ArgumentNullException(nameof(id));
+
+            var result = await employeesRepository.GetById(id);
+
+            var employee = new GetEmployeeCommand()
+            {
+                Name = result.Name,
+                Position = result.Position,
+            };
+
+            return employee;
+        }
+
+        public async Task Update(UpdateEmployeeCommand updateEmployeeCommand, CancellationToken cancellationToken = default)
+        {
+            var employee = await GetEmployee(updateEmployeeCommand.employeeId, cancellationToken);
+
+            employee.Update(updateEmployeeCommand.Name, updateEmployeeCommand.Position, updateEmployeeCommand.EducationalBackground,
+                updateEmployeeCommand.ContractingRegime, updateEmployeeCommand.Coordinator, updateEmployeeCommand.RhClassification);
+        }
+
+        private async Task<Domain.Employee.Employee> GetEmployee(Guid employeeId, CancellationToken cancellationToken = default)
+        {
+            if(employeeId == Guid.Empty)
+                throw new ArgumentNullException(nameof(employeeId));
+
+            var employee = await employeesRepository.GetSingleOrDefaultAsync(employeeId, cancellationToken);
+
+            return employee is null ? throw new EmployeeNotFoundException(employeeId) : employee;
         }
     }
 }

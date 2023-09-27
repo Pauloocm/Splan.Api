@@ -2,12 +2,6 @@
 using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Domain.Employee;
-using Splan.Platform.Infrastructure.Database.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Splan.Platform.Tests
 {
@@ -16,7 +10,6 @@ namespace Splan.Platform.Tests
     {
         private IEmployeeRepository employeeRepositoryMock;
         private ISplanAppService splanAppService;
-
 
         [SetUp]
         public void Setup()
@@ -31,8 +24,7 @@ namespace Splan.Platform.Tests
         [Test]
         public void Add_Should_Throw_When_Command_Is_Null()
         {
-            
+            //splanAppService.GetById();
         }
-
     }
 }
