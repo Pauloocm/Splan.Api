@@ -22,7 +22,7 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Install dependencies
-      run: dotnet restore .SplanApi/SplanApi.sln
+      run: dotnet restore .SplanApi/SplanApi.csproj
     - name: Build
       run: dotnet build SplanApi/SplanApi.sln -c Release --no-restore
   
