@@ -1,4 +1,5 @@
 ﻿using Splan.Platform.Application.Employee.Commands;
+using Splan.Platform.Application.Employee.Dtos;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
 
@@ -24,6 +25,11 @@ namespace Splan.Platform.Application
             await employeesRepository.AddAsync(employee, cancellationToken);
 
             return employee.Id;
+        }
+
+        public Task<EmployeeDto> Get(GetEmployeeCommand getEmployeeCommand, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<GetEmployeeCommand> GetById(Guid id)
