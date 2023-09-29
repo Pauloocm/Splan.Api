@@ -33,6 +33,9 @@ namespace Splan.Platform.Application
 
             var result = await employeesRepository.GetById(id);
 
+            if (result is null)
+                throw new EmployeeNotFoundException(id);
+
             var employee = new GetEmployeeCommand()
             {
                 Name = result.Name,

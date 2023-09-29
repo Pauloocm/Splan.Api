@@ -26,34 +26,34 @@ namespace Splan.Platform.Domain.Employee
             Id = Guid.NewGuid();
         }
 
-        public void Update(string name, string position, string educationBackground, ContractingRegime contractingRegime, bool coordinator, string rhClassification)
+        public void Update(string? name, string? position, string? educationBackground, ContractingRegime? contractingRegime, bool? coordinator, string? rhClassification)
         {
             if(name is not null)
             {
                 Name = name;
             }
 
-            if (name is not null)
+            if (position is not null)
             {
                 Position = position;
             }
 
-            if (name is not null)
+            if (educationBackground is not null)
             {
                 EducationalBackground = educationBackground;
             }
 
-            if (name is not null)
+            if (contractingRegime is not null)
             {
                 ContractingRegime = contractingRegime;
             }
 
-            if (name is not null)
+            if (coordinator is not null)
             {
-                Coordinator = coordinator;
+                Coordinator = (bool)coordinator;
             }
 
-            if (name is not null)
+            if (rhClassification is not null)
             {
                 RhClassification = rhClassification;
             }
