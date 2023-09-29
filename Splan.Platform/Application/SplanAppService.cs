@@ -33,6 +33,9 @@ namespace Splan.Platform.Application
 
             var result = await employeesRepository.GetById(id);
 
+            if (result is null)
+                throw new EmployeeNotFoundException(id);
+
             var employee = new GetEmployeeCommand()
             {
                 Name = result.Name,
@@ -44,7 +47,7 @@ namespace Splan.Platform.Application
 
         public async Task Update(UpdateEmployeeCommand updateEmployeeCommand, CancellationToken cancellationToken = default)
         {
-            var employee = await GetEmployee(updateEmployeeCommand.employeeId, cancellationToken);
+            var employee = await GetEmployee(updateEmployeeCommand.EmployeeId, cancellationToken);
 
             employee.Update(updateEmployeeCommand.Name, updateEmployeeCommand.Position, updateEmployeeCommand.EducationalBackground,
                 updateEmployeeCommand.ContractingRegime, updateEmployeeCommand.Coordinator, updateEmployeeCommand.RhClassification);

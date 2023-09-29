@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Splan.Platform.Domain.Employee;
+using Splan.Platform.Domain.Employee.Exceptions;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
 {
@@ -24,9 +25,6 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
         public async Task<Employee> GetById(Guid id, CancellationToken cancellationToken = default)
         {
             var result = await DbContext.Employees.FindAsync(id, cancellationToken);
-
-            if (result is null)
-                throw new ArgumentNullException("Employee not found");
 
             return result;
         }
