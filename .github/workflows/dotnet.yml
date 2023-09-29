@@ -3,7 +3,8 @@
 
 name: .NET
 
-on:
+on: workflow_dispatch:
+
   push:
     branches: [ "dev" ]
   pull_request:
@@ -21,7 +22,7 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Install dependencies
-      run: dotnet restore .Splan.Api\SplanApi/SplanApi.sln
+      run: dotnet restore .Splan.Api\SplanApi/SplanApi.csproj
     - name: Build
-      run: dotnet build .Splan.Api\SplanApi/SplanApi.sln --configuration Release --no-restore
+      run: dotnet build .Splan.Api\SplanApi/SplanApi.csproj --configuration Release --no-restore
   
