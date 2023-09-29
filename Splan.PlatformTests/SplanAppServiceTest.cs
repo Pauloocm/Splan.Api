@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using Splan.Platform.Application;
+using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Domain.Employee;
 
 namespace Splan.Platform.Tests
@@ -24,7 +25,34 @@ namespace Splan.Platform.Tests
         [Test]
         public void Add_Should_Throw_When_Command_Is_Null()
         {
-            //splanAppService.GetById();
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.Add(null, CancellationToken.None));
         }
+
+        [Test]
+        public async Task Add()
+        {
+            var employee = new AddEmployeeCommand()
+            {
+                ContractingRegime = 0,
+                Coordinator = false,
+                EducationalBackground = "Técnico",
+                Name = "Test",
+                Position = "junior developer",
+                RhClassification = "tsdds"
+            };
+
+            var result = await splanAppService.Add(employee, CancellationToken.None);
+
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result, Is.TypeOf<Guid>());
+        }
+
+        [Test]
+        public void GetById_Should_Throw_When_Id_Is_Empty()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.GetById(Guid.Empty));
+        }
+
+        public async Task 
     }
 }
