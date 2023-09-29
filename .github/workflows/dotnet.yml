@@ -6,7 +6,7 @@ name: .NET
 on:
 
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -22,7 +22,7 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Install dependencies
-      run: dotnet restore D:\SplanTcc\Splan.Api\SplanApi\SplanApi.sln
+      run: dotnet restore SplanApi.sln
     - name: Build
-      run: dotnet build D:\SplanTcc\Splan.Api\SplanApi\SplanApi.sln --configuration Release --no-restore
+      run: dotnet build SplanApi.sln -c Release --no-restore
   
