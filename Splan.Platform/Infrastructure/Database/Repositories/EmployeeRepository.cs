@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Splan.Platform.Domain.Employee;
-using Splan.Platform.Domain.Employee.Exceptions;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
 {
@@ -22,6 +21,13 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             DbContext.SaveChanges();
         }
 
+        public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            var result = await DbContext.Employees.ToListAsync(cancellationToken);
+
+            return result;
+        }
+
         public async Task<Employee> GetById(Guid id, CancellationToken cancellationToken = default)
         {
             var result = await DbContext.Employees.FindAsync(id, cancellationToken);
@@ -34,6 +40,11 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             var employee = await DbContext.Employees.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
             return employee;
+        }
+
+        public void UpdateDatabase()
+        {
+            DbContext.SaveChanges();
         }
     }
 }

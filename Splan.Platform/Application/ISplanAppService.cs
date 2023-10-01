@@ -8,6 +8,6 @@ namespace Splan.Platform.Application
         Task<Guid> Add(AddEmployeeCommand addEmployeeCommand, CancellationToken cancellationToken = default);
         Task Update(UpdateEmployeeCommand updateEmployeeCommand, CancellationToken cancellationToken = default);
         Task<GetEmployeeCommand> GetById(Guid id);
-        Task<EmployeeDto> Get(GetEmployeeCommand getEmployeeCommand, CancellationToken cancellationToken = default);
+        Task<List<EmployeeDto>> Get(CancellationToken cancellationToken = default);
     }
 }
