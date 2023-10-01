@@ -1,18 +1,20 @@
-﻿namespace Splan.Platform.Application.Employee.Dtos
+﻿using Splan.Platform.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace Splan.Platform.Application.Employee.Dtos
 {
     public class EmployeeDto
     {
         public string Name { get; set; }
-        public string Description { get; set; }
 
-        public EmployeeDto(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
-        public EmployeeDto()
-        {
-            
-        }
+        public string Position { get; set; }
+
+        public string EducationalBackground { get; set; }
+
+        public ContractingRegime ContractingRegime { get; set; }
+
+        public bool Coordinator { get; set; } = false;
+
+        public string RhClassification { get; set; }
     }
 }
