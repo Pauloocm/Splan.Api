@@ -5,9 +5,10 @@ namespace Splan.Platform.Application
 {
     public interface ISplanAppService
     {
-        Task<Guid> Add(AddEmployeeCommand addEmployeeCommand, CancellationToken cancellationToken = default);
-        Task Update(UpdateEmployeeCommand updateEmployeeCommand, CancellationToken cancellationToken = default);
-        Task<GetEmployeeCommand> GetById(Guid id);
+        Task<Guid> Add(AddEmployeeCommand command, CancellationToken cancellationToken = default);
+        Task Update(UpdateEmployeeCommand command, CancellationToken cancellationToken = default);
+        Task<EmployeeDto> GetById(Guid id);
         Task<List<EmployeeDto>> Get(CancellationToken cancellationToken = default);
+        Task Delete(DeleteEmployeeCommand command, CancellationToken cancellationToken = default);
     }
 }

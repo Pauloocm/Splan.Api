@@ -31,53 +31,32 @@ namespace Splan.Platform.Application
         {
             var employees = await employeesRepository.GetAllAsync(cancellationToken);
 
-            var DtoEmployees = new List<EmployeeDto>();
-
-            foreach (var dto in employees)
-            {
-                var employeeDto = new EmployeeDto()
-                {
-                    Name = dto.Name,
-                    Position = dto.Position,
-                    ContractingRegime = (Domain.Enums.ContractingRegime)dto.ContractingRegime,
-                    Coordinator = dto.Coordinator,
-                    EducationalBackground = dto.EducationalBackground,
-                    RhClassification = dto.RhClassification
-                };
-
-                DtoEmployees.Add(employeeDto);
-            }
-
-            return DtoEmployees;
+            return EmployeeDto.ToDto(employees);
         }
 
-        public async Task<GetEmployeeCommand> GetById(Guid id)
+        public async Task<EmployeeDto> GetById(Guid id)
         {
             if (id == Guid.Empty)
                 throw new ArgumentNullException(nameof(id));
 
-            var result = await employeesRepository.GetById(id);
+            var employee = await employeesRepository.GetById(id);
 
-            if (result is null)
+            if (employee is null)
                 throw new EmployeeNotFoundException(id);
 
-            var employee = new GetEmployeeCommand()
-            {
-                Name = result.Name,
-                Position = result.Position,
-            };
+            var employeeDto = EmployeeDto.ToDto(employee);
 
-            return employee;
+            return employeeDto;
         }
 
-        public async Task Update(UpdateEmployeeCommand updateEmployeeCommand, CancellationToken cancellationToken = default)
+        public async Task Update(UpdateEmployeeCommand command, CancellationToken cancellationToken = default)
         {
-            var employee = await GetEmployee(updateEmployeeCommand.EmployeeId, cancellationToken);
+            var employee = await GetEmployee(command.EmployeeId, cancellationToken);
 
-            employee.Update(updateEmployeeCommand.Name, updateEmployeeCommand.Position, updateEmployeeCommand.EducationalBackground,
-                updateEmployeeCommand.ContractingRegime, updateEmployeeCommand.Coordinator, updateEmployeeCommand.RhClassification);
+            employee.Update(command.Name, command.Position, command.EducationalBackground,
+                command.ContractingRegime, command.Coordinator, command.RhClassification);
 
-            employeesRepository.UpdateDatabase();
+            await employeesRepository.UpdateDatabase();
         }
 
         private async Task<Domain.Employee.Employee> GetEmployee(Guid employeeId, CancellationToken cancellationToken = default)
@@ -88,6 +67,19 @@ namespace Splan.Platform.Application
             var employee = await employeesRepository.GetSingleOrDefaultAsync(employeeId, cancellationToken);
 
             return employee is null ? throw new EmployeeNotFoundException(employeeId) : employee;
+        }
+
+        public async Task Delete(DeleteEmployeeCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var employee = await employeesRepository.GetById(command.EmployeeId);
+
+            if (employee is null)
+                throw new EmployeeNotFoundException(command.EmployeeId);
+
+            await employeesRepository.Delete(command.EmployeeId, command.EmployeeEmail, cancellationToken);
         }
     }
 }

@@ -21,6 +21,17 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             DbContext.SaveChanges();
         }
 
+        public async Task Delete(Guid employeeId, string employeeEmail, CancellationToken cancellationToken = default)
+        {
+            if(employeeId == Guid.Empty || string.IsNullOrWhiteSpace(employeeEmail))
+                throw new ArgumentNullException(nameof(employeeId), nameof(employeeEmail));
+
+            var employeeToBeDeleted = await GetById(employeeId, cancellationToken);
+
+            DbContext.Employees.Remove(employeeToBeDeleted);
+            await DbContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var result = await DbContext.Employees.ToListAsync(cancellationToken);
@@ -42,9 +53,9 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             return employee;
         }
 
-        public void UpdateDatabase()
+        public async Task UpdateDatabase(CancellationToken cancellationToken)
         {
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

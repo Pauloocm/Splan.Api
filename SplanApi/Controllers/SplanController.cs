@@ -44,5 +44,16 @@ namespace SplanApi.Controllers
 
             return Ok(employees);
         }
+
+        [HttpDelete("/Delete")]
+        public async Task<IActionResult> Delete(DeleteEmployeeCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            await SplanAppService.Delete(command, cancellationToken);
+
+            return Ok();
+        }
     }
 }
