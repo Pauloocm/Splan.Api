@@ -8,6 +8,7 @@ namespace Splan.Platform.Domain.Employee
         Task<Employee> GetById(Guid id, CancellationToken cancellationToken = default);
         Task<Employee> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default);
         Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default);
-        void UpdateDatabase();
+        Task UpdateDatabase(CancellationToken cancellationToken = default);
+        Task Delete(Guid employeeId, string employeeEmail, CancellationToken cancellationToken = default);
     }
 }
