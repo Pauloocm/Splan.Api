@@ -23,10 +23,14 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
         public async Task Delete(Guid employeeId, string employeeEmail, CancellationToken cancellationToken = default)
         {
-            if(employeeId == Guid.Empty || string.IsNullOrWhiteSpace(employeeEmail))
+            if (employeeId == Guid.Empty || string.IsNullOrWhiteSpace(employeeEmail))
                 throw new ArgumentNullException(nameof(employeeId), nameof(employeeEmail));
 
-            var employeeToBeDeleted = await GetById(employeeId, cancellationToken);
+            var employeeToBeDeleted = await DbContext.Employees.FindAsync(employeeId, cancellationToken);
+
+            if (employeeToBeDeleted is null)
+                throw new ArgumentNullException(employeeEmail);
+
 
             DbContext.Employees.Remove(employeeToBeDeleted);
             await DbContext.SaveChangesAsync(cancellationToken);
@@ -39,14 +43,14 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             return result;
         }
 
-        public async Task<Employee> GetById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Employee?> GetById(Guid id, CancellationToken cancellationToken = default)
         {
-            var result = await DbContext.Employees.FindAsync(id, cancellationToken);
+            var result = await DbContext.Employees.FindAsync(id, cancellationToken);          
 
             return result;
         }
 
-        public async Task<Employee> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Employee?> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var employee = await DbContext.Employees.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 

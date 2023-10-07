@@ -2,7 +2,10 @@
 using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
+using Splan.Platform.Application.Employee.Dtos;
 using Splan.Platform.Domain.Employee;
+using Splan.Platform.Domain.Employee.Exceptions;
+using Splan.Platform.Domain.Enums;
 
 namespace Splan.Platform.Tests
 {
@@ -49,6 +52,43 @@ namespace Splan.Platform.Tests
         public void GetById_Should_Throw_When_Id_Is_Empty()
         {
             Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.GetById(Guid.Empty));
+        }
+
+        [Test]
+        public void GetById_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul()
+        {
+            employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(default(Employee));
+
+            Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.GetById(Guid.NewGuid()));
+        }
+
+        [Test]
+        public async Task GetById()
+        {
+            var expectedEmployee = new Employee()
+            {
+                Name = "Test",
+                Position = "position",
+                EducationalBackground = "sds",
+                ContractingRegime = (ContractingRegime)2,
+                Coordinator = false,
+                RhClassification = "indireto"
+            };
+
+            employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(expectedEmployee);
+
+            var result = await splanAppService.GetById(Guid.NewGuid());
+
+            Assert.That(result, Is.TypeOf<EmployeeDto>());
+            Assert.That(result.Name, Is.EqualTo(expectedEmployee.Name));
+        }
+
+        [Test]
+        public async Task Get_Should_Return_A_EmptyList_If_Repository_Is_Empty()
+        {
+            var result = await splanAppService.Get(CancellationToken.None);
+
+            Assert.That(result, Is.Empty);
         }
     }
 }

@@ -14,13 +14,13 @@ namespace Splan.Platform.Application
             employeesRepository = employeeRepository;
         }
 
-        public async Task<Guid> Add(AddEmployeeCommand addEmployeeCommand, CancellationToken cancellationToken = default)
+        public async Task<Guid> Add(AddEmployeeCommand command, CancellationToken cancellationToken = default)
         {
-            if (addEmployeeCommand is null)
-                throw new ArgumentNullException(nameof(addEmployeeCommand));
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
 
-            var employee = EmployeeFactory.Create(addEmployeeCommand.Name, addEmployeeCommand.Position, addEmployeeCommand.EducationalBackground,
-                addEmployeeCommand.ContractingRegime, addEmployeeCommand.Coordinator, addEmployeeCommand.RhClassification);
+            var employee = EmployeeFactory.Create(command.Name, command.Position, command.EducationalBackground,
+                command.ContractingRegime, command.Coordinator, command.RhClassification);
 
             await employeesRepository.AddAsync(employee, cancellationToken);
 
