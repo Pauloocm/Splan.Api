@@ -1,6 +1,4 @@
-﻿using Splan.Platform.Domain.Employee;
-using Splan.Platform.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using Splan.Platform.Domain.Enums;
 
 namespace Splan.Platform.Application.Employee.Dtos
 {
@@ -19,7 +17,7 @@ namespace Splan.Platform.Application.Employee.Dtos
         public string RhClassification { get; set; }
 
 
-        public static EmployeeDto ToDto(string name, string position, string educationBackground, ContractingRegime contractingRegime,
+        public static EmployeeDto ToDto(string name, string position, string educationBackground, int contractingRegime,
             bool coordinator, string rhClassification)
         {
             var dto = new EmployeeDto()
@@ -27,7 +25,7 @@ namespace Splan.Platform.Application.Employee.Dtos
                 Name = name,
                 Position = position,
                 EducationalBackground = educationBackground,
-                ContractingRegime = contractingRegime,
+                ContractingRegime = (ContractingRegime)contractingRegime,
                 Coordinator = coordinator,
                 RhClassification = rhClassification
             };
@@ -44,6 +42,8 @@ namespace Splan.Platform.Application.Employee.Dtos
             {
                 Name = employee.Name,
                 Position = employee.Position,
+                EducationalBackground = employee.EducationalBackground,
+                ContractingRegime = (ContractingRegime)employee.ContractRegimeId,
                 Coordinator = employee.Coordinator,
                 RhClassification = employee.RhClassification
             };
@@ -54,7 +54,8 @@ namespace Splan.Platform.Application.Employee.Dtos
         public static List<EmployeeDto> ToDto(List<Splan.Platform.Domain.Employee.Employee> listEmployees)
         {
             if (listEmployees is null)
-                throw new ArgumentNullException(nameof(listEmployees));
+                return Enumerable.Empty<EmployeeDto>().ToList();
+
 
             var dtoList = new List<EmployeeDto>();
 

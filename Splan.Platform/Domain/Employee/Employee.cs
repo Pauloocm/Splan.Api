@@ -13,6 +13,8 @@ namespace Splan.Platform.Domain.Employee
 
         public ContractingRegime? ContractingRegime { get; set; }
 
+        public int ContractRegimeId { get; set; }
+
         public bool Coordinator { get; set; }
 
         public string RhClassification { get; set; }
@@ -21,12 +23,13 @@ namespace Splan.Platform.Domain.Employee
         public string? Password { get; set; }
         public DateTime? ContractDate { get; set; }
         public decimal? ValuePerHour { get; set; }
+
         public Employee()
         {
             Id = Guid.NewGuid();
         }
 
-        public void Update(string? name, string? position, string? educationBackground, ContractingRegime? contractingRegime, bool? coordinator, string? rhClassification)
+        public void Update(string? name, string? position, string? educationBackground, int contractingRegime, bool? coordinator, string? rhClassification)
         {
             if(name is not null)
             {
@@ -43,9 +46,9 @@ namespace Splan.Platform.Domain.Employee
                 EducationalBackground = educationBackground;
             }
 
-            if (contractingRegime is not null)
+            if (contractingRegime >= 0)
             {
-                ContractingRegime = contractingRegime;
+                ContractingRegime = (ContractingRegime)contractingRegime;
             }
 
             if (coordinator is not null)

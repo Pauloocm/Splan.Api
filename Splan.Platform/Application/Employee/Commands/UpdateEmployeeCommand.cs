@@ -18,7 +18,7 @@ namespace Splan.Platform.Application.Employee.Commands
         public string EducationalBackground { get; set; }
 
         [Required]
-        public ContractingRegime ContractingRegime { get; set; }
+        public int ContractingRegime { get; set; }
 
         public bool Coordinator { get; set; } = false;
 

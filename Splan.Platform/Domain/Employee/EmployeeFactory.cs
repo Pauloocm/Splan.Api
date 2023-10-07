@@ -5,7 +5,7 @@ namespace Splan.Platform.Domain.Employee
     public static class EmployeeFactory
     {
         public static Employee Create(string name, string position, string educationalBackground, 
-            ContractingRegime contractingRegime, bool coordinator, string rhClassification)
+            int contractingRegime, bool coordinator, string rhClassification)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace.", nameof(name));
@@ -23,7 +23,7 @@ namespace Splan.Platform.Domain.Employee
                 Name = name,
                 Position = position,
                 EducationalBackground = educationalBackground,
-                ContractingRegime = contractingRegime,
+                ContractingRegime = (ContractingRegime)contractingRegime,
                 Coordinator = coordinator,
                 RhClassification = rhClassification
             };
