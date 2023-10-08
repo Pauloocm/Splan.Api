@@ -79,7 +79,7 @@ namespace Splan.Platform.Application
             if (employee is null)
                 throw new EmployeeNotFoundException(command.EmployeeId);
 
-            await employeesRepository.Delete(command.EmployeeId, command.EmployeeEmail, cancellationToken);
+            await employeesRepository.Delete(command.EmployeeId, cancellationToken);
         }
     }
 }

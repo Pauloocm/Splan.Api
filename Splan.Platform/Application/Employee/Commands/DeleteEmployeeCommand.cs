@@ -3,6 +3,5 @@
     public class DeleteEmployeeCommand
     {
         public Guid EmployeeId { get; set; }
-        public string EmployeeEmail { get; set; }
     }
 }
