@@ -21,15 +21,15 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             DbContext.SaveChanges();
         }
 
-        public async Task Delete(Guid employeeId, string employeeEmail, CancellationToken cancellationToken = default)
+        public async Task Delete(Guid employeeId, CancellationToken cancellationToken = default)
         {
-            if (employeeId == Guid.Empty || string.IsNullOrWhiteSpace(employeeEmail))
-                throw new ArgumentNullException(nameof(employeeId), nameof(employeeEmail));
+            if (employeeId == Guid.Empty)
+                throw new ArgumentNullException(nameof(employeeId));
 
             var employeeToBeDeleted = await DbContext.Employees.FindAsync(employeeId, cancellationToken);
 
             if (employeeToBeDeleted is null)
-                throw new ArgumentNullException(employeeEmail);
+                throw new ArgumentNullException(employeeId.ToString());
 
 
             DbContext.Employees.Remove(employeeToBeDeleted);
