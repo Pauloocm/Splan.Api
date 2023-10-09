@@ -1,5 +1,4 @@
-﻿using Splan.Platform.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Splan.Platform.Application.Employee.Commands
 {
