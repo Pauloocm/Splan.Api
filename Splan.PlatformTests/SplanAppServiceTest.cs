@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
@@ -92,6 +93,25 @@ namespace Splan.Platform.Tests
         }
 
         [Test]
+        public async Task Delete_Should_Throw_When_Command_Is_Null()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.Delete(null, CancellationToken.None));
+        }
+
+        [Test]
+        public void Delete_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul()
+        {
+            employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(default(Employee));
+
+            var command = new DeleteEmployeeCommand()
+            {
+                EmployeeId = Guid.NewGuid()
+            };
+
+            Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.Delete(command, CancellationToken.None));
+        }
+
+        [Test]
         public async Task Delete()
         {
             var expectedEmployee = new Employee()
@@ -111,12 +131,12 @@ namespace Splan.Platform.Tests
 
             await splanAppService.Delete(command);
 
-           
+
             var result = await splanAppService.GetById(expectedEmployee.Id);
 
             Assert.That(result, Is.Not.Null);
 
-            await employeeRepositoryMock.Received(1).Delete(Arg.Any<Guid>(),Arg.Any<CancellationToken>());
+            await employeeRepositoryMock.Received(1).Delete(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -149,6 +169,5 @@ namespace Splan.Platform.Tests
 
             await employeeRepositoryMock.Received(1).UpdateDatabase(Arg.Any<CancellationToken>());
         }
-
     }
 }
