@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
@@ -83,6 +84,12 @@ namespace Splan.Platform.Tests
             Assert.That(result.Name, Is.EqualTo(expectedEmployee.Name));
         }
 
+
+
+
+
+
+
         [Test]
         public async Task Get_Should_Return_A_EmptyList_If_Repository_Is_Empty()
         {
@@ -90,5 +97,24 @@ namespace Splan.Platform.Tests
 
             Assert.That(result, Is.Empty);
         }
+        [Test]
+        public async Task Delete_Should_Throw_When_Command_Is_Null()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.Delete(null, CancellationToken.None));
+        }
+        [Test]
+        public void Delete_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul()
+        {
+            employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(default(Employee));
+
+            var command = new DeleteEmployeeCommand()
+            {
+                EmployeeId = Guid.NewGuid()
+            };
+
+            Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.Delete(command,CancellationToken.None));
+        }
+
+       
     }
 }
