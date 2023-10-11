@@ -7,7 +7,7 @@ namespace Splan.Platform.Application
     {
         Task<Guid> Add(AddEmployeeCommand command, CancellationToken cancellationToken = default);
         Task Update(UpdateEmployeeCommand command, CancellationToken cancellationToken = default);
-        Task<EmployeeDto> GetById(Guid id);
+        Task<EmployeeDto> GetEmployeeById(Guid employeeId, CancellationToken cancellationToken = default);
         Task<List<EmployeeDto>> Get(CancellationToken cancellationToken = default);
         Task Delete(DeleteEmployeeCommand command, CancellationToken cancellationToken = default);
     }
