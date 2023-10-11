@@ -52,7 +52,7 @@ namespace Splan.Platform.Tests
         [Test]
         public void GetById_Should_Throw_When_Id_Is_Empty()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.GetById(Guid.Empty));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.GetEmployeeById(Guid.Empty));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Splan.Platform.Tests
         {
             employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(default(Employee));
 
-            Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.GetById(Guid.NewGuid()));
+            Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.GetEmployeeById(Guid.NewGuid()));
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace Splan.Platform.Tests
 
             employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(expectedEmployee);
 
-            var result = await splanAppService.GetById(Guid.NewGuid());
+            var result = await splanAppService.GetEmployeeById(Guid.NewGuid());
 
             Assert.That(result, Is.TypeOf<EmployeeDto>());
             Assert.That(result.Name, Is.EqualTo(expectedEmployee.Name));
@@ -132,7 +132,7 @@ namespace Splan.Platform.Tests
             await splanAppService.Delete(command);
 
 
-            var result = await splanAppService.GetById(expectedEmployee.Id);
+            var result = await splanAppService.GetEmployeeById(expectedEmployee.Id);
 
             Assert.That(result, Is.Not.Null);
 
@@ -163,7 +163,7 @@ namespace Splan.Platform.Tests
 
             employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
 
-            var result = await splanAppService.GetById(command.EmployeeId);
+            var result = await splanAppService.GetEmployeeById(command.EmployeeId);
 
             Assert.That(result.Name, Is.EqualTo(command.Name));
 
