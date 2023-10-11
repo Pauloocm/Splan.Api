@@ -2,11 +2,11 @@
 {
     public enum ContractingRegime
     {
-        Research = 0,
-        Scholarship = 1,
-        Trainee = 2,
-        CLT = 3,
-        PJ = 4,
-        MEI = 5
+        Research = 1,
+        Scholarship = 2,
+        Trainee = 3,
+        CLT = 4,
+        PJ = 5,
+        MEI = 6
     }
 }

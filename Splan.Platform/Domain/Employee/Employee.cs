@@ -46,7 +46,7 @@ namespace Splan.Platform.Domain.Employee
                 EducationalBackground = educationBackground;
             }
 
-            if (contractingRegime >= 0)
+            if (contractingRegime >= 1)
             {
                 ContractingRegime = (ContractingRegime)contractingRegime;
             }

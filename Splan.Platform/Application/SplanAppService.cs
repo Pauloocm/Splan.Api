@@ -69,6 +69,14 @@ namespace Splan.Platform.Application
             return employee is null ? throw new EmployeeNotFoundException(employeeId) : employee;
         }
 
+        /// <summary>
+        /// Exclui um funcionário com base no comando fornecido.
+        /// </summary>
+        /// <param name="command">O comando que especifica o ID do funcionário a ser excluído.</param>
+        /// <param name="cancellationToken">Um token de cancelamento opcional para interromper a operação.</param>
+        /// <exception cref="ArgumentNullException">É lançada se o comando for nulo.</exception>
+        /// <exception cref="EmployeeNotFoundException">É lançada se o funcionário com o ID especificado não for encontrado.</exception>
+        /// <returns>Uma tarefa que representa a conclusão da operação de exclusão.</returns>
         public async Task Delete(DeleteEmployeeCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)
