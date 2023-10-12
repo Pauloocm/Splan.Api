@@ -4,6 +4,7 @@ namespace Splan.Platform.Application.Employee.Dtos
 {
     public class EmployeeDto
     {
+        public Guid employeeId { get; set; }
         public string Name { get; set; }
 
         public string Position { get; set; }
@@ -17,11 +18,12 @@ namespace Splan.Platform.Application.Employee.Dtos
         public string RhClassification { get; set; }
 
 
-        public static EmployeeDto ToDto(string name, string position, string educationBackground, int contractingRegime,
+        public static EmployeeDto ToDto(Guid employeeId, string name, string position, string educationBackground, int contractingRegime,
             bool coordinator, string rhClassification)
         {
             var dto = new EmployeeDto()
             {
+                employeeId = employeeId,
                 Name = name,
                 Position = position,
                 EducationalBackground = educationBackground,
@@ -40,6 +42,7 @@ namespace Splan.Platform.Application.Employee.Dtos
 
             var dto = new EmployeeDto()
             {
+                employeeId = employee.Id,
                 Name = employee.Name,
                 Position = employee.Position,
                 EducationalBackground = employee.EducationalBackground,

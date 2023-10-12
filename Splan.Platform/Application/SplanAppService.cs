@@ -34,15 +34,15 @@ namespace Splan.Platform.Application
             return EmployeeDto.ToDto(employees);
         }
 
-        public async Task<EmployeeDto> GetById(Guid id)
+        public async Task<EmployeeDto> GetEmployeeById(Guid employeeId, CancellationToken cancellationToken = default)
         {
-            if (id == Guid.Empty)
-                throw new ArgumentNullException(nameof(id));
+            if (employeeId == Guid.Empty)
+                throw new ArgumentNullException(nameof(employeeId));
 
-            var employee = await employeesRepository.GetById(id);
+            var employee = await employeesRepository.GetById(employeeId);
 
             if (employee is null)
-                throw new EmployeeNotFoundException(id);
+                throw new EmployeeNotFoundException(employeeId);
 
             var employeeDto = EmployeeDto.ToDto(employee);
 
