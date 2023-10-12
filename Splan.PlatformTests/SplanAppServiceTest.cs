@@ -46,7 +46,7 @@ namespace Splan.Platform.Tests
             var result = await splanAppService.Add(employee, CancellationToken.None);
 
             Assert.That(result, Is.Not.Empty);
-            Assert.That(result, Is.TypeOf<Guid>());
+            Assert.That(result, Is.TypeOf<Guid>());        
         }
 
         [Test]
