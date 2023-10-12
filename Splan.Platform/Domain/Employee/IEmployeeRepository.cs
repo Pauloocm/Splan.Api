@@ -1,6 +1,4 @@
-﻿using Splan.Platform.Application.Employee.Dtos;
-
-namespace Splan.Platform.Domain.Employee
+﻿namespace Splan.Platform.Domain.Employee
 {
     public interface IEmployeeRepository
     {
