@@ -10,8 +10,7 @@ namespace Splan.Platform.Domain.Employee
         public string Position { get; set; }
 
         public string EducationalBackground { get; set; }
-
-        public ContractingRegime? ContractingRegime { get; set; }
+        public ContractingRegime Type { get; set; }
 
         public int ContractRegimeId { get; set; }
 
@@ -27,11 +26,12 @@ namespace Splan.Platform.Domain.Employee
         public Employee()
         {
             Id = Guid.NewGuid();
+            Type = (ContractingRegime)Enum.Parse(typeof(ContractingRegime), ParseEnum.ParseIntToEnum(ContractRegimeId));
         }
 
         public void Update(string? name, string? position, string? educationBackground, int contractingRegime, bool? coordinator, string? rhClassification)
         {
-            if(name is not null)
+            if (name is not null)
             {
                 Name = name;
             }
@@ -46,9 +46,9 @@ namespace Splan.Platform.Domain.Employee
                 EducationalBackground = educationBackground;
             }
 
-            if (contractingRegime >= 1)
+            if (contractingRegime >= 1 && contractingRegime <= 6)
             {
-                ContractingRegime = (ContractingRegime)contractingRegime;
+                Type = (ContractingRegime)Enum.Parse(typeof(ContractingRegime),ParseEnum.ParseIntToEnum(ContractRegimeId));
             }
 
             if (coordinator is not null)
