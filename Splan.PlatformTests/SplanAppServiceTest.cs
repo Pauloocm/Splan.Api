@@ -34,9 +34,9 @@ namespace Splan.Platform.Tests
         {
             var employee = new AddEmployeeCommand()
             {
-                ContractingRegime = 0,
+                ContractingRegime = 1,
                 Coordinator = false,
-                EducationalBackground = "Técnico",
+                EducationalBackground = "Técnico",   
                 Name = "Test",
                 Position = "junior developer",
                 RhClassification = "tsdds"
@@ -70,7 +70,7 @@ namespace Splan.Platform.Tests
                 Name = "Test",
                 Position = "position",
                 EducationalBackground = "sds",
-                ContractingRegime = (ContractingRegime)2,
+                //ContractingRegime = (ContractingRegime)2,
                 Coordinator = false,
                 RhClassification = "indireto"
             };
