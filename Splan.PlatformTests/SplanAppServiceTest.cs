@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
@@ -35,9 +34,9 @@ namespace Splan.Platform.Tests
         {
             var employee = new AddEmployeeCommand()
             {
-                ContractingRegime = 0,
+                ContractingRegime = 1,
                 Coordinator = false,
-                EducationalBackground = "Técnico",
+                EducationalBackground = "Técnico",   
                 Name = "Test",
                 Position = "junior developer",
                 RhClassification = "tsdds"
@@ -46,7 +45,7 @@ namespace Splan.Platform.Tests
             var result = await splanAppService.Add(employee, CancellationToken.None);
 
             Assert.That(result, Is.Not.Empty);
-            Assert.That(result, Is.TypeOf<Guid>());
+            Assert.That(result, Is.TypeOf<Guid>());        
         }
 
         [Test]
@@ -71,7 +70,7 @@ namespace Splan.Platform.Tests
                 Name = "Test",
                 Position = "position",
                 EducationalBackground = "sds",
-                ContractingRegime = (ContractingRegime)2,
+                //ContractingRegime = (ContractingRegime)2,
                 Coordinator = false,
                 RhClassification = "indireto"
             };
