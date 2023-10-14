@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Splan.Platform.Application.Phase;
 using Splan.Platform.Domain.Employee;
 
 namespace Splan.Platform.Infrastructure.Database
@@ -11,5 +12,6 @@ namespace Splan.Platform.Infrastructure.Database
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Phase> Phases { get; set; }
     }
 }

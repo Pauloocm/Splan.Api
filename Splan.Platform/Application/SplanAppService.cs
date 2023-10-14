@@ -1,17 +1,22 @@
 ﻿using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Application.Phase;
+using Splan.Platform.Application.Phase.Commands;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
+using Splan.Platform.Domain.GlobalServices;
 
 namespace Splan.Platform.Application
 {
     public class SplanAppService : ISplanAppService
     {
-        private readonly IEmployeeRepository employeesRepository;
+        private readonly IEmployeeRepository EmployeesRepository;
+        private readonly IGlobalRepository GlobalRepository;
 
-        public SplanAppService(IEmployeeRepository employeeRepository)
+        public SplanAppService(IEmployeeRepository employeeRepository, IGlobalRepository globalRepository)
         {
-            employeesRepository = employeeRepository;
+            EmployeesRepository = employeeRepository;
+            GlobalRepository = globalRepository;
         }
 
         public async Task<Guid> Add(AddEmployeeCommand command, CancellationToken cancellationToken = default)
@@ -22,14 +27,14 @@ namespace Splan.Platform.Application
             var employee = EmployeeFactory.Create(command.Name, command.Position, command.EducationalBackground,
                 command.ContractingRegime, command.Coordinator, command.RhClassification);
 
-            await employeesRepository.AddAsync(employee, cancellationToken);
+            await EmployeesRepository.AddAsync(employee, cancellationToken);
 
             return employee.Id;
         }
 
         public async Task<List<EmployeeDto>> Get(CancellationToken cancellationToken = default)
         {
-            var employees = await employeesRepository.GetAllAsync(cancellationToken);
+            var employees = await EmployeesRepository.GetAllAsync(cancellationToken);
 
             return EmployeeDto.ToDto(employees);
         }
@@ -39,7 +44,7 @@ namespace Splan.Platform.Application
             if (employeeId == Guid.Empty)
                 throw new ArgumentNullException(nameof(employeeId));
 
-            var employee = await employeesRepository.GetById(employeeId);
+            var employee = await EmployeesRepository.GetById(employeeId);
 
             if (employee is null)
                 throw new EmployeeNotFoundException(employeeId);
@@ -56,7 +61,7 @@ namespace Splan.Platform.Application
             employee.Update(command.Name, command.Position, command.EducationalBackground,
                 command.ContractingRegime, command.Coordinator, command.RhClassification);
 
-            await employeesRepository.UpdateDatabase();
+            await EmployeesRepository.UpdateDatabase();
         }
 
         private async Task<Domain.Employee.Employee> GetEmployee(Guid employeeId, CancellationToken cancellationToken = default)
@@ -64,9 +69,19 @@ namespace Splan.Platform.Application
             if (employeeId == Guid.Empty)
                 throw new ArgumentNullException(nameof(employeeId));
 
-            var employee = await employeesRepository.GetSingleOrDefaultAsync(employeeId, cancellationToken);
+            var employee = await EmployeesRepository.GetSingleOrDefaultAsync(employeeId, cancellationToken);
 
             return employee is null ? throw new EmployeeNotFoundException(employeeId) : employee;
+        }
+
+        private async Task<Phase.Phase> GetPhase(Guid phaseId, CancellationToken cancellationToken = default)
+        {
+            if (phaseId == Guid.Empty)
+                throw new ArgumentNullException(nameof(phaseId));
+
+            var phase = await GlobalRepository.GetPhaseAsync(phaseId, cancellationToken);
+
+            return phase is null ? throw new PhaseNotFoundException(phaseId) : phase;
         }
 
         /// <summary>
@@ -82,12 +97,51 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var employee = await employeesRepository.GetById(command.EmployeeId);
+            var employee = await EmployeesRepository.GetById(command.EmployeeId);
 
             if (employee is null)
                 throw new EmployeeNotFoundException(command.EmployeeId);
 
-            await employeesRepository.Delete(command.EmployeeId, cancellationToken);
+            await EmployeesRepository.Delete(command.EmployeeId, cancellationToken);
+        }
+
+        public async Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var phase = PhaseFactory.Create(command.Stage, command.Description);
+
+            await GlobalRepository.AddPhaseAsync(phase, cancellationToken);
+
+            return phase.Id;
+        }
+
+        public async Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var phase = await GetPhase(command.PhaseId, cancellationToken);
+
+            phase.Update(command.Stage, command.Description);
+
+            await GlobalRepository.UpdateGlobalDatabase(cancellationToken);
+
+            return phase;
+        }
+
+        public async Task DeletePhase(DeletePhaseCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var phase = await GetPhase(command.PhaseId, cancellationToken);
+
+            if (phase is null)
+                throw new PhaseNotFoundException(command.PhaseId);
+
+            await GlobalRepository.DeletePhase(phase.Id, cancellationToken);
         }
     }
 }
