@@ -1,5 +1,6 @@
 using Splan.Platform.Application;
 using Splan.Platform.Domain.Employee;
+using Splan.Platform.Domain.GlobalServices;
 using Splan.Platform.Infrastructure.Database;
 using Splan.Platform.Infrastructure.Database.Repositories;
 
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddTransient<ISplanAppService, SplanAppService>();
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddTransient<IGlobalRepository, GlobalRepository>();
 var app = builder.Build();
 
 #region [Cors]

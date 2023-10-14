@@ -1,5 +1,6 @@
 ﻿using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Application.Phase.Commands;
 
 namespace Splan.Platform.Application
 {
@@ -10,5 +11,9 @@ namespace Splan.Platform.Application
         Task<EmployeeDto> GetEmployeeById(Guid employeeId, CancellationToken cancellationToken = default);
         Task<List<EmployeeDto>> Get(CancellationToken cancellationToken = default);
         Task Delete(DeleteEmployeeCommand command, CancellationToken cancellationToken = default);
+
+        Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default);
+        Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, CancellationToken cancellationToken = default);
+        Task DeletePhase(DeletePhaseCommand command, CancellationToken cancellationToken = default);
     }
 }

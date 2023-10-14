@@ -6,6 +6,7 @@ using Splan.Platform.Application.Employee.Dtos;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
 using Splan.Platform.Domain.Enums;
+using Splan.Platform.Domain.GlobalServices;
 
 namespace Splan.Platform.Tests
 {
@@ -14,12 +15,14 @@ namespace Splan.Platform.Tests
     {
         private IEmployeeRepository employeeRepositoryMock;
         private ISplanAppService splanAppService;
+        private IGlobalRepository globalRepository;
 
         [SetUp]
         public void Setup()
         {
+            globalRepository = Substitute.For<IGlobalRepository>();
             employeeRepositoryMock = Substitute.For<IEmployeeRepository>();
-            splanAppService = new SplanAppService(employeeRepositoryMock);
+            splanAppService = new SplanAppService(employeeRepositoryMock, globalRepository);
         }
 
 
