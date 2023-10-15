@@ -37,7 +37,7 @@ namespace SplanApi.Controllers
             return Ok();
         }
 
-        [HttpGet("/Get")]
+        [HttpGet("/GetAll")]
         public async Task<IActionResult> GetAllEmpployees(CancellationToken cancellationToken = default)
         {
             var employees = await SplanAppService.Get(cancellationToken);
@@ -45,7 +45,7 @@ namespace SplanApi.Controllers
             return Ok(employees);
         }
 
-        [HttpGet("/GetEmployeeById")]
+        [HttpGet("/GetById")]
         public async Task<IActionResult> GetEmployee(Guid employeeId ,CancellationToken cancellationToken = default)
         {
             var employee = await SplanAppService.GetEmployeeById(employeeId, cancellationToken);

@@ -45,11 +45,11 @@ namespace Splan.Platform.Application.Employee.Dtos
             {
                 employeeId = employee.Id,
                 Name = employee.Name,
-                Position = employee.Position,
-                EducationalBackground = employee.EducationalBackground,
+                Position = employee.Function,
+                EducationalBackground = employee.EducationDegree,
                 ContractRegime = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(employee.ContractRegimeId)),
-                Coordinator = employee.Coordinator,
-                RhClassification = employee.RhClassification
+                Coordinator = employee.IsCoordinator,
+                RhClassification = employee.Classification
             };
 
             return dto;
