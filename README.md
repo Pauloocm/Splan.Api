@@ -1,25 +1,8 @@
-# Splan API
+# Splan Web API Documentation
 
-A web api for the course completion work, for the Systems Development technical course
+Welcome to the documentation for the Splan Web API. This API provides endpoints to manage employee information.
 
-## Table of Contents
-
-- [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Getting Started
-
-[Explain what your project is and what it does]
-
-## Prerequisites
-
-[Detail any prerequisites or system requirements]
-
+```markdown
 ## Endpoints
 
 ### Add Employee
@@ -55,38 +38,3 @@ A web api for the course completion work, for the Systems Development technical 
 - **Description:** Delete an employee.
 - **Request Body:** JSON representing a `DeleteEmployeeCommand`.
 - **Response:** Returns a success status.
-
-## Getting Started
-
-To interact with these endpoints, you can use your preferred API client or tool. Ensure that you format your requests and responses according to the specified data structures.
-
-## Examples
-
-Here are some example requests to help you get started:
-
-#### Adding a New Employee
-
-```http
-POST /Splan/Add
-Content-Type: application/json
-
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com"
-}
-
-
-
-## Installation
-
-[Provide step-by-step installation instructions]
-
-```bash
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo
-dotnet restore
-dotnet build
-
-
-
