@@ -12,6 +12,6 @@ namespace Splan.Platform.Application.Phase.Commands
         public string Description { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime? EndDate { get; set; } = DateTime.Now;
     }
 }
