@@ -11,7 +11,7 @@ namespace Splan.Platform.Application.Employee.Dtos
 
         public string EducationalBackground { get; set; }
 
-        public new ContractingRegime ContractRegime { get; set; }
+        public new HiringRegime ContractRegime { get; set; }
 
         public bool Coordinator { get; set; } = false;
 
@@ -28,7 +28,7 @@ namespace Splan.Platform.Application.Employee.Dtos
                 Name = name,
                 Position = position,
                 EducationalBackground = educationBackground,
-                ContractRegime = (ContractingRegime)Enum.Parse(typeof(ContractingRegime), ParseEnum.ParseIntToEnum(contractingRegimeId)),
+                ContractRegime = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(contractingRegimeId)),
                 Coordinator = coordinator,
                 RhClassification = rhClassification
             };
@@ -47,7 +47,7 @@ namespace Splan.Platform.Application.Employee.Dtos
                 Name = employee.Name,
                 Position = employee.Position,
                 EducationalBackground = employee.EducationalBackground,
-                ContractRegime = (ContractingRegime)Enum.Parse(typeof(ContractingRegime), ParseEnum.ParseIntToEnum(employee.ContractRegimeId)),
+                ContractRegime = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(employee.ContractRegimeId)),
                 Coordinator = employee.Coordinator,
                 RhClassification = employee.RhClassification
             };
