@@ -20,16 +20,6 @@ A web api for the course completion work, for the Systems Development technical 
 
 [Detail any prerequisites or system requirements]
 
-## Installation
-
-[Provide step-by-step installation instructions]
-
-```bash
-git clone https://github.com/yourusername/your-repo.git
-cd your-repo
-dotnet restore
-dotnet build
-
 ## API Endpoints
 
 ## Add Employee
@@ -71,5 +61,17 @@ dotnet build
 Feel free to use these endpoints to interact with the Splan API for employee management. Make sure you have the necessary request bodies and parameters in the correct format when making API requests.
 
 For more details on how to use these endpoints, please refer to the respective controller and command classes in the source code.
+
+
+## Installation
+
+[Provide step-by-step installation instructions]
+
+```bash
+git clone https://github.com/yourusername/your-repo.git
+cd your-repo
+dotnet restore
+dotnet build
+
 
 
