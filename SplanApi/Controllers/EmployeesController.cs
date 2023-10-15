@@ -6,11 +6,11 @@ namespace SplanApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SplanController : ControllerBase
+    public class EmployeesController : ControllerBase
     {
         private readonly ISplanAppService SplanAppService;
 
-        public SplanController(ISplanAppService splanAppService)
+        public EmployeesController(ISplanAppService splanAppService)
         {
             SplanAppService = splanAppService;
         }

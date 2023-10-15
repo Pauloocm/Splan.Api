@@ -72,11 +72,11 @@ namespace Splan.Platform.Tests
             var expectedEmployee = new Employee()
             {
                 Name = "Test",
-                Position = "position",
-                EducationalBackground = "sds",
+                Function = "position",
+                EducationalDegree = "sds",
                 //ContractingRegime = (ContractingRegime)2,
-                Coordinator = false,
-                RhClassification = "indireto"
+                IsCoordinator = false,
+                Classification = "indireto"
             };
 
             employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(expectedEmployee);
@@ -120,8 +120,8 @@ namespace Splan.Platform.Tests
             var expectedEmployee = new Employee()
             {
                 Name = "test",
-                Position = "position",
-                Coordinator = false,
+                Function = "position",
+                IsCoordinator = false,
                 Id = Guid.NewGuid()
             };
 
@@ -148,8 +148,8 @@ namespace Splan.Platform.Tests
             var expectedEmployee = new Employee()
             {
                 Name = "test",
-                Position = "position",
-                Coordinator = false,
+                Function = "position",
+                IsCoordinator = false,
                 Id = Guid.NewGuid()
             };
 

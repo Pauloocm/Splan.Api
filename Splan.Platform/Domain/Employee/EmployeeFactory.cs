@@ -23,11 +23,11 @@ namespace Splan.Platform.Domain.Employee
             var employee = new Employee()
             {
                 Name = name,
-                Position = position,
-                EducationalBackground = educationalBackground,
+                Function = position,
+                EducationalDegree = educationalBackground,
                 ContractRegimeId = contractingRegime,
-                Coordinator = coordinator,
-                RhClassification = rhClassification
+                IsCoordinator = coordinator,
+                Classification = rhClassification
             };
 
             return employee;

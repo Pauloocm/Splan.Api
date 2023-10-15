@@ -7,16 +7,16 @@ namespace Splan.Platform.Domain.Employee
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public string Position { get; set; }
+        public string Function { get; set; }
 
-        public string EducationalBackground { get; set; }
-        public ContractingRegime Type { get; set; }
+        public string EducationalDegree { get; set; }
+        public HiringRegime Type { get; set; }
 
         public int ContractRegimeId { get; set; }
 
-        public bool Coordinator { get; set; }
+        public bool IsCoordinator { get; set; }
 
-        public string RhClassification { get; set; }
+        public string Classification { get; set; }
 
         public string? Email { get; set; }
         public string? Password { get; set; }
@@ -26,7 +26,7 @@ namespace Splan.Platform.Domain.Employee
         public Employee()
         {
             Id = Guid.NewGuid();
-            Type = (ContractingRegime)Enum.Parse(typeof(ContractingRegime), ParseEnum.ParseIntToEnum(ContractRegimeId));
+            Type = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(ContractRegimeId));
         }
 
         public void Update(string? name, string? position, string? educationBackground, int contractingRegime, bool? coordinator, string? rhClassification)
@@ -38,27 +38,27 @@ namespace Splan.Platform.Domain.Employee
 
             if (position is not null)
             {
-                Position = position;
+                Function = position;
             }
 
             if (educationBackground is not null)
             {
-                EducationalBackground = educationBackground;
+                EducationalDegree = educationBackground;
             }
 
             if (contractingRegime >= 1 && contractingRegime <= 6)
             {
-                Type = (ContractingRegime)Enum.Parse(typeof(ContractingRegime),ParseEnum.ParseIntToEnum(ContractRegimeId));
+                Type = (HiringRegime)Enum.Parse(typeof(HiringRegime),ParseEnum.ParseIntToEnum(ContractRegimeId));
             }
 
             if (coordinator is not null)
             {
-                Coordinator = (bool)coordinator;
+                IsCoordinator = (bool)coordinator;
             }
 
             if (rhClassification is not null)
             {
-                RhClassification = rhClassification;
+                Classification = rhClassification;
             }
         }
     }

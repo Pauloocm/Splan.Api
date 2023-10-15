@@ -1,6 +1,6 @@
 ﻿namespace Splan.Platform.Domain.Enums
 {
-    public enum ContractingRegime
+    public enum HiringRegime
     {
         Research = 1,
         Scholarship = 2,
