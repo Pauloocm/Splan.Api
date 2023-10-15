@@ -4,23 +4,29 @@ Here are example requests to help you get started:
 
 #### Adding a New Employee
 
-```http
-POST /Splan/Add
-Content-Type: application/json
+  ```http
+  POST /Employees/Add
+  Content-Type: application/json
 
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com"
-}
+  {
+    "Name": "John Doe",
+    "Position": "Manager",
+    "EducationalBackground": "Bachelor's in Computer Science",
+    "ContractingRegime": 1,
+    "Coordinator": false,
+    "RhClassification": "A"
+  }
 
-PUT /Splan/Update
-Content-Type: application/json
+  POST /Employees/Add
+  Content-Type: application/json
 
-{
-  "employeeId": "12345",
-  "firstName": "UpdatedJohn",
-  "lastName": "UpdatedDoe"
-}
+  {
+    "Name": "John Doe",
+    "Position": "Manager",
+    "EducationalBackground": "Bachelor's in Computer Science",
+    "ContractingRegime": 1,
+    "Coordinator": false,
+    "RhClassification": "A"
+  }
 
 
