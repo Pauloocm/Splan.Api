@@ -1,9 +1,9 @@
 # Splan.Api
 Trabalho de conclusao de curso
 
-# Nome do Projeto
+# Splan API
 
-Descrição concisa do que é o projeto.
+A web api for the course completion work, for the Systems Development technical course
 
 ## Índice
 
