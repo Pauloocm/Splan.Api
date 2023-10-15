@@ -14,3 +14,13 @@ Content-Type: application/json
   "email": "john.doe@example.com"
 }
 
+PUT /Splan/Update
+Content-Type: application/json
+
+{
+  "employeeId": "12345",
+  "firstName": "UpdatedJohn",
+  "lastName": "UpdatedDoe"
+}
+
+
