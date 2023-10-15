@@ -4,7 +4,7 @@ public class MyClass
     public string MyProperty { get; set; }
 }
 
-```markdown
+```csharp
 ## Endpoints
 
 ### Add Employee
