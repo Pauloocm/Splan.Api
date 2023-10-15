@@ -49,31 +49,4 @@ Here are some example requests to help you get started:
 
 #### Adding a New Employee
 
-```http
-POST /Splan/Add
-Content-Type: application/json
-
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com"
-}
-
-PUT /Splan/Update
-Content-Type: applicationjson
-
-{
-  "employeeId": "12345",
-  "firstName": "UpdatedJohn",
-  "lastName": "UpdatedDoe"
-}
-
-For more details and advanced use cases, please refer to the respective controller and command classes in the source code.
-
-## License
-
-This project is licensed under the [Your License] - see the [LICENSE.md](LICENSE.md) file for details.
-
-Feel free to explore and utilize the Splan API for your employee management needs.
-
-
+```
