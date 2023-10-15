@@ -1,40 +1,33 @@
-# Splan.Api
-Trabalho de conclusao de curso
-
 # Splan API
 
 A web api for the course completion work, for the Systems Development technical course
 
-## Índice
+## Table of Contents
 
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Instalação](#instalação)
-- [Uso](#uso)
-- [Documentação da API](#documentação-da-api)
-- [Exemplos](#exemplos)
-- [Contribuindo](#contribuindo)
-- [Licença](#licença)
+- [Getting Started](#getting-started)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Tecnologias Utilizadas
+## Getting Started
 
-- .NET Core
-- C#
-- Entity Framework Core
-- Swagger
+[Explain what your project is and what it does]
 
-## Instalação
+## Prerequisites
 
-Descreva os passos necessários para instalar a aplicação localmente. Isso pode incluir a configuração do banco de dados, configuração do ambiente, etc.
+[Detail any prerequisites or system requirements]
+
+## Installation
+
+[Provide step-by-step installation instructions]
 
 ```bash
-# Clonar o repositório
-git clone https://github.com/seu-usuario/seu-repo.git
-
-# Entrar no diretório do projeto
-cd seu-repo
-
-# Instalar dependências
+git clone https://github.com/yourusername/your-repo.git
+cd your-repo
 dotnet restore
+dotnet build
 
-# Executar a aplicação
-dotnet run
+
