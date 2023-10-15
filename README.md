@@ -2,7 +2,7 @@
 
 Here are example requests to help you get started:
 
-#### Adding a New Employee
+### Endpoints
 
   ```http
   POST /Employees/Add
