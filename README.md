@@ -22,7 +22,7 @@ Just a simple project developed for the conclusion work of the Systems Developme
 ## Installation
 
 ```shell
-   git clone https://github.com/pauloocm/splan.api.git
+   git clone https://github.com/Pauloocm/Splan.Api.git
 ```
 This documentation provides details about the endpoints available in the Splan API.
 
