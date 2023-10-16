@@ -24,10 +24,9 @@ Just a simple project developed for the conclusion work of the Systems Developme
 ```shell
    git clone https://github.com/Pauloocm/Splan.Api.git
 ```
-This documentation provides details about the endpoints available in the Splan API.
 
 ## API Endpoints
-
+This documentation provides details about the endpoints available in the Splan API.
 ### Add Employee
 
 - **Endpoint:** `POST /Splan/Add`
@@ -42,11 +41,11 @@ This documentation provides details about the endpoints available in the Splan A
 
   {
     "Name": "John Doe",
-    "Position": "Manager",
-    "EducationalBackground": "Bachelor's in Computer Science",
-    "ContractingRegime": 1,
-    "Coordinator": false,
-    "RhClassification": "A"
+    "Function": "Manager",
+    "EducationDegree": "Bachelor's in Computer Science",
+    "HiringRegime": 1,
+    "IsCoordinator": false,
+    "Classification": "A"
   }
 ```
 ### Update Employee
@@ -63,12 +62,12 @@ This documentation provides details about the endpoints available in the Splan A
 
   {
     "EmployeeId": "12345",
-    "Name": "Anthony",
-    "Position": "Trainee",
-    "EducationalBackground": "Bachelor's in Computer Science",
-    "ContractingRegime": 1,
-    "Coordinator": false,
-    "RhClassification": "A"
+    "Name": "John Doe",
+    "Function": "Manager",
+    "EducationDegree": "Bachelor's in Computer Science",
+    "HiringRegime": 1,
+    "IsCoordinator": false,
+    "Classification": "A"
   }
 ```
 
