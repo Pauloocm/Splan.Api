@@ -21,9 +21,9 @@ namespace SplanApi.Controllers
             if (addEmployeeCommand is null)
                 throw new ArgumentNullException(nameof(addEmployeeCommand));
 
-            var employeeId = await SplanAppService.Add(addEmployeeCommand, cancellationToken);
+            var employeeKey = await SplanAppService.Add(addEmployeeCommand, cancellationToken);
 
-            return Ok(employeeId);
+            return Ok(employeeKey);
         }
 
         [HttpPut("/Update")]
@@ -46,9 +46,9 @@ namespace SplanApi.Controllers
         }
 
         [HttpGet("/GetById")]
-        public async Task<IActionResult> GetEmployee(Guid employeeId ,CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetEmployee(Guid employeeKey ,CancellationToken cancellationToken = default)
         {
-            var employee = await SplanAppService.GetEmployeeById(employeeId, cancellationToken);
+            var employee = await SplanAppService.GetEmployeeById(employeeKey, cancellationToken);
 
             return Ok(employee);
         }

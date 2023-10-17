@@ -2,6 +2,6 @@
 {
     public class DeleteEmployeeCommand
     {
-        public Guid EmployeeId { get; set; }
+        public Guid Key { get; set; }
     }
 }
