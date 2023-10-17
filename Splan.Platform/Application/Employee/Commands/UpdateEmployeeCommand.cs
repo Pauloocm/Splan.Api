@@ -11,17 +11,17 @@ namespace Splan.Platform.Application.Employee.Commands
         public string Name { get; set; }
 
         [Required]
-        public string Position { get; set; }
+        public string Function { get; set; }
 
         [Required]
-        public string EducationalBackground { get; set; }
+        public string EducationDegree { get; set; }
 
         [Required]
-        public int ContractingRegime { get; set; }
+        public int HiringRegimeId { get; set; }
 
-        public bool Coordinator { get; set; } = false;
+        public bool IsCoordinator { get; set; } = false;
 
         [Required]
-        public string RhClassification { get; set; }
+        public string Classification { get; set; }
     }
 }
