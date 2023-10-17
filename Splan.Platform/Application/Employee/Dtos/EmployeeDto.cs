@@ -7,15 +7,15 @@ namespace Splan.Platform.Application.Employee.Dtos
         public Guid employeeId { get; set; }
         public string Name { get; set; }
 
-        public string Position { get; set; }
+        public string Function { get; set; }
 
-        public string EducationalBackground { get; set; }
+        public string EducationDegree { get; set; }
 
         public new HiringRegime HiringRegimeId { get; set; }
 
-        public bool Coordinator { get; set; } = false;
+        public bool IsCoordinator { get; set; } = false;
 
-        public string RhClassification { get; set; }
+        public string Classification { get; set; }
 
 
         public static EmployeeDto ToDto(Guid employeeId, string name, string position, string educationBackground, int contractingRegimeId,
@@ -26,11 +26,11 @@ namespace Splan.Platform.Application.Employee.Dtos
             {
                 employeeId = employeeId,
                 Name = name,
-                Position = position,
-                EducationalBackground = educationBackground,
+                Function = position,
+                EducationDegree = educationBackground,
                 HiringRegimeId = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(contractingRegimeId)),
-                Coordinator = coordinator,
-                RhClassification = rhClassification
+                IsCoordinator = coordinator,
+                Classification = rhClassification
             };
 
             return dto;
@@ -45,11 +45,11 @@ namespace Splan.Platform.Application.Employee.Dtos
             {
                 employeeId = employee.Id,
                 Name = employee.Name,
-                Position = employee.Function,
-                EducationalBackground = employee.EducationDegree,
-                HiringRegimeId = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(employee.ContractRegimeId)),
-                Coordinator = employee.IsCoordinator,
-                RhClassification = employee.Classification
+                Function = employee.Function,
+                EducationDegree = employee.EducationDegree,
+                HiringRegimeId = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(employee.HiringRegimeId)),
+                IsCoordinator = employee.IsCoordinator,
+                Classification = employee.Classification
             };
 
             return dto;
