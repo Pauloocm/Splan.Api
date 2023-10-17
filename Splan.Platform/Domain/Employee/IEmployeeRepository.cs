@@ -7,6 +7,6 @@
         Task<Employee> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default);
         Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default);
         Task UpdateDatabase(CancellationToken cancellationToken = default);
-        Task Delete(Guid employeeId, CancellationToken cancellationToken = default);
+        Task Delete(Guid key, CancellationToken cancellationToken = default);
     }
 }

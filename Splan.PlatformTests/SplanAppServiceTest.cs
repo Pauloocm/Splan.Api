@@ -107,7 +107,7 @@ namespace Splan.Platform.Tests
 
             var command = new DeleteEmployeeCommand()
             {
-                EmployeeId = Guid.NewGuid()
+                Key = Guid.NewGuid()
             };
 
             Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.Delete(command, CancellationToken.None));
@@ -121,12 +121,12 @@ namespace Splan.Platform.Tests
                 Name = "test",
                 Function = "position",
                 IsCoordinator = false,
-                Id = Guid.NewGuid()
+                Key = Guid.NewGuid()
             };
 
             var command = new DeleteEmployeeCommand()
             {
-                EmployeeId = expectedEmployee.Id
+                Key = expectedEmployee.Key
             };
 
             employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
@@ -134,7 +134,7 @@ namespace Splan.Platform.Tests
             await splanAppService.Delete(command);
 
 
-            var result = await splanAppService.GetEmployeeById(expectedEmployee.Id);
+            var result = await splanAppService.GetEmployeeById(expectedEmployee.Key);
 
             Assert.That(result, Is.Not.Null);
 
@@ -149,7 +149,7 @@ namespace Splan.Platform.Tests
                 Name = "test",
                 Function = "position",
                 IsCoordinator = false,
-                Id = Guid.NewGuid()
+                Key = Guid.NewGuid()
             };
 
             employeeRepositoryMock.GetSingleOrDefaultAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
@@ -158,14 +158,14 @@ namespace Splan.Platform.Tests
             {
                 Name = "Anthony",
                 Function = "Estagiário",
-                EmployeeId = expectedEmployee.Id
+                Key = expectedEmployee.Key
             };
 
             await splanAppService.Update(command);
 
             employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
 
-            var result = await splanAppService.GetEmployeeById(command.EmployeeId);
+            var result = await splanAppService.GetEmployeeById(command.Key);
 
             Assert.That(result.Name, Is.EqualTo(command.Name));
 

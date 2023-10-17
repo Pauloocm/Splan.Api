@@ -4,7 +4,7 @@ namespace Splan.Platform.Domain.Employee
 {
     public class Employee
     {
-        public Guid Id { get; set; }
+        public Guid Key { get; set; }
         public string Name { get; set; }
 
         public string Function { get; set; }
@@ -25,7 +25,7 @@ namespace Splan.Platform.Domain.Employee
 
         public Employee()
         {
-            Id = Guid.NewGuid();
+            Key = Guid.NewGuid();
             Type = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(HiringRegimeId));
         }
 

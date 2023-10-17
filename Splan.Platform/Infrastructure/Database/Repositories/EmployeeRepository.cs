@@ -52,7 +52,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
         public async Task<Employee?> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var employee = await DbContext.Employees.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            var employee = await DbContext.Employees.FirstOrDefaultAsync(e => e.Key == id, cancellationToken);
 
             return employee;
         }

@@ -5,7 +5,7 @@ namespace Splan.Platform.Application.Employee.Commands
     public class UpdateEmployeeCommand
     {
         [Required]
-        public Guid EmployeeId { get; set; }
+        public Guid Key { get; set; }
 
         [Required]
         public string Name { get; set; }

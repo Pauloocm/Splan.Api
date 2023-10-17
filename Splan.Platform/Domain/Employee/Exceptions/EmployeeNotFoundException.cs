@@ -2,7 +2,7 @@
 {
     public class EmployeeNotFoundException : Exception
     {
-        public EmployeeNotFoundException(Guid employeeId) : base($"A employee with the specified id was not found {employeeId}")
+        public EmployeeNotFoundException(Guid employeeKey) : base($"A employee with the specified id was not found {employeeKey}")
         {
         }
     }
