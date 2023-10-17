@@ -37,12 +37,12 @@ namespace Splan.Platform.Tests
         {
             var employee = new AddEmployeeCommand()
             {
-                ContractingRegime = 1,
-                Coordinator = false,
-                EducationalBackground = "Técnico",   
+                HiringRegimeId = 1,
+                IsCoordinator = false,
+                EducationDegree = "Técnico",   
                 Name = "Test",
-                Position = "junior developer",
-                RhClassification = "tsdds"
+                Function = "junior developer",
+                Classification = "tsdds"
             };
 
             var result = await splanAppService.Add(employee, CancellationToken.None);
@@ -71,11 +71,11 @@ namespace Splan.Platform.Tests
             var expectedEmployee = new Employee()
             {
                 Name = "Test",
-                Position = "position",
-                EducationalBackground = "sds",
+                Function = "position",
+                EducationDegree = "sds",
                 //ContractingRegime = (ContractingRegime)2,
-                Coordinator = false,
-                RhClassification = "indireto"
+                IsCoordinator = false,
+                Classification = "indireto"
             };
 
             employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(expectedEmployee);
@@ -119,8 +119,8 @@ namespace Splan.Platform.Tests
             var expectedEmployee = new Employee()
             {
                 Name = "test",
-                Position = "position",
-                Coordinator = false,
+                Function = "position",
+                IsCoordinator = false,
                 Id = Guid.NewGuid()
             };
 
@@ -147,8 +147,8 @@ namespace Splan.Platform.Tests
             var expectedEmployee = new Employee()
             {
                 Name = "test",
-                Position = "position",
-                Coordinator = false,
+                Function = "position",
+                IsCoordinator = false,
                 Id = Guid.NewGuid()
             };
 
@@ -157,7 +157,7 @@ namespace Splan.Platform.Tests
             var command = new UpdateEmployeeCommand()
             {
                 Name = "Anthony",
-                Position = "Estagiário",
+                Function = "Estagiário",
                 EmployeeId = expectedEmployee.Id
             };
 

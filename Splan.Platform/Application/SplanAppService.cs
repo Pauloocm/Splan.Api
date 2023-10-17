@@ -24,8 +24,8 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var employee = EmployeeFactory.Create(command.Name, command.Position, command.EducationalBackground,
-                command.ContractingRegime, command.Coordinator, command.RhClassification);
+            var employee = EmployeeFactory.Create(command.Name, command.Function, command.EducationDegree,
+                command.HiringRegimeId, command.IsCoordinator, command.Classification);
 
             await EmployeesRepository.AddAsync(employee, cancellationToken);
 
@@ -58,8 +58,8 @@ namespace Splan.Platform.Application
         {
             var employee = await GetEmployee(command.EmployeeId, cancellationToken);
 
-            employee.Update(command.Name, command.Position, command.EducationalBackground,
-                command.ContractingRegime, command.Coordinator, command.RhClassification);
+            employee.Update(command.Name, command.Function, command.EducationDegree,
+                command.HiringRegimeId, command.IsCoordinator, command.Classification);
 
             await EmployeesRepository.UpdateDatabase();
         }
