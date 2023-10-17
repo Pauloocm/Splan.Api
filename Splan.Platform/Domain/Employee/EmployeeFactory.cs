@@ -25,7 +25,7 @@ namespace Splan.Platform.Domain.Employee
                 Name = name,
                 Function = position,
                 EducationDegree = educationalBackground,
-                ContractRegimeId = contractingRegime,
+                HiringRegimeId = contractingRegime,
                 IsCoordinator = coordinator,
                 Classification = rhClassification
             };
