@@ -4,29 +4,29 @@
     {
         public static string ParseIntToEnum(int id)
         {
-            if (id >= 1 && id <= 6)
+            if (id >= 0 && id <= 5)
             {
-                if (id == 1)
+                if (id == 0)
                 {
 
                     return "Research";
                 }
-                else if (id == 2)
+                else if (id == 1)
                 {
 
                     return "Scholarship";
                 }
-                else if (id == 3)
+                else if (id == 2)
                 {
 
                     return "Trainee";
                 }
-                else if (id == 4)
+                else if (id == 3)
                 {
 
                     return "CLT";
                 }
-                else if (id == 5)
+                else if (id == 4)
                 {
 
                     return "PJ";

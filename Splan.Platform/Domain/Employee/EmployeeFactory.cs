@@ -17,7 +17,7 @@ namespace Splan.Platform.Domain.Employee
 
             if (string.IsNullOrWhiteSpace(rhClassification))
                 throw new ArgumentException($"'{nameof(rhClassification)}' cannot be null or whitespace.", nameof(rhClassification));
-            if(!(contractingRegime >= 1 && contractingRegime <= 6))
+            if(!(contractingRegime >= 0 && contractingRegime <= 5))
                 throw new ArgumentException($"'{nameof(contractingRegime)}' cannot be null or whitespace.", nameof(contractingRegime));
 
             var employee = new Employee()
