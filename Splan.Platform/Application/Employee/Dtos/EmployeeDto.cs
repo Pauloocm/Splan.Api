@@ -4,7 +4,7 @@ namespace Splan.Platform.Application.Employee.Dtos
 {
     public class EmployeeDto
     {
-        public Guid employeeId { get; set; }
+        public Guid Key { get; set; }
         public string Name { get; set; }
 
         public string Function { get; set; }
@@ -18,24 +18,6 @@ namespace Splan.Platform.Application.Employee.Dtos
         public string Classification { get; set; }
 
 
-        public static EmployeeDto ToDto(Guid employeeId, string name, string position, string educationBackground, int contractingRegimeId,
-            bool coordinator, string rhClassification)
-        {
-
-            var dto = new EmployeeDto()
-            {
-                employeeId = employeeId,
-                Name = name,
-                Function = position,
-                EducationDegree = educationBackground,
-                HiringRegimeId = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(contractingRegimeId)),
-                IsCoordinator = coordinator,
-                Classification = rhClassification
-            };
-
-            return dto;
-        }
-
         public static EmployeeDto ToDto(Splan.Platform.Domain.Employee.Employee employee)
         {
             if (employee is null)
@@ -43,7 +25,7 @@ namespace Splan.Platform.Application.Employee.Dtos
 
             var dto = new EmployeeDto()
             {
-                employeeId = employee.Id,
+                Key = employee.Key,
                 Name = employee.Name,
                 Function = employee.Function,
                 EducationDegree = employee.EducationDegree,
