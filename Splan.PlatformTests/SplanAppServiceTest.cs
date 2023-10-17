@@ -37,12 +37,12 @@ namespace Splan.Platform.Tests
         {
             var employee = new AddEmployeeCommand()
             {
-                ContractingRegime = 1,
-                Coordinator = false,
-                EducationalBackground = "Técnico",   
+                HiringRegimeId = 1,
+                IsCoordinator = false,
+                EducationDegree = "Técnico",   
                 Name = "Test",
-                Position = "junior developer",
-                RhClassification = "tsdds"
+                Function = "junior developer",
+                Classification = "tsdds"
             };
 
             var result = await splanAppService.Add(employee, CancellationToken.None);
@@ -157,7 +157,7 @@ namespace Splan.Platform.Tests
             var command = new UpdateEmployeeCommand()
             {
                 Name = "Anthony",
-                Position = "Estagiário",
+                Function = "Estagiário",
                 EmployeeId = expectedEmployee.Id
             };
 
