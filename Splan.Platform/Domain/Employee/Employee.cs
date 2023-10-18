@@ -1,9 +1,11 @@
 ﻿using Splan.Platform.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Splan.Platform.Domain.Employee
 {
     public class Employee
     {
+        [Key]
         public Guid Key { get; set; }
         public string Name { get; set; }
 
