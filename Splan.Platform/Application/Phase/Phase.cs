@@ -5,7 +5,7 @@ namespace Splan.Platform.Application.Phase
     public class Phase
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
 
         public string Stage { get; set; }
 
