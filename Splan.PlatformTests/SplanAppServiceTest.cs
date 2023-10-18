@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
@@ -7,6 +8,8 @@ using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
 using Splan.Platform.Domain.Enums;
 using Splan.Platform.Domain.GlobalServices;
+using Splan.Platform.Application.Phase;
+using Splan.Platform.Application.Phase.Commands;
 
 namespace Splan.Platform.Tests
 {
@@ -39,7 +42,7 @@ namespace Splan.Platform.Tests
             {
                 HiringRegimeId = 1,
                 IsCoordinator = false,
-                EducationDegree = "Técnico",   
+                EducationDegree = "Técnico",
                 Name = "Test",
                 Function = "junior developer",
                 Classification = "tsdds"
@@ -48,7 +51,7 @@ namespace Splan.Platform.Tests
             var result = await splanAppService.Add(employee, CancellationToken.None);
 
             Assert.That(result, Is.Not.Empty);
-            Assert.That(result, Is.TypeOf<Guid>());        
+            Assert.That(result, Is.TypeOf<Guid>());
         }
 
         [Test]
@@ -66,7 +69,7 @@ namespace Splan.Platform.Tests
         }
 
         [Test]
-        public async Task GetById()
+        public async Task GetEmployeeById()
         {
             var expectedEmployee = new Employee()
             {
@@ -171,5 +174,60 @@ namespace Splan.Platform.Tests
 
             await employeeRepositoryMock.Received(1).UpdateDatabase(Arg.Any<CancellationToken>());
         }
+
+
+        [Test]
+        public void AddPhase_Should_Throw_When_Command_Is_Null()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.AddPhase(null, CancellationToken.None));
+        }
+        [Test]
+        public async Task AddPhase()
+        {
+            var Phase = new AddPhaseCommand()
+            {
+                Stage = "Test",
+                Description = "Test",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+
+            };
+
+            var result = await splanAppService.AddPhase(Phase, CancellationToken.None);
+
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result, Is.TypeOf<Guid>());
+        }
+
+
+        [Test]
+        public void UpdatePhase_Should_Throw_When_Command_Is_Null()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.UpdatePhase(null, CancellationToken.None));
+        }
+
+
+        [Test]
+        public async Task UpdatePhase()
+        {
+            var Phase = new UpdatePhaseCommand()
+            {
+                Stage = "Test",
+                Description = "Test",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+            };
+            var result = await splanAppService.UpdatePhase(Phase, CancellationToken.None);
+
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result, Is.TypeOf<Phase>());
+        }
+        [Test]
+        public async Task DeletePhase_Should_Throw_When_Command_Is_Null()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.DeletePhase(null, CancellationToken.None));
+        }
     }
+
 }
+
