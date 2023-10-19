@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Splan.Platform.Application.Employee.Commands
 {
@@ -7,21 +9,28 @@ namespace Splan.Platform.Application.Employee.Commands
         [Required]
         public Guid Key { get; set; }
 
-        [Required]
+        [AllowNull]
+        [DefaultValue("")]
         public string Name { get; set; }
 
-        [Required]
+        [AllowNull]
+        [DefaultValue("")]
         public string Function { get; set; }
 
-        [Required]
+        [AllowNull]
+        [DefaultValue("")]
         public string EducationDegree { get; set; }
 
-        [Required]
+        [AllowNull]
+        [DefaultValue(-1)]
         public int HiringRegimeId { get; set; }
 
+        [AllowNull]
+        [DefaultValue(false)]
         public bool IsCoordinator { get; set; } = false;
 
-        [Required]
+        [AllowNull]
+        [DefaultValue("")]
         public string Classification { get; set; }
     }
 }
