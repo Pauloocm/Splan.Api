@@ -16,7 +16,6 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
         {
             if (employee is null)
                 throw new ArgumentNullException(nameof(employee));
-
             await DbContext.Employees.AddAsync(employee, cancellationToken);
             DbContext.SaveChanges();
         }
@@ -45,7 +44,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
         public async Task<Employee?> GetById(Guid id, CancellationToken cancellationToken = default)
         {
-            var result = await DbContext.Employees.FindAsync(id, cancellationToken);          
+            var result = await DbContext.Employees.FindAsync(id, cancellationToken);
 
             return result;
         }
