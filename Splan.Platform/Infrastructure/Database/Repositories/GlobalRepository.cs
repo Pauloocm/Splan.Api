@@ -1,5 +1,5 @@
-﻿using Splan.Platform.Application.Phase;
-using Splan.Platform.Domain.Employee;
+﻿using Microsoft.EntityFrameworkCore;
+using Splan.Platform.Application.Phase;
 using Splan.Platform.Domain.GlobalServices;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
@@ -20,6 +20,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
             await DbContext.Phases.AddAsync(phase, cancellationToken);
             DbContext.SaveChanges();
+            var count = DbContext.Phases.Count();
         }
 
         public async Task DeletePhase(Guid phaseId, CancellationToken cancellationToken = default)
@@ -41,6 +42,13 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             var phase = await DbContext.Phases.FindAsync(phaseId, cancellationToken);
 
             return phase;
+        }
+
+        public async Task<List<Phase>> ListAllPhasesAsync(CancellationToken cancellationToken = default)
+        {
+            var phases = await DbContext.Phases.ToListAsync(cancellationToken);
+
+            return phases;
         }
 
         public async Task UpdateGlobalDatabase(CancellationToken cancellationToken = default)

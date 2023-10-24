@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{A363F61D-815
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform", "Platform", "{64F6CEFC-3516-4F07-AC5C-CA4174C636F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Splan.Platform.Tests", "..\Splan.PlatformTests\Splan.Platform.Tests.csproj", "{9514858B-7C80-48B0-8E7D-A418CA5971EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Splan.Platform.Tests", "..\Splan.PlatformTests\Splan.Platform.Tests.csproj", "{9514858B-7C80-48B0-8E7D-A418CA5971EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

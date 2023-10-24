@@ -15,5 +15,6 @@ namespace Splan.Platform.Application
         Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default);
         Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, CancellationToken cancellationToken = default);
         Task DeletePhase(DeletePhaseCommand command, CancellationToken cancellationToken = default);
+        Task<List<Phase.Phase>> ListAllPhases(CancellationToken cancellationToken = default);
     }
 }

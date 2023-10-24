@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Xml.Linq;
 
 namespace Splan.Platform.Application.Phase
 {
     public class Phase
     {
         [Key]
-        public Guid Id { get; set; } 
+        public Guid Key { get; set; } 
 
         public string Stage { get; set; }
 
@@ -16,18 +18,27 @@ namespace Splan.Platform.Application.Phase
 
         public Phase()
         {
-            Id = Guid.NewGuid();
+            Key = Guid.NewGuid();
+            StartDate = DateTime.Now;
         }
 
-        public void Update(string? stage, string? description)
+        public void Update(string? stage, string? description, DateTime? startDate, DateTime? endDate)
         { 
-            if (stage is not null)
+            if (!String.IsNullOrEmpty(stage))
             {
                 Stage = stage;
             }
-            if (description is not null)
+            if (!String.IsNullOrEmpty(description))
             {
                 Description = description;
+            }
+            if (startDate is not null)
+            {
+                StartDate = startDate;
+            }
+            if (endDate is not null)
+            {
+                EndDate = endDate;
             }
         }
 
