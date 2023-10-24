@@ -47,5 +47,13 @@ namespace SplanApi.Controllers
 
             return Ok();
         }
+
+        [HttpGet("/List")]
+        public async Task<IActionResult> ListPhases(CancellationToken cancellationToken = default)
+        {
+            var phases = await SplanAppService.ListAllPhases(cancellationToken);
+
+            return Ok(phases);
+        }
     }
 }

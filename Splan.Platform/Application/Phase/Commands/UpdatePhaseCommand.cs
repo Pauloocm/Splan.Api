@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Splan.Platform.Application.Phase.Commands
 {
@@ -6,12 +8,13 @@ namespace Splan.Platform.Application.Phase.Commands
     {
         [Required]
         public Guid PhaseId { get; set; }
-        [Required]
+
         public string Stage { get; set; }
-        [Required]
+
         public string Description { get; set; }
-        [Required]
+
         public DateTime StartDate { get; set; }
+
         public DateTime? EndDate { get; set; }
     }
 }

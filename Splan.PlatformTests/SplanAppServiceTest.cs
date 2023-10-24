@@ -5,7 +5,6 @@ using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
-using Splan.Platform.Domain.Enums;
 using Splan.Platform.Domain.GlobalServices;
 
 namespace Splan.Platform.Tests
