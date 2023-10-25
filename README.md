@@ -57,7 +57,7 @@ This documentation provides details about the endpoints available in the Splan A
 #### Example
 
   ```http
-  POST /Employees/Add
+  PUT /Employees/Add
   Content-Type: application/json
 
   {
@@ -110,7 +110,7 @@ This documentation provides details about the endpoints available in the Splan A
 #### Example
 
   ```http
-  POST /Employees/Delete
+  DELETE /Employees/Delete
   Content-Type: application/json
 
   {
