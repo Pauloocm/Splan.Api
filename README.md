@@ -2,12 +2,13 @@
 
 Just a simple project developed for the conclusion work of the Systems Development course at SENAI - Cimatec
 
+[![.NET CI](https://github.com/Pauloocm/Splan.Api/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/Pauloocm/Splan.Api/actions/workflows/dotnet.yml)
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
 
