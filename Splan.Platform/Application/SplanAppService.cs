@@ -1,5 +1,7 @@
 ﻿using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Application.Finances;
+using Splan.Platform.Application.Finances.Commands;
 using Splan.Platform.Application.Phase;
 using Splan.Platform.Application.Phase.Commands;
 using Splan.Platform.Domain.Employee;
@@ -105,6 +107,8 @@ namespace Splan.Platform.Application
             await EmployeesRepository.Delete(command.Key, cancellationToken);
         }
 
+
+
         public async Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)
@@ -148,5 +152,43 @@ namespace Splan.Platform.Application
         {
             return await GlobalRepository.ListAllPhasesAsync(cancellationToken);
         }
+
+        public async Task<int> AddFinances(AddFinancesCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var finance = FinancesFactory.Create(command.Rubric, command.Supplier);
+
+             await GlobalRepository.AddFinacesAsync(finance, cancellationToken);
+
+            return finance.Id;
+        }
+
+        private async Task<Finances.Finances> GetFinances(int financeId, CancellationToken cancellationToken = default)
+        {
+            if (financeId != null)
+                throw new ArgumentNullException(nameof(financeId));
+
+            var finance = await GlobalRepository.GetFinancesAsync(financeId, cancellationToken);
+
+            return finance is null ? throw new FinancesNotFoundException(financeId) : finance;
+        }
+
+        public async Task<Finances.Finances> UpdateFinances(UpdateFinancesCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var finance = await GetFinances(command.Id, cancellationToken);
+
+            finance.Update(command.Rubric, command.Supplier, command.Month, command.DocumentNumber, command.Price);
+
+            await GlobalRepository.UpdateFinances(cancellationToken);
+
+            return finance;
+        }
+
+
     }
 }

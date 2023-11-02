@@ -1,4 +1,5 @@
-﻿using Splan.Platform.Application.Phase;
+﻿using Splan.Platform.Application.Finances;
+using Splan.Platform.Application.Phase;
 
 namespace Splan.Platform.Domain.GlobalServices
 {
@@ -9,5 +10,7 @@ namespace Splan.Platform.Domain.GlobalServices
         Task UpdateGlobalDatabase(CancellationToken cancellationToken = default);
         Task DeletePhase(Guid id, CancellationToken cancellationToken = default);
         Task<List<Phase>> ListAllPhasesAsync(CancellationToken cancellationToken = default);
+
+        Task AddFinacesAsync(Finances finance, CancellationToken cancellationToken = default);
     }
 }
