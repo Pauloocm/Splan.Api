@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Splan.Platform.Application;
+using Splan.Platform.Application.Employee.Commands;
 
 namespace SplanApi.Controllers
 {
@@ -14,12 +15,23 @@ namespace SplanApi.Controllers
             SplanAppService = splanAppService;
         }
 
-        [HttpGet("/GetRhFinance")]
+        [HttpPost("/AddRhFinanceFromEmployee")]
+        public async Task<IActionResult> Add([FromBody] AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var employeeKey = await SplanAppService.AddRhFinance(command, cancellationToken);
+
+            return Ok(employeeKey);
+        }
+
+        [HttpGet("/ListRhFinances")]
         public async Task<IActionResult> GetRhFinance(CancellationToken cancellationToken = default)
         {
-            var employees = await SplanAppService.Get(cancellationToken);
+            var rhFinances = await SplanAppService.ListRhFinances(cancellationToken);
 
-            return Ok(employees);
+            return Ok(rhFinances);
         }
 
 
