@@ -15,7 +15,7 @@ namespace SplanApi.Controllers
             SplanAppService = splanAppService;
         }
 
-        [HttpPost("/New")]
+        [HttpPost("/AddPhase")]
         public async Task<IActionResult> Add([FromBody] AddPhaseCommand addPhaseCommand, CancellationToken cancellationToken = default)
         {
             if (addPhaseCommand is null)
@@ -37,6 +37,14 @@ namespace SplanApi.Controllers
             return Ok(phaseResult);
         }
 
+        [HttpGet("/ListPhases")]
+        public async Task<IActionResult> ListPhases(CancellationToken cancellationToken = default)
+        {
+            var phases = await SplanAppService.ListAllPhases(cancellationToken);
+
+            return Ok(phases);
+        }
+
         [HttpDelete("/DeletePhase")]
         public async Task<IActionResult> Delete([FromBody] DeletePhaseCommand deletePhaseCommand, CancellationToken cancellationToken = default)
         {
@@ -46,14 +54,6 @@ namespace SplanApi.Controllers
             await SplanAppService.DeletePhase(deletePhaseCommand, cancellationToken);
 
             return Ok();
-        }
-
-        [HttpGet("/List")]
-        public async Task<IActionResult> ListPhases(CancellationToken cancellationToken = default)
-        {
-            var phases = await SplanAppService.ListAllPhases(cancellationToken);
-
-            return Ok(phases);
         }
     }
 }

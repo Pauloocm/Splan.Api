@@ -32,26 +32,22 @@ namespace Splan.Platform.Application
             return employee.Key;
         }
 
-        public async Task<List<EmployeeDto>> Get(CancellationToken cancellationToken = default)
+        public async Task<List<EmployeeDto>> List(CancellationToken cancellationToken = default)
         {
-            var employees = await EmployeesRepository.GetAllAsync(cancellationToken);
-
-            return EmployeeDto.ToDto(employees);
+            return EmployeeDto.ToDto(await EmployeesRepository.GetAllAsync(cancellationToken));
         }
 
-        public async Task<EmployeeDto> GetEmployeeById(Guid employeId, CancellationToken cancellationToken = default)
+        public async Task<EmployeeDto> GetEmployeeById(Guid employeeId, CancellationToken cancellationToken = default)
         {
-            if (employeId == Guid.Empty)
-                throw new ArgumentNullException(nameof(employeId));
+            if (employeeId == Guid.Empty)
+                throw new ArgumentNullException(nameof(employeeId));
 
-            var employee = await EmployeesRepository.GetById(employeId);
+            var employee = await EmployeesRepository.GetById(employeeId);
 
             if (employee is null)
-                throw new EmployeeNotFoundException(employeId);
+                throw new EmployeeNotFoundException(employeeId);
 
-            var employeeDto = EmployeeDto.ToDto(employee);
-
-            return employeeDto;
+            return EmployeeDto.ToDto(employee);
         }
 
         public async Task Update(UpdateEmployeeCommand command, CancellationToken cancellationToken = default)
@@ -61,7 +57,7 @@ namespace Splan.Platform.Application
             employee.Update(command.Name, command.Function, command.EducationDegree,
                 command.HiringRegimeId, command.IsCoordinator, command.Classification);
 
-            await EmployeesRepository.UpdateDatabase();
+            await EmployeesRepository.UpdateDatabase(cancellationToken);
         }
 
         private async Task<Domain.Employee.Employee> GetEmployee(Guid employeId, CancellationToken cancellationToken = default)
@@ -72,16 +68,6 @@ namespace Splan.Platform.Application
             var employee = await EmployeesRepository.GetSingleOrDefaultAsync(employeId, cancellationToken);
 
             return employee is null ? throw new EmployeeNotFoundException(employeId) : employee;
-        }
-
-        private async Task<Phase.Phase> GetPhase(Guid phaseId, CancellationToken cancellationToken = default)
-        {
-            if (phaseId == Guid.Empty)
-                throw new ArgumentNullException(nameof(phaseId));
-
-            var phase = await GlobalRepository.GetPhaseAsync(phaseId, cancellationToken);
-
-            return phase is null ? throw new PhaseNotFoundException(phaseId) : phase;
         }
 
         /// <summary>
@@ -147,6 +133,38 @@ namespace Splan.Platform.Application
         public async Task<List<Phase.Phase>> ListAllPhases(CancellationToken cancellationToken = default)
         {
             return await GlobalRepository.ListAllPhasesAsync(cancellationToken);
+        }
+
+        public async Task<Guid> AddRhFinance(AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var employee = await EmployeesRepository.GetById(command.Key, cancellationToken);
+
+            if (employee is null)
+                throw new EmployeeNotFoundException(command.Key);
+
+            employee.SetRhFinances(command.ContractDateMonth, command.ValuePerHour, command.HoursWorkedMonth);
+
+            await EmployeesRepository.UpdateDatabase(cancellationToken);
+
+            return employee.Key;
+        }
+
+        public async Task<List<EmployeeRhFinanceDto>> ListRhFinances(CancellationToken cancellationToken = default)
+        {
+            return EmployeeRhFinanceDto.ToDto(await EmployeesRepository.GetAllAsync(cancellationToken));
+        }
+
+        private async Task<Phase.Phase> GetPhase(Guid phaseId, CancellationToken cancellationToken = default)
+        {
+            if (phaseId == Guid.Empty)
+                throw new ArgumentNullException(nameof(phaseId));
+
+            var phase = await GlobalRepository.GetPhaseAsync(phaseId, cancellationToken);
+
+            return phase is null ? throw new PhaseNotFoundException(phaseId) : phase;
         }
     }
 }

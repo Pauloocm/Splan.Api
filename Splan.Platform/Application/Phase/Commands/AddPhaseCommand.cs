@@ -6,7 +6,14 @@ namespace Splan.Platform.Application.Phase.Commands
     {
         [Required]
         public string Stage { get; set; }
+
         [Required]
         public string Description { get; set; }
+
+        [Required]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        public DateTime EndDate { get; set; }
     }
 }
