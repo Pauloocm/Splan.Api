@@ -20,7 +20,6 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
             await DbContext.Phases.AddAsync(phase, cancellationToken);
             DbContext.SaveChanges();
-            var count = DbContext.Phases.Count();
         }
 
         public async Task DeletePhase(Guid phaseId, CancellationToken cancellationToken = default)
@@ -31,7 +30,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             var phase = await DbContext.Phases.FindAsync(phaseId, cancellationToken);
 
             if (phase is null)
-                throw new ArgumentNullException(phase.ToString());
+                throw new ArgumentNullException(phaseId.ToString());
 
             DbContext.Remove(phase);
             await DbContext.SaveChangesAsync(cancellationToken);

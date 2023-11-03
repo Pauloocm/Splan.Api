@@ -88,7 +88,7 @@ namespace Splan.Platform.Tests
         [Test]
         public async Task Get_Should_Return_A_EmptyList_If_Repository_Is_Empty()
         {
-            var result = await splanAppService.Get(CancellationToken.None);
+            var result = await splanAppService.List(CancellationToken.None);
 
             Assert.That(result, Is.Empty);
         }

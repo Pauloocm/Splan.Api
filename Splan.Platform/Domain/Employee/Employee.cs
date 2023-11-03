@@ -1,5 +1,6 @@
 ﻿using Splan.Platform.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace Splan.Platform.Domain.Employee
 {
@@ -18,12 +19,15 @@ namespace Splan.Platform.Domain.Employee
 
         public bool IsCoordinator { get; set; }
 
-        public string Classification { get; set; }
+        public int HoursWorkedMonth { get; set; }
 
-        public string? Email { get; set; }
-        public string? Password { get; set; }
-        public DateTime? ContractDate { get; set; }
-        public decimal? ValuePerHour { get; set; }
+        public string Classification { get; set; }
+        public DateTime ContractDate { get; set; }
+        public decimal ValuePerHour { get; set; }
+
+        public string Email { get; set; }
+        public string Password { get; set; }
+
 
         public Employee()
         {
@@ -31,7 +35,14 @@ namespace Splan.Platform.Domain.Employee
             Type = (HiringRegime)Enum.Parse(typeof(HiringRegime), ParseEnum.ParseIntToEnum(HiringRegimeId));
         }
 
-        public void Update(string? name, string? position, string? educationBackground, int contractingRegime, bool? coordinator, string? rhClassification)
+        public void SetRhFinances(DateTime contractDate, decimal valuePerHour, int hoursWorkedMonth)
+        {
+            ContractDate = contractDate;
+            ValuePerHour = valuePerHour;
+            HoursWorkedMonth = hoursWorkedMonth;
+        }
+
+        public void Update(string name, string position, string educationBackground, int contractingRegime, bool coordinator, string rhClassification)
         {
             if (!String.IsNullOrEmpty(name))
             {
@@ -53,10 +64,8 @@ namespace Splan.Platform.Domain.Employee
                 HiringRegimeId = contractingRegime;
             }
 
-            if (coordinator is not null)
-            {
-                IsCoordinator = (bool)coordinator;
-            }
+            IsCoordinator = coordinator;
+
 
             if (!String.IsNullOrEmpty(rhClassification))
             {
