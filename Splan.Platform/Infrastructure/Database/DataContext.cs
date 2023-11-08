@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Splan.Platform.Application.Phase;
 using Splan.Platform.Domain.Employee;
+using Splan.Platform.Domain.Finances;
 
 namespace Splan.Platform.Infrastructure.Database
 {
@@ -13,5 +14,6 @@ namespace Splan.Platform.Infrastructure.Database
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Phase> Phases { get; set; }
+        public DbSet<FinanceItem> Itens { get; set; }
     }
 }

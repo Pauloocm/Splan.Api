@@ -1,6 +1,5 @@
 ﻿using Splan.Platform.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 
 namespace Splan.Platform.Domain.Employee
 {
