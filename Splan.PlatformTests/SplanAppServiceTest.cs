@@ -38,7 +38,7 @@ namespace Splan.Platform.Tests
             {
                 HiringRegimeId = 1,
                 IsCoordinator = false,
-                EducationDegree = "Técnico",   
+                EducationDegree = "Técnico",
                 Name = "Test",
                 Function = "junior developer",
                 Classification = "tsdds"
@@ -47,7 +47,7 @@ namespace Splan.Platform.Tests
             var result = await splanAppService.Add(employee, CancellationToken.None);
 
             Assert.That(result, Is.Not.Empty);
-            Assert.That(result, Is.TypeOf<Guid>());        
+            Assert.That(result, Is.TypeOf<Guid>());
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace Splan.Platform.Tests
         }
 
         [Test]
-        public async Task Delete_Should_Throw_When_Command_Is_Null()
+        public void Delete_Should_Throw_When_Command_Is_Null()
         {
             Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.Delete(null, CancellationToken.None));
         }

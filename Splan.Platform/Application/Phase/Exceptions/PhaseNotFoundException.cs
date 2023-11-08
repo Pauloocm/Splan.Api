@@ -1,4 +1,4 @@
-﻿namespace Splan.Platform.Application.Phase
+﻿namespace Splan.Platform.Application.Phase.Exceptions
 {
     public class PhaseNotFoundException : Exception
     {

@@ -9,5 +9,10 @@ namespace Splan.Platform.Domain.GlobalServices
         Task UpdateGlobalDatabase(CancellationToken cancellationToken = default);
         Task DeletePhase(Guid phaseId, CancellationToken cancellationToken = default);
         Task<List<Phase>> ListAllPhasesAsync(CancellationToken cancellationToken = default);
+
+        Task AddFinanceItem(Finances.FinanceItem financeItem, CancellationToken cancellationToken = default);
+        Task<Finances.FinanceItem> GetFinanceItem(Guid itemId, CancellationToken cancellationToken = default);
+        Task DeleteFinanceItem(Guid itemId, CancellationToken cancellationToken = default);
+        Task<List<Finances.FinanceItem>> ListAllFinanceItens(CancellationToken cancellationToken = default);
     }
 }

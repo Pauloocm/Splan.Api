@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Splan.Platform.Application.Phase;
+using Splan.Platform.Domain.Finances;
 using Splan.Platform.Domain.GlobalServices;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
@@ -13,6 +14,15 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             DbContext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
         }
 
+        public async Task AddFinanceItem(FinanceItem financeItem, CancellationToken cancellationToken = default)
+        {
+            if (financeItem is null)
+                throw new ArgumentNullException(nameof(financeItem));
+
+            await DbContext.Itens.AddAsync(financeItem, cancellationToken);
+            DbContext.SaveChanges();
+        }
+
         public async Task AddPhaseAsync(Phase phase, CancellationToken cancellationToken = default)
         {
             if (phase is null)
@@ -20,6 +30,20 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
             await DbContext.Phases.AddAsync(phase, cancellationToken);
             DbContext.SaveChanges();
+        }
+
+        public async Task DeleteFinanceItem(Guid itemId, CancellationToken cancellationToken = default)
+        {
+            if (itemId == Guid.Empty)
+                throw new ArgumentNullException(itemId.ToString());
+
+            var item = await DbContext.Itens.FindAsync(itemId, cancellationToken);
+
+            if (item is null)
+                throw new ArgumentNullException(itemId.ToString());
+
+            DbContext.Remove(item);
+            await DbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task DeletePhase(Guid phaseId, CancellationToken cancellationToken = default)
@@ -36,11 +60,31 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<FinanceItem> GetFinanceItem(Guid itemId, CancellationToken cancellationToken = default)
+        {
+            var item = await DbContext.Itens.FindAsync(itemId, cancellationToken);
+
+            if (item is null)
+                return null;
+
+            return item;
+        }
+
         public async Task<Phase> GetPhaseAsync(Guid phaseId, CancellationToken cancellationToken = default)
         {
             var phase = await DbContext.Phases.FindAsync(phaseId, cancellationToken);
 
             return phase;
+        }
+
+        public async Task<List<FinanceItem>> ListAllFinanceItens(CancellationToken cancellationToken = default)
+        {
+            var itens = await DbContext.Itens.ToListAsync(cancellationToken);
+
+            if (itens is null)
+                return null;
+
+            return itens;
         }
 
         public async Task<List<Phase>> ListAllPhasesAsync(CancellationToken cancellationToken = default)

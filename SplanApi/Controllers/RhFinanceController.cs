@@ -34,6 +34,7 @@ namespace SplanApi.Controllers
             return Ok(rhFinances);
         }
 
+        //TODO fazer método delete
 
     }
 }
