@@ -11,7 +11,7 @@ namespace Splan.Platform.Application.Employee.Dtos
 
         public string EducationDegree { get; set; }
 
-        public new HiringRegime HiringRegimeId { get; set; }
+        public HiringRegime HiringRegimeId { get; set; }
 
         public bool IsCoordinator { get; set; } = false;
 

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Finances\Dtos\" />
     <Folder Include="Domain\GlobalServices\RhFinancesService\" />
   </ItemGroup>
 

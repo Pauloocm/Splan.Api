@@ -1,9 +1,13 @@
 ﻿using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Application.Finances.Commands;
+using Splan.Platform.Application.Finances.Dtos;
 using Splan.Platform.Application.Phase;
 using Splan.Platform.Application.Phase.Commands;
+using Splan.Platform.Application.Phase.Exceptions;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
+using Splan.Platform.Domain.Finances;
 using Splan.Platform.Domain.GlobalServices;
 
 namespace Splan.Platform.Application
@@ -42,12 +46,9 @@ namespace Splan.Platform.Application
             if (employeeId == Guid.Empty)
                 throw new ArgumentNullException(nameof(employeeId));
 
-            var employee = await EmployeesRepository.GetById(employeeId);
+            var employee = await EmployeesRepository.GetById(employeeId, cancellationToken);
 
-            if (employee is null)
-                throw new EmployeeNotFoundException(employeeId);
-
-            return EmployeeDto.ToDto(employee);
+            return employee is null ? throw new EmployeeNotFoundException(employeeId) : EmployeeDto.ToDto(employee);
         }
 
         public async Task Update(UpdateEmployeeCommand command, CancellationToken cancellationToken = default)
@@ -83,12 +84,10 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var employee = await EmployeesRepository.GetById(command.Key);
-
-            if (employee is null)
+            var employee = await EmployeesRepository.GetById(command.Key, cancellationToken) ??
                 throw new EmployeeNotFoundException(command.Key);
 
-            await EmployeesRepository.Delete(command.Key, cancellationToken);
+            await EmployeesRepository.Delete(employee.Key, cancellationToken);
         }
 
         public async Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default)
@@ -122,9 +121,7 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var phase = await GetPhase(command.PhaseId, cancellationToken);
-
-            if (phase is null)
+            var phase = await GetPhase(command.PhaseId, cancellationToken) ??
                 throw new PhaseNotFoundException(command.PhaseId);
 
             await GlobalRepository.DeletePhase(phase.Key, cancellationToken);
@@ -140,9 +137,7 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var employee = await EmployeesRepository.GetById(command.Key, cancellationToken);
-
-            if (employee is null)
+            var employee = await EmployeesRepository.GetById(command.Key, cancellationToken) ??
                 throw new EmployeeNotFoundException(command.Key);
 
             employee.SetRhFinances(command.ContractDateMonth, command.ValuePerHour, command.HoursWorkedMonth);
@@ -165,6 +160,23 @@ namespace Splan.Platform.Application
             var phase = await GlobalRepository.GetPhaseAsync(phaseId, cancellationToken);
 
             return phase is null ? throw new PhaseNotFoundException(phaseId) : phase;
+        }
+
+        public async Task<Guid> AddFinanceItem(AddFinanceItemCommand command, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var financeItem = FinanceItemFactory.Create(command.Name, command.Date, command.Value, command.Supplier);
+
+            await GlobalRepository.AddFinanceItem(financeItem, cancellationToken);
+
+            return financeItem.Key;
+        }
+
+        public Task<List<FinanceItemDto>> ListFinanceItens(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

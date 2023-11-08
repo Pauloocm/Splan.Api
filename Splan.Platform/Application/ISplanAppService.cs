@@ -1,5 +1,7 @@
 ﻿using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Application.Finances.Commands;
+using Splan.Platform.Application.Finances.Dtos;
 using Splan.Platform.Application.Phase.Commands;
 
 namespace Splan.Platform.Application
@@ -19,5 +21,8 @@ namespace Splan.Platform.Application
 
         Task<Guid> AddRhFinance(AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default);
         Task<List<EmployeeRhFinanceDto>> ListRhFinances(CancellationToken cancellationToken = default);
+
+        Task<Guid> AddFinanceItem(AddFinanceItemCommand command, CancellationToken cancellationToken = default);
+        Task<List<FinanceItemDto>> ListFinanceItens(CancellationToken cancellationToken = default);
     }
 }

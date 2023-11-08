@@ -42,14 +42,18 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             return result;
         }
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public async Task<Employee?> GetById(Guid id, CancellationToken cancellationToken = default)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         {
             var result = await DbContext.Employees.FindAsync(id, cancellationToken);
 
             return result;
         }
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public async Task<Employee?> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         {
             var employee = await DbContext.Employees.FirstOrDefaultAsync(e => e.Key == id, cancellationToken);
 

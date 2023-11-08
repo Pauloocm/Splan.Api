@@ -1,10 +1,8 @@
-﻿using Splan.Platform.Domain.Enums;
-
-namespace Splan.Platform.Domain.Employee
+﻿namespace Splan.Platform.Domain.Employee
 {
     public static class EmployeeFactory
     {
-        public static Employee Create(string name, string position, string educationalBackground, 
+        public static Employee Create(string name, string position, string educationalBackground,
             int contractingRegime, bool coordinator, string rhClassification)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -17,7 +15,7 @@ namespace Splan.Platform.Domain.Employee
 
             if (string.IsNullOrWhiteSpace(rhClassification))
                 throw new ArgumentException($"'{nameof(rhClassification)}' cannot be null or whitespace.", nameof(rhClassification));
-            if(!(contractingRegime >= 0 && contractingRegime <= 5))
+            if (!(contractingRegime >= 0 && contractingRegime <= 5))
                 throw new ArgumentException($"'{nameof(contractingRegime)}' cannot be null or whitespace.", nameof(contractingRegime));
 
             var employee = new Employee()
