@@ -1,4 +1,5 @@
 ﻿using Splan.Platform.Application.Phase;
+using Splan.Platform.Domain.Pdf;
 
 namespace Splan.Platform.Domain.GlobalServices
 {
@@ -14,5 +15,8 @@ namespace Splan.Platform.Domain.GlobalServices
         Task<Finances.FinanceItem> GetFinanceItem(Guid itemId, CancellationToken cancellationToken = default);
         Task DeleteFinanceItem(Guid itemId, CancellationToken cancellationToken = default);
         Task<List<Finances.FinanceItem>> ListAllFinanceItens(CancellationToken cancellationToken = default);
+
+        Task AddPdf(Pdf.Pdf pdf, CancellationToken cancellationToken = default);
+        Task<Pdf.Pdf> GetPdf(Guid pdfId, CancellationToken cancellationToken = default);
     }
 }

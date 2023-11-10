@@ -6,12 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Application\Finances\Dtos\" />
+    <Folder Include="Application\Pdf\Dtos\" />
     <Folder Include="Domain\GlobalServices\RhFinancesService\" />
+    <Folder Include="Domain\Pdf\Exceptions\" />
   </ItemGroup>
 
 </Project>

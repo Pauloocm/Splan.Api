@@ -1,8 +1,11 @@
-﻿using Splan.Platform.Application.Employee.Commands;
+﻿using Microsoft.AspNetCore.Http;
+using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
 using Splan.Platform.Application.Finances.Commands;
 using Splan.Platform.Application.Finances.Dtos;
+using Splan.Platform.Application.Pdf.Commands;
 using Splan.Platform.Application.Phase.Commands;
+using Splan.Platform.Domain.Pdf;
 
 namespace Splan.Platform.Application
 {
@@ -23,6 +26,9 @@ namespace Splan.Platform.Application
         Task<List<EmployeeRhFinanceDto>> ListRhFinances(CancellationToken cancellationToken = default);
 
         Task<Guid> AddFinanceItem(AddFinanceItemCommand command, CancellationToken cancellationToken = default);
+        Task<Guid> AddPdf(IFormFile pdfFile, AddPdfCommand command, CancellationToken cancellationToken = default);
         Task<List<FinanceItemDto>> ListFinanceItens(CancellationToken cancellationToken = default);
+
+        Task<Domain.Pdf.Pdf> DownloadPdf(Guid pdfIdfication, CancellationToken cancellationToken = default);
     }
 }
