@@ -195,7 +195,7 @@ namespace Splan.Platform.Application
 
                     await GlobalRepository.AddPdf(pdf, cancellationToken);
 
-                    return pdf.PdfId;
+                    return pdf.Id;
                 }
             }
             catch (Exception ex)
@@ -203,6 +203,11 @@ namespace Splan.Platform.Application
                 throw new Exception(ex.Message);
             }
 
+        }
+
+        public async Task<Domain.Pdf.Pdf> DownloadPdf(Guid pdfIdfication, CancellationToken cancellationToken = default)
+        {
+            return await GlobalRepository.GetPdf(pdfIdfication, cancellationToken);
         }
     }
 }

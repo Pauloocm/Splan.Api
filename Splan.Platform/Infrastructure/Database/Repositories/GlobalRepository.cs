@@ -70,6 +70,13 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<Pdf> GetPdf(Guid pdfId, CancellationToken cancellationToken = default)
+        {
+            var pdf = await DbContext.Pdfs.FindAsync(pdfId, cancellationToken);
+
+            return pdf;
+        }
+
         public async Task<FinanceItem> GetFinanceItem(Guid itemId, CancellationToken cancellationToken = default)
         {
             var item = await DbContext.Itens.FindAsync(itemId, cancellationToken);

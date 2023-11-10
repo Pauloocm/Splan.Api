@@ -2,12 +2,12 @@
 {
     public class Pdf
     {
-        public Guid PdfId { get; set; }
+        public Guid Id { get; set; }
         public byte[] PdfData { get; set; }
 
         public Pdf(byte[] data)
         {
-            PdfId = Guid.NewGuid();
+            Id = Guid.NewGuid();
             PdfData = data;
         }
 

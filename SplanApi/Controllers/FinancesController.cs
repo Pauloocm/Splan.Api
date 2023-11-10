@@ -2,6 +2,7 @@
 using Splan.Platform.Application;
 using Splan.Platform.Application.Finances.Commands;
 using Splan.Platform.Application.Pdf.Commands;
+using Splan.Platform.Domain.Pdf;
 using SplanApi.ViewModels;
 
 namespace SplanApi.Controllers
@@ -43,10 +44,15 @@ namespace SplanApi.Controllers
         public async Task<IActionResult> GetRhFinance(CancellationToken cancellationToken = default)
         {
             var itensDto = await SplanAppService.ListFinanceItens(cancellationToken);
-
             return Ok(itensDto);
         }
 
+        [HttpGet("/DownloadPdf")]
+        public async Task<IActionResult> DownloadPdf(Guid pdfId, CancellationToken cancellationToken = default)
+        {
+            var pdf = await SplanAppService.DownloadPdf(pdfId, cancellationToken);
 
+            return File(pdf.PdfData, "application/pdf", $"downloaded_file_{pdf.Id}.pdf");
+        }
     }
 }

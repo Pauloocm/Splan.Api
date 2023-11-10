@@ -17,5 +17,6 @@ namespace Splan.Platform.Domain.GlobalServices
         Task<List<Finances.FinanceItem>> ListAllFinanceItens(CancellationToken cancellationToken = default);
 
         Task AddPdf(Pdf.Pdf pdf, CancellationToken cancellationToken = default);
+        Task<Pdf.Pdf> GetPdf(Guid pdfId, CancellationToken cancellationToken = default);
     }
 }
