@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Finances.Commands;
+using Splan.Platform.Application.Pdf.Commands;
+using SplanApi.ViewModels;
 
 namespace SplanApi.Controllers
 {
@@ -24,6 +26,17 @@ namespace SplanApi.Controllers
             var employeeKey = await SplanAppService.AddFinanceItem(command, cancellationToken);
 
             return Ok(employeeKey);
+        }
+
+        [HttpPost("/UploadPdf")]
+        public async Task<IActionResult> UploadPdf([FromForm] AddPdfViewModel pdfViewModel, CancellationToken cancellationToken = default)
+        {
+            if (pdfViewModel is null)
+                return BadRequest("No file uploaded.");
+
+            var pdfId = await SplanAppService.AddPdf(pdfViewModel.Pdf, pdfViewModel.ToCommand());
+
+            return Ok($"File uploaded successfully. PDF ID: {pdfId}");
         }
 
         [HttpGet("/ListFinanceItens")]

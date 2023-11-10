@@ -1,7 +1,9 @@
-﻿using Splan.Platform.Application.Employee.Commands;
+﻿using Microsoft.AspNetCore.Http;
+using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
 using Splan.Platform.Application.Finances.Commands;
 using Splan.Platform.Application.Finances.Dtos;
+using Splan.Platform.Application.Pdf.Commands;
 using Splan.Platform.Application.Phase;
 using Splan.Platform.Application.Phase.Commands;
 using Splan.Platform.Application.Phase.Exceptions;
@@ -177,6 +179,30 @@ namespace Splan.Platform.Application
         public Task<List<FinanceItemDto>> ListFinanceItens(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Guid> AddPdf(IFormFile pdfFile, AddPdfCommand command, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    await pdfFile.CopyToAsync(memoryStream, cancellationToken);
+
+                    byte[] pdfData = memoryStream.ToArray();
+
+                    var pdf = new Splan.Platform.Domain.Pdf.Pdf(pdfData);
+
+                    await GlobalRepository.AddPdf(pdf, cancellationToken);
+
+                    return pdf.PdfId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
     }
 }

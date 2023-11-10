@@ -2,6 +2,7 @@
 using Splan.Platform.Application.Phase;
 using Splan.Platform.Domain.Finances;
 using Splan.Platform.Domain.GlobalServices;
+using Splan.Platform.Domain.Pdf;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
 {
@@ -20,6 +21,15 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
                 throw new ArgumentNullException(nameof(financeItem));
 
             await DbContext.Itens.AddAsync(financeItem, cancellationToken);
+            DbContext.SaveChanges();
+        }
+
+        public async Task AddPdf(Pdf pdf, CancellationToken cancellationToken = default)
+        {
+            if (pdf is null)
+                throw new ArgumentNullException(nameof(pdf));
+
+            await DbContext.Pdfs.AddAsync(pdf, cancellationToken);
             DbContext.SaveChanges();
         }
 
