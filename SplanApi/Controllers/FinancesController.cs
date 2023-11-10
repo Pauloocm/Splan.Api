@@ -40,19 +40,19 @@ namespace SplanApi.Controllers
             return Ok($"File uploaded successfully. PDF ID: {pdfId}");
         }
 
-        [HttpGet("/ListFinanceItens")]
-        public async Task<IActionResult> GetRhFinance(CancellationToken cancellationToken = default)
-        {
-            var itensDto = await SplanAppService.ListFinanceItens(cancellationToken);
-            return Ok(itensDto);
-        }
-
         [HttpGet("/DownloadPdf")]
         public async Task<IActionResult> DownloadPdf(Guid pdfId, CancellationToken cancellationToken = default)
         {
             var pdf = await SplanAppService.DownloadPdf(pdfId, cancellationToken);
 
             return File(pdf.PdfData, "application/pdf", $"downloaded_file_{pdf.Id}.pdf");
+        }
+
+        [HttpGet("/ListFinanceItens")]
+        public async Task<IActionResult> GetRhFinance(CancellationToken cancellationToken = default)
+        {
+            var itensDto = await SplanAppService.ListFinanceItens(cancellationToken);
+            return Ok(itensDto);
         }
     }
 }
