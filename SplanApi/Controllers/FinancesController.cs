@@ -43,7 +43,7 @@ namespace SplanApi.Controllers
         {
             var pdf = await SplanAppService.DownloadPdf(pdfId, cancellationToken);
 
-            return File(pdf.PdfData, "application/pdf", $"downloaded_file_{pdf.Id}.pdf");
+            return File(pdf.PdfData, "application/pdf", $"{pdf.Name}.pdf");
         }
 
         [HttpGet("/ListFinanceItens")]
