@@ -191,7 +191,7 @@ namespace Splan.Platform.Application
 
                     byte[] pdfData = memoryStream.ToArray();
 
-                    var pdf = new Splan.Platform.Domain.Pdf.Pdf(pdfData);
+                    var pdf = new Splan.Platform.Domain.Pdf.Pdf(pdfData, command.FinanceItemId, command.Name);
 
                     await GlobalRepository.AddPdf(pdf, cancellationToken);
 
