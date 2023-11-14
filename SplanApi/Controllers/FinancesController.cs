@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Finances.Commands;
-using Splan.Platform.Application.Pdf.Commands;
-using Splan.Platform.Domain.Pdf;
 using SplanApi.ViewModels;
 
 namespace SplanApi.Controllers
