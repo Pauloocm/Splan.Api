@@ -17,12 +17,12 @@ namespace SplanApi.Controllers
         }
 
         [HttpPost("/AddFinanceItem")]
-        public async Task<IActionResult> Add([FromBody] AddFinanceItemCommand command, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Add([FromRoute] Guid projectId, [FromBody] AddFinanceItemCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var employeeKey = await SplanAppService.AddFinanceItem(command, cancellationToken);
+            var employeeKey = await SplanAppService.AddFinanceItem(command, projectId, cancellationToken);
 
             return Ok(employeeKey);
         }

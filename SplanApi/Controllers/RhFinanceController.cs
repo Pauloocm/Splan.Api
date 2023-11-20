@@ -16,20 +16,20 @@ namespace SplanApi.Controllers
         }
 
         [HttpPost("/AddRhFinanceFromEmployee")]
-        public async Task<IActionResult> Add([FromBody] AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Add([FromRoute] Guid projectId, [FromBody] AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default)
         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var employeeKey = await SplanAppService.AddRhFinance(command, cancellationToken);
+            var employeeKey = await SplanAppService.AddRhFinance(command, projectId, cancellationToken);
 
             return Ok(employeeKey);
         }
 
         [HttpGet("/ListRhFinances")]
-        public async Task<IActionResult> GetRhFinance(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetRhFinance([FromRoute] Guid projectId, CancellationToken cancellationToken = default)
         {
-            var rhFinances = await SplanAppService.ListRhFinances(cancellationToken);
+            var rhFinances = await SplanAppService.ListRhFinances(projectId, cancellationToken);
 
             return Ok(rhFinances);
         }

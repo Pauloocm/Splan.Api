@@ -2,7 +2,6 @@
 {
     public class GetEmployeeCommand
     {
-        public string Name { get; set; }
-        public string Position { get; set; }
+        public Guid Id { get; set; }
     }
 }
