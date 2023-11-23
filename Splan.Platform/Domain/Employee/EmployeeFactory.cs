@@ -3,7 +3,7 @@
     public static class EmployeeFactory
     {
         public static Employee Create(string name, string position, string educationalBackground,
-            int contractingRegime, bool coordinator, string rhClassification)
+            int contractingRegime, bool coordinator, string rhClassification, Guid projectId)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace.", nameof(name));
@@ -25,7 +25,8 @@
                 EducationDegree = educationalBackground,
                 HiringRegimeId = contractingRegime,
                 IsCoordinator = coordinator,
-                Classification = rhClassification
+                Classification = rhClassification,
+                ProjectId = projectId,
             };
 
             return employee;

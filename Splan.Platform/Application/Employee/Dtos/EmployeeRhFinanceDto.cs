@@ -34,7 +34,7 @@
             return dto;
         }
 
-        public static List<EmployeeRhFinanceDto> ToDto(List<Splan.Platform.Domain.Employee.Employee> listEmployees)
+        public static IList<EmployeeRhFinanceDto> ToDto(IList<Splan.Platform.Domain.Employee.Employee> listEmployees)
         {
             if (listEmployees is null)
                 return Enumerable.Empty<EmployeeRhFinanceDto>().ToList();

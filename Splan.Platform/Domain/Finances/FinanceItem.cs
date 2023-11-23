@@ -6,6 +6,7 @@ namespace Splan.Platform.Domain.Finances
     {
         [Key]
         public Guid Key { get; set; }
+        public Guid ProjectId { get; set; }
 
         public string Name { get; set; }
         public DateTime Date { get; set; }

@@ -6,7 +6,7 @@ using SplanApi.ViewModels;
 namespace SplanApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/{projectId:guid}")]
     public class FinancesController : ControllerBase
     {
         private readonly ISplanAppService SplanAppService;
@@ -16,7 +16,7 @@ namespace SplanApi.Controllers
             SplanAppService = splanAppService;
         }
 
-        [HttpPost("/AddFinanceItem")]
+        [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddFinanceItemCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)
@@ -27,30 +27,31 @@ namespace SplanApi.Controllers
             return Ok(employeeKey);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetRhFinance([FromRoute] Guid projectId, CancellationToken cancellationToken = default)
+        {
+            var itensDto = await SplanAppService.ListFinanceItens(projectId, cancellationToken);
+
+            return Ok(itensDto);
+        }
+
         [HttpPost("/UploadPdf")]
         public async Task<IActionResult> UploadPdf([FromForm] AddPdfViewModel pdfViewModel, CancellationToken cancellationToken = default)
         {
             if (pdfViewModel is null)
                 return BadRequest("No file uploaded.");
 
-            var pdfId = await SplanAppService.AddPdf(pdfViewModel.Pdf, pdfViewModel.ToCommand());
+            var pdfId = await SplanAppService.AddPdf(pdfViewModel.Pdf, pdfViewModel.ToCommand(), cancellationToken);
 
             return Ok($"File uploaded successfully. PDF ID: {pdfId}");
         }
 
         [HttpGet("/DownloadPdf")]
-        public async Task<IActionResult> DownloadPdf(Guid pdfId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DownloadPdf(Guid ItemId, CancellationToken cancellationToken = default)
         {
-            var pdf = await SplanAppService.DownloadPdf(pdfId, cancellationToken);
+            var pdf = await SplanAppService.DownloadPdf(ItemId, cancellationToken);
 
             return File(pdf.PdfData, "application/pdf", $"{pdf.Name}.pdf");
-        }
-
-        [HttpGet("/ListFinanceItens")]
-        public async Task<IActionResult> GetRhFinance(CancellationToken cancellationToken = default)
-        {
-            var itensDto = await SplanAppService.ListFinanceItens(cancellationToken);
-            return Ok(itensDto);
         }
     }
 }

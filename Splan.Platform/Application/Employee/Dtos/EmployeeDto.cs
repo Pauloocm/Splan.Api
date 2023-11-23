@@ -37,7 +37,7 @@ namespace Splan.Platform.Application.Employee.Dtos
             return dto;
         }
 
-        public static List<EmployeeDto> ToDto(List<Splan.Platform.Domain.Employee.Employee> listEmployees)
+        public static IList<EmployeeDto> ToDto(IList<Splan.Platform.Domain.Employee.Employee> listEmployees)
         {
             if (listEmployees is null)
                 return Enumerable.Empty<EmployeeDto>().ToList();
