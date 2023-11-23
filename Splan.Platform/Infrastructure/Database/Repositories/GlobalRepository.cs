@@ -42,12 +42,12 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             DbContext.SaveChanges();
         }
 
-        public async Task DeleteFinanceItem(Guid itemId, CancellationToken cancellationToken = default)
+        public async Task DeleteFinanceItem(Guid itemId, Guid projectId, CancellationToken cancellationToken = default)
         {
             if (itemId == Guid.Empty)
                 throw new ArgumentNullException(itemId.ToString());
 
-            var item = await DbContext.Itens.FindAsync(itemId, cancellationToken);
+            var item = await DbContext.Itens.Where(i => i.ProjectId == projectId).FirstOrDefaultAsync(i => i.Key == itemId, cancellationToken);
 
             if (item is null)
                 throw new ArgumentNullException(itemId.ToString());
@@ -56,12 +56,12 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeletePhase(Guid phaseId, CancellationToken cancellationToken = default)
+        public async Task DeletePhase(Guid phaseId, Guid projectId, CancellationToken cancellationToken = default)
         {
             if (phaseId == Guid.Empty)
                 throw new ArgumentNullException(phaseId.ToString());
 
-            var phase = await DbContext.Phases.FindAsync(phaseId, cancellationToken);
+            var phase = await DbContext.Phases.Where(p => p.ProjectId == projectId).FirstOrDefaultAsync(p => p.Key == phaseId, cancellationToken);
 
             if (phase is null)
                 throw new ArgumentNullException(phaseId.ToString());
@@ -70,9 +70,9 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<Pdf> GetPdf(Guid pdfId, CancellationToken cancellationToken = default)
+        public async Task<Pdf> GetPdf(Guid itemId, CancellationToken cancellationToken = default)
         {
-            var pdf = await DbContext.Pdfs.FindAsync(pdfId, cancellationToken);
+            var pdf = await DbContext.Pdfs.FirstOrDefaultAsync(p => p.FinanceItemId == itemId, cancellationToken);
 
             return pdf;
         }
@@ -87,16 +87,17 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             return item;
         }
 
-        public async Task<Phase> GetPhaseAsync(Guid phaseId, CancellationToken cancellationToken = default)
+        public async Task<Phase> GetPhaseAsync(Guid phaseId, Guid projectId, CancellationToken cancellationToken = default)
         {
-            var phase = await DbContext.Phases.FindAsync(phaseId, cancellationToken);
+            var phase = await DbContext.Phases.Where(p => p.ProjectId == projectId).
+                FirstOrDefaultAsync(p => p.Key == phaseId, cancellationToken);
 
             return phase;
         }
 
-        public async Task<List<FinanceItem>> ListAllFinanceItens(CancellationToken cancellationToken = default)
+        public async Task<List<FinanceItem>> ListAllFinanceItens(Guid projectId, CancellationToken cancellationToken = default)
         {
-            var itens = await DbContext.Itens.ToListAsync(cancellationToken);
+            var itens = await DbContext.Itens.Where(i => i.ProjectId == projectId).ToListAsync(cancellationToken);
 
             if (itens is null)
                 return null;
@@ -104,9 +105,9 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             return itens;
         }
 
-        public async Task<List<Phase>> ListAllPhasesAsync(CancellationToken cancellationToken = default)
+        public async Task<List<Phase>> ListAllPhasesAsync(Guid projectId, CancellationToken cancellationToken = default)
         {
-            var phases = await DbContext.Phases.ToListAsync(cancellationToken);
+            var phases = await DbContext.Phases.Where(p => p.ProjectId == projectId).ToListAsync(cancellationToken);
 
             return phases;
         }

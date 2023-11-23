@@ -15,7 +15,7 @@ namespace SplanApi.Controllers
             SplanAppService = splanAppService;
         }
 
-        [HttpPost("/AddProject")]
+        [HttpPost]
         public async Task<IActionResult> Add([FromBody] AddProjectCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)
@@ -26,7 +26,7 @@ namespace SplanApi.Controllers
             return Ok(projectId);
         }
 
-        [HttpPut("/UpdateProject")]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateProjectCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)
@@ -37,7 +37,7 @@ namespace SplanApi.Controllers
             return Ok();
         }
 
-        [HttpGet("/ListProjects")]
+        [HttpGet]
         public async Task<IActionResult> ListEmployees(CancellationToken cancellationToken = default)
         {
             var projects = await SplanAppService.List(cancellationToken);
@@ -45,7 +45,7 @@ namespace SplanApi.Controllers
             return Ok(projects);
         }
 
-        [HttpDelete("/DeleteProject")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(DeleteProjectCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)

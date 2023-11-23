@@ -3,9 +3,13 @@ using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Application.Phase;
+using Splan.Platform.Application.Phase.Commands;
+using Splan.Platform.Application.Phase.Exceptions;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
 using Splan.Platform.Domain.GlobalServices;
+using System.Runtime.InteropServices;
 
 namespace Splan.Platform.Tests
 {
@@ -169,6 +173,59 @@ namespace Splan.Platform.Tests
             Assert.That(result.Name, Is.EqualTo(command.Name));
 
             await employeeRepositoryMock.Received(1).UpdateDatabase(Arg.Any<CancellationToken>());
+        }
+
+        [Test]
+        public void AddPhase_Should_Throw_When_Command_Is_Null()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.AddPhase(null, CancellationToken.None));
+        }
+
+        [Test]
+        public void UpdatePhase_Should_Throw_When_Command_Is_Null()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.UpdatePhase(null, Guid.NewGuid(), CancellationToken.None));
+        }
+
+        [Test]
+        public void UpdatePhase_Should_Throw_When_GetPhase_Returns_Null()
+        {
+            var command = new UpdatePhaseCommand()
+            {
+                PhaseId = Guid.NewGuid(),
+                Description = "desc",
+                EndDate = DateTime.Now,
+                Stage = "Inicio",
+                StartDate = DateTime.Now,
+            };
+
+            Assert.ThrowsAsync<PhaseNotFoundException>(async () => await splanAppService.UpdatePhase(command, Guid.NewGuid(), CancellationToken.None));
+        }
+
+        [Test]
+        public async Task UpdatePhase()
+        {
+            var command = new UpdatePhaseCommand()
+            {
+                PhaseId = Guid.NewGuid(),
+                Description = "Descricao atualizada!!!!",
+                EndDate = DateTime.Now,
+                Stage = "Inicio",
+                StartDate = DateTime.Now,
+            };
+
+            var expectedPhase = new Phase()
+            {
+                Description = "desc",
+                EndDate = DateTime.Now,
+                Stage = "Inicio",
+                StartDate = DateTime.Now,
+            };
+
+            globalRepository.GetPhaseAsync(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedPhase);
+
+            await splanAppService.UpdatePhase(command, Guid.NewGuid(), CancellationToken.None);
+            Assert.That(expectedPhase.Description, Is.EqualTo("Descricao atualizada!!!!"));
         }
     }
 }

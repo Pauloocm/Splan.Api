@@ -6,9 +6,9 @@ namespace Splan.Platform.Application.Phase
     {
         [Key]
         public Guid Key { get; set; }
+        public Guid ProjectId { get; set; }
 
         public string Stage { get; set; }
-
         public string Description { get; set; }
 
         public DateTime StartDate { get; set; }

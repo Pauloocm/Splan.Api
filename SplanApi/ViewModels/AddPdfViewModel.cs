@@ -9,7 +9,11 @@ public class AddPdfViewModel
     [FromForm]
     public IFormFile Pdf { get; set; }
 
-    [Required] public string Name { get; set; }
+    [Required]
+    public string Name { get; set; }
+
+    [Required]
+    public Guid FinanceItemId { get; set; }
 
     public AddPdfViewModel()
     {
@@ -18,10 +22,14 @@ public class AddPdfViewModel
 
     public AddPdfCommand ToCommand()
     {
+        if (FinanceItemId == Guid.Empty)
+            throw new ArgumentNullException(FinanceItemId.ToString());
+
         var command = new AddPdfCommand()
         {
             Pdf = Pdf.OpenReadStream(),
             Name = Name,
+            FinanceItemId = FinanceItemId
         };
 
         return command;

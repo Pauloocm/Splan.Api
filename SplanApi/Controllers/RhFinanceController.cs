@@ -5,7 +5,7 @@ using Splan.Platform.Application.Employee.Commands;
 namespace SplanApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/{projectId:guid}")]
     public class RhFinacesController : ControllerBase
     {
         private readonly ISplanAppService SplanAppService;
@@ -15,7 +15,7 @@ namespace SplanApi.Controllers
             SplanAppService = splanAppService;
         }
 
-        [HttpPost("/AddRhFinanceFromEmployee")]
+        [HttpPost]
         public async Task<IActionResult> Add([FromRoute] Guid projectId, [FromBody] AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default)
         {
             if (command is null)
@@ -26,7 +26,7 @@ namespace SplanApi.Controllers
             return Ok(employeeKey);
         }
 
-        [HttpGet("/ListRhFinances")]
+        [HttpGet]
         public async Task<IActionResult> GetRhFinance([FromRoute] Guid projectId, CancellationToken cancellationToken = default)
         {
             var rhFinances = await SplanAppService.ListRhFinances(projectId, cancellationToken);

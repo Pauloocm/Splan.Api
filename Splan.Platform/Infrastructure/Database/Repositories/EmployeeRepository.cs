@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Splan.Platform.Application.Finances.Dtos;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Project;
 using System.Threading;
@@ -54,14 +55,14 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<List<Employee>> GetAllAsync(Guid projectId, CancellationToken cancellationToken = default)
+        public async Task<IList<Employee>> ListAll(Guid projectId, CancellationToken cancellationToken = default)
         {
             var result = await DbContext.Employees.Where(e => e.ProjectId == projectId).ToListAsync(cancellationToken);
 
             return result;
         }
 
-        public async Task<List<Project>> GetAllProjects(CancellationToken cancellationToken)
+        public async Task<IList<Project>> ListAllProjects(CancellationToken cancellationToken)
         {
             return await DbContext.Projects.ToListAsync(cancellationToken);
         }
@@ -83,6 +84,11 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             var employee = await DbContext.Employees.Where(e => e.ProjectId == projectId).FirstOrDefaultAsync(e => e.Key == id, cancellationToken);
 
             return employee;
+        }
+
+        public Task<IList<FinanceItemDto>> ListRhItens(Guid projectId, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task UpdateDatabase(CancellationToken cancellationToken = default)

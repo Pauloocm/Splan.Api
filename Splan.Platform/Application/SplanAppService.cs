@@ -41,9 +41,9 @@ namespace Splan.Platform.Application
             return employee.Key;
         }
 
-        public async Task<List<EmployeeDto>> ListEmployees(Guid projectId, CancellationToken cancellationToken = default)
+        public async Task<IList<EmployeeDto>> ListEmployees(Guid projectId, CancellationToken cancellationToken = default)
         {
-            return EmployeeDto.ToDto(await EmployeesRepository.GetAllAsync(projectId, cancellationToken));
+            return EmployeeDto.ToDto(await EmployeesRepository.ListAll(projectId, cancellationToken));
         }
 
         public async Task<EmployeeDto> GetEmployeeById(Guid employeeId, Guid projectId, CancellationToken cancellationToken = default)
@@ -107,12 +107,12 @@ namespace Splan.Platform.Application
             return phase.Key;
         }
 
-        public async Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, CancellationToken cancellationToken = default)
+        public async Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, Guid projectId, CancellationToken cancellationToken = default)
         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var phase = await GetPhase(command.PhaseId, cancellationToken);
+            var phase = await GetPhase(command.PhaseId, projectId, cancellationToken);
 
             phase.Update(command.Stage, command.Description, command.StartDate, command.EndDate);
 
@@ -121,20 +121,20 @@ namespace Splan.Platform.Application
             return phase;
         }
 
-        public async Task DeletePhase(DeletePhaseCommand command, CancellationToken cancellationToken = default)
+        public async Task DeletePhase(DeletePhaseCommand command, Guid projectId, CancellationToken cancellationToken = default)
         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var phase = await GetPhase(command.PhaseId, cancellationToken) ??
+            var phase = await GetPhase(command.PhaseId, projectId, cancellationToken) ??
                 throw new PhaseNotFoundException(command.PhaseId);
 
-            await GlobalRepository.DeletePhase(phase.Key, cancellationToken);
+            await GlobalRepository.DeletePhase(phase.Key, projectId, cancellationToken);
         }
 
-        public async Task<List<Phase.Phase>> ListAllPhases(CancellationToken cancellationToken = default)
+        public async Task<IList<Phase.Phase>> ListAllPhases(Guid projectId, CancellationToken cancellationToken = default)
         {
-            return await GlobalRepository.ListAllPhasesAsync(cancellationToken);
+            return await GlobalRepository.ListAllPhasesAsync(projectId, cancellationToken);
         }
 
         public async Task<Guid> AddRhFinance(AddRhFinanceFromEmployee command, Guid projectId, CancellationToken cancellationToken = default)
@@ -152,22 +152,22 @@ namespace Splan.Platform.Application
             return employee.Key;
         }
 
-        public async Task<List<EmployeeRhFinanceDto>> ListRhFinances(Guid projectId, CancellationToken cancellationToken = default)
+        public async Task<IList<EmployeeRhFinanceDto>> ListRhFinances(Guid projectId, CancellationToken cancellationToken = default)
         {
-            return EmployeeRhFinanceDto.ToDto(await EmployeesRepository.GetAllAsync(projectId, cancellationToken));
+            return EmployeeRhFinanceDto.ToDto(await EmployeesRepository.ListAll(projectId, cancellationToken));
         }
 
-        private async Task<Phase.Phase> GetPhase(Guid phaseId, CancellationToken cancellationToken = default)
+        private async Task<Phase.Phase> GetPhase(Guid phaseId, Guid projectid, CancellationToken cancellationToken = default)
         {
             if (phaseId == Guid.Empty)
                 throw new ArgumentNullException(nameof(phaseId));
 
-            var phase = await GlobalRepository.GetPhaseAsync(phaseId, cancellationToken);
+            var phase = await GlobalRepository.GetPhaseAsync(phaseId, projectid, cancellationToken);
 
             return phase is null ? throw new PhaseNotFoundException(phaseId) : phase;
         }
 
-        public async Task<Guid> AddFinanceItem(AddFinanceItemCommand command, Guid projectId, CancellationToken cancellationToken = default)
+        public async Task<Guid> AddFinanceItem(AddFinanceItemCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
@@ -179,38 +179,28 @@ namespace Splan.Platform.Application
             return financeItem.Key;
         }
 
-        public Task<List<FinanceItemDto>> ListFinanceItens(CancellationToken cancellationToken = default)
+        public async Task<IList<FinanceItemDto>> ListFinanceItens(Guid projectId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return (await EmployeesRepository.ListRhItens(projectId, cancellationToken));
         }
 
         public async Task<Guid> AddPdf(IFormFile pdfFile, AddPdfCommand command, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    await pdfFile.CopyToAsync(memoryStream, cancellationToken);
+            using MemoryStream memoryStream = new();
+            await pdfFile.CopyToAsync(memoryStream, cancellationToken);
 
-                    byte[] pdfData = memoryStream.ToArray();
+            byte[] pdfData = memoryStream.ToArray();
 
-                    var pdf = new Splan.Platform.Domain.Pdf.Pdf(pdfData, command.FinanceItemId, command.Name);
+            var pdf = new Domain.Pdf.Pdf(pdfData, command.FinanceItemId, command.Name);
 
-                    await GlobalRepository.AddPdf(pdf, cancellationToken);
+            await GlobalRepository.AddPdf(pdf, cancellationToken);
 
-                    return pdf.Id;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
+            return pdf.Id;
         }
 
-        public async Task<Domain.Pdf.Pdf> DownloadPdf(Guid pdfIdfication, CancellationToken cancellationToken = default)
+        public async Task<Domain.Pdf.Pdf> DownloadPdf(Guid itemId, CancellationToken cancellationToken = default)
         {
-            return await GlobalRepository.GetPdf(pdfIdfication, cancellationToken);
+            return await GlobalRepository.GetPdf(itemId, cancellationToken);
         }
 
         public async Task<Guid> Add(AddProjectCommand command, CancellationToken cancellationToken = default)
@@ -239,9 +229,9 @@ namespace Splan.Platform.Application
             project.Update(command.Name, command.Company, command.StartDate, command.ExpirationDate, command.Status);
         }
 
-        public Task<List<Project>> List(CancellationToken cancellationToken = default)
+        public Task<IList<Project>> List(CancellationToken cancellationToken = default)
         {
-            return EmployeesRepository.GetAllProjects(cancellationToken);
+            return EmployeesRepository.ListAllProjects(cancellationToken);
         }
 
         public async Task Delete(DeleteProjectCommand command, CancellationToken cancellationToken = default)
