@@ -2,7 +2,6 @@
 using Splan.Platform.Application.Finances.Dtos;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Project;
-using System.Threading;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
 {
@@ -33,10 +32,10 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             DbContext.SaveChanges();
         }
 
-        public async Task Delete(Guid projectId, Guid key, CancellationToken cancellationToken = default)
+        public async Task Delete(Guid key, Guid projectId, CancellationToken cancellationToken = default)
         {
-            if (key == Guid.Empty)
-                throw new ArgumentNullException(nameof(key));
+            if (projectId == Guid.Empty)
+                throw new ArgumentNullException(nameof(projectId));
 
             var employeeToBeDeleted = await DbContext.Employees.Where(e => e.ProjectId == projectId).FirstOrDefaultAsync(e => e.Key == key, cancellationToken);
 
@@ -67,9 +66,12 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             return await DbContext.Projects.ToListAsync(cancellationToken);
         }
 
-        public async Task<Employee> GetById(Guid projectId, Guid id, CancellationToken cancellationToken = default)
+        public async Task<Employee> GetById(Guid employeeId, Guid projectId, CancellationToken cancellationToken = default)
         {
-            var result = await DbContext.Employees.Where(e => e.ProjectId == projectId).FirstOrDefaultAsync(e => e.Key == id);
+            var result = await DbContext.Employees.Where(e => e.ProjectId == projectId).FirstOrDefaultAsync(e => e.Key == employeeId);
+
+            if (result is null)
+                return null;
 
             return result;
         }

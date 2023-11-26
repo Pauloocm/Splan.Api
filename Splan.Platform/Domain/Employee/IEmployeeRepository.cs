@@ -8,10 +8,10 @@ namespace Splan.Platform.Domain.Employee
     public interface IEmployeeRepository
     {
         Task AddAsync(Employee employee, CancellationToken cancellationToken = default);
-        Task<Employee> GetById(Guid projectId, Guid id, CancellationToken cancellationToken = default);
+        Task<Employee> GetById(Guid employeeId, Guid projectId, CancellationToken cancellationToken = default);
         Task<Employee> GetSingleOrDefaultAsync(Guid projectId, Guid id, CancellationToken cancellationToken = default);
         Task<IList<Employee>> ListAll(Guid projectId, CancellationToken cancellationToken = default);
-        Task Delete(Guid projectId, Guid key, CancellationToken cancellationToken = default);
+        Task Delete(Guid key, Guid projectId, CancellationToken cancellationToken = default);
 
         Task UpdateDatabase(CancellationToken cancellationToken = default);
         

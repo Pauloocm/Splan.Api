@@ -227,6 +227,8 @@ namespace Splan.Platform.Application
                 throw new ProjectNotFoundException(command.projectId);
 
             project.Update(command.Name, command.Company, command.StartDate, command.ExpirationDate, command.Status);
+
+            await EmployeesRepository.UpdateDatabase(cancellationToken);
         }
 
         public Task<IList<Project>> List(CancellationToken cancellationToken = default)

@@ -55,13 +55,13 @@ namespace SplanApi.Controllers
             return Ok(employees);
         }
 
-        [HttpGet("/Get/{projectId:guid}")]
-        public async Task<IActionResult> GetEmployee([FromRoute] Guid projectId, [FromBody] GetEmployeeCommand command, CancellationToken cancellationToken = default)
+        [HttpGet("/GetById/{projectId:guid}/{employeeId:guid}")]
+        public async Task<IActionResult> GetEmployee([FromRoute] Guid projectId, Guid employeeId, CancellationToken cancellationToken = default)
         {
-            if (projectId == Guid.Empty)
-                return BadRequest("ProjectId is required");
+            if (projectId == Guid.Empty || employeeId == Guid.Empty)
+                return BadRequest();
 
-            var employee = await SplanAppService.GetEmployeeById(command.Id, projectId, cancellationToken);
+            var employee = await SplanAppService.GetEmployeeById(employeeId, projectId, cancellationToken);
 
             return Ok(employee);
         }
