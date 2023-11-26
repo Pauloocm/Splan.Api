@@ -1,4 +1,6 @@
-﻿namespace Splan.Platform.Application.Phase
+﻿using System.Runtime.InteropServices;
+
+namespace Splan.Platform.Application.Phase
 {
     public static class PhaseFactory
     {
@@ -9,6 +11,9 @@
 
             if (string.IsNullOrWhiteSpace(description))
                 throw new ArgumentException(nameof(description));
+
+            if (projectId == Guid.Empty)
+                throw new ArgumentException(nameof(projectId));
 
             var phase = new Phase()
             {

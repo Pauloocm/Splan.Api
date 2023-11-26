@@ -95,12 +95,12 @@ namespace Splan.Platform.Application
             await EmployeesRepository.Delete(employee.Key, projectId, cancellationToken);
         }
 
-        public async Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default)
+        public async Task<Guid> AddPhase(AddPhaseCommand command, Guid projectId, CancellationToken cancellationToken = default)
         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var phase = PhaseFactory.Create(command.Stage, command.Description);
+            var phase = PhaseFactory.Create(command.Stage, command.Description, projectId);
 
             await GlobalRepository.AddPhaseAsync(phase, cancellationToken);
 

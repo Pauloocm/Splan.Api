@@ -178,7 +178,7 @@ namespace Splan.Platform.Tests
         [Test]
         public void AddPhase_Should_Throw_When_Command_Is_Null()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.AddPhase(null, CancellationToken.None));
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.AddPhase(null, Guid.NewGuid(), CancellationToken.None));
         }
 
         [Test]
