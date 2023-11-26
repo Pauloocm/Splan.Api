@@ -21,6 +21,6 @@ namespace Splan.Platform.Domain.Employee
         Task<IList<Project.Project>> ListAllProjects(CancellationToken cancellationToken);
         Task DeleteProject(Guid id, CancellationToken cancellationToken);
 
-        Task<IList<FinanceItemDto>> ListRhItens(Guid projectId, CancellationToken cancellationToken);
+        Task<IList<FinanceItem>> ListRhItens(Guid projectId, CancellationToken cancellationToken);
     }
 }

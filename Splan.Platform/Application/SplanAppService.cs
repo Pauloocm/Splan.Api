@@ -167,12 +167,12 @@ namespace Splan.Platform.Application
             return phase is null ? throw new PhaseNotFoundException(phaseId) : phase;
         }
 
-        public async Task<Guid> AddFinanceItem(AddFinanceItemCommand command, CancellationToken cancellationToken = default)
+        public async Task<Guid> AddFinanceItem(AddFinanceItemCommand command, Guid projectId, CancellationToken cancellationToken = default)
         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var financeItem = FinanceItemFactory.Create(command.Name, command.Date, command.Value, command.Supplier);
+            var financeItem = FinanceItemFactory.Create(command.Name, command.Date, command.Value, command.Supplier, projectId);
 
             await GlobalRepository.AddFinanceItem(financeItem, cancellationToken);
 
@@ -181,7 +181,7 @@ namespace Splan.Platform.Application
 
         public async Task<IList<FinanceItemDto>> ListFinanceItens(Guid projectId, CancellationToken cancellationToken = default)
         {
-            return (await EmployeesRepository.ListRhItens(projectId, cancellationToken));
+            return (FinanceItemDto.ToDto(await GlobalRepository.ListAllFinanceItens(projectId, cancellationToken)));
         }
 
         public async Task<Guid> AddPdf(IFormFile pdfFile, AddPdfCommand command, CancellationToken cancellationToken = default)

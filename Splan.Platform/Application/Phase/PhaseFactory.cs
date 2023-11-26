@@ -2,7 +2,7 @@
 {
     public static class PhaseFactory
     {
-        public static Phase Create(string stage, string description)
+        public static Phase Create(string stage, string description, Guid projectId)
         {
             if (string.IsNullOrWhiteSpace(stage))
                 throw new ArgumentException(nameof(stage));
@@ -13,7 +13,8 @@
             var phase = new Phase()
             {
                 Stage = stage,
-                Description = description
+                Description = description,
+                ProjectId = projectId
             };
 
             return phase;

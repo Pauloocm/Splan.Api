@@ -16,12 +16,12 @@ namespace SplanApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] AddPhaseCommand addPhaseCommand, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Add([FromRoute] Guid projectId, [FromBody] AddPhaseCommand addPhaseCommand, CancellationToken cancellationToken = default)
         {
             if (addPhaseCommand is null)
                 throw new ArgumentNullException(nameof(addPhaseCommand));
 
-            var phaseId = await SplanAppService.AddPhase(addPhaseCommand, cancellationToken);
+            var phaseId = await SplanAppService.AddPhase(addPhaseCommand, projectId, cancellationToken);
 
             return Ok(phaseId);
         }

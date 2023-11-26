@@ -18,7 +18,7 @@ namespace Splan.Platform.Application
         Task<IList<EmployeeDto>> ListEmployees(Guid projectId, CancellationToken cancellationToken = default);
         Task DeleteEmployee(DeleteEmployeeCommand command, Guid projectId, CancellationToken cancellationToken = default);
 
-        Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default);
+        Task<Guid> AddPhase(AddPhaseCommand command, Guid projectId, CancellationToken cancellationToken = default);
         Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, Guid projectId, CancellationToken cancellationToken = default);
         Task DeletePhase(DeletePhaseCommand command, Guid projectId, CancellationToken cancellationToken = default);
         Task<IList<Phase.Phase>> ListAllPhases(Guid projectId, CancellationToken cancellationToken = default);
@@ -26,7 +26,7 @@ namespace Splan.Platform.Application
         Task<Guid> AddRhFinance(AddRhFinanceFromEmployee command, Guid projectId, CancellationToken cancellationToken = default);
         Task<IList<EmployeeRhFinanceDto>> ListRhFinances(Guid projectId, CancellationToken cancellationToken = default);
 
-        Task<Guid> AddFinanceItem(AddFinanceItemCommand command, CancellationToken cancellationToken = default);
+        Task<Guid> AddFinanceItem(AddFinanceItemCommand command, Guid projectId, CancellationToken cancellationToken = default);
         Task<IList<FinanceItemDto>> ListFinanceItens(Guid projectId, CancellationToken cancellationToken = default);
 
         Task<Guid> AddPdf(IFormFile pdfFile, AddPdfCommand command, CancellationToken cancellationToken = default);
