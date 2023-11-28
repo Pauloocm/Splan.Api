@@ -91,7 +91,7 @@ namespace Splan.Platform.Application
 
             await EmployeesRepository.Delete(employee.Key, cancellationToken);
         }
-
+        
         public async Task<Guid> AddPhase(AddPhaseCommand command, CancellationToken cancellationToken = default)
         {
             if (command is null)

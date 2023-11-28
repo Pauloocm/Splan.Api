@@ -3,22 +3,27 @@ using NUnit.Framework;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Application.Finances.Commands;
+using Splan.Platform.Application.Phase;
+using Splan.Platform.Application.Phase.Commands;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
+using Splan.Platform.Domain.Finances;
 using Splan.Platform.Domain.GlobalServices;
+using Splan.Platform.Infrastructure.Database.Repositories;
+using System.Numerics;
+using System.Threading;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Splan.Platform.Tests
-{
+namespace Splan.Platform.Tests {
     [TestFixture]
-    public class SplanAppServiceTest
-    {
+    public class SplanAppServiceTest {
         private IEmployeeRepository employeeRepositoryMock;
         private ISplanAppService splanAppService;
         private IGlobalRepository globalRepository;
 
         [SetUp]
-        public void Setup()
-        {
+        public void Setup() {
             globalRepository = Substitute.For<IGlobalRepository>();
             employeeRepositoryMock = Substitute.For<IEmployeeRepository>();
             splanAppService = new SplanAppService(employeeRepositoryMock, globalRepository);
@@ -26,16 +31,13 @@ namespace Splan.Platform.Tests
 
 
         [Test]
-        public void Add_Should_Throw_When_Command_Is_Null()
-        {
+        public void Add_Should_Throw_When_Command_Is_Null() {
             Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.Add(null, CancellationToken.None));
         }
-
+        //Base
         [Test]
-        public async Task Add()
-        {
-            var employee = new AddEmployeeCommand()
-            {
+        public async Task Add() {
+            var employee = new AddEmployeeCommand() {
                 HiringRegimeId = 1,
                 IsCoordinator = false,
                 EducationDegree = "Técnico",
@@ -51,24 +53,20 @@ namespace Splan.Platform.Tests
         }
 
         [Test]
-        public void GetById_Should_Throw_When_Id_Is_Empty()
-        {
+        public void GetById_Should_Throw_When_Id_Is_Empty() {
             Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.GetEmployeeById(Guid.Empty));
         }
 
         [Test]
-        public void GetById_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul()
-        {
+        public void GetById_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul() {
             employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(default(Employee));
 
             Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.GetEmployeeById(Guid.NewGuid()));
         }
 
         [Test]
-        public async Task GetById()
-        {
-            var expectedEmployee = new Employee()
-            {
+        public async Task GetById() {
+            var expectedEmployee = new Employee() {
                 Name = "Test",
                 Function = "position",
                 EducationDegree = "sds",
@@ -86,26 +84,22 @@ namespace Splan.Platform.Tests
         }
 
         [Test]
-        public async Task Get_Should_Return_A_EmptyList_If_Repository_Is_Empty()
-        {
+        public async Task Get_Should_Return_A_EmptyList_If_Repository_Is_Empty() {
             var result = await splanAppService.List(CancellationToken.None);
 
             Assert.That(result, Is.Empty);
         }
 
         [Test]
-        public void Delete_Should_Throw_When_Command_Is_Null()
-        {
+        public void Delete_Should_Throw_When_Command_Is_Null() {
             Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.Delete(null, CancellationToken.None));
         }
 
         [Test]
-        public void Delete_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul()
-        {
+        public void Delete_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul() {
             employeeRepositoryMock.GetById(Arg.Any<Guid>()).Returns(default(Employee));
 
-            var command = new DeleteEmployeeCommand()
-            {
+            var command = new DeleteEmployeeCommand() {
                 Key = Guid.NewGuid()
             };
 
@@ -113,18 +107,15 @@ namespace Splan.Platform.Tests
         }
 
         [Test]
-        public async Task Delete()
-        {
-            var expectedEmployee = new Employee()
-            {
+        public async Task Delete() {
+            var expectedEmployee = new Employee() {
                 Name = "test",
                 Function = "position",
                 IsCoordinator = false,
                 Key = Guid.NewGuid()
             };
 
-            var command = new DeleteEmployeeCommand()
-            {
+            var command = new DeleteEmployeeCommand() {
                 Key = expectedEmployee.Key
             };
 
@@ -141,10 +132,8 @@ namespace Splan.Platform.Tests
         }
 
         [Test]
-        public async Task Update()
-        {
-            var expectedEmployee = new Employee()
-            {
+        public async Task Update() {
+            var expectedEmployee = new Employee() {
                 Name = "test",
                 Function = "position",
                 IsCoordinator = false,
@@ -153,8 +142,7 @@ namespace Splan.Platform.Tests
 
             employeeRepositoryMock.GetSingleOrDefaultAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
 
-            var command = new UpdateEmployeeCommand()
-            {
+            var command = new UpdateEmployeeCommand() {
                 Name = "Anthony",
                 Function = "Estagiário",
                 Key = expectedEmployee.Key
@@ -170,5 +158,105 @@ namespace Splan.Platform.Tests
 
             await employeeRepositoryMock.Received(1).UpdateDatabase(Arg.Any<CancellationToken>());
         }
+        [Test]
+        public void AddPhase_Should_Throw_When_Command_Is_Null() {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.AddPhase(null, CancellationToken.None));
+        }
+        [Test]
+        public async Task AddPhase() {
+            var expectedPhase = new AddPhaseCommand() {
+                Stage = "Inicio",
+                Description = "Descricao",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+            };
+
+            var result = await splanAppService.AddPhase(expectedPhase, CancellationToken.None);
+
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result, Is.TypeOf<Guid>());
+
+            await globalRepository.Received(1).AddPhaseAsync(Arg.Any<Phase>(), Arg.Any<CancellationToken>());
+        }
+        [Test]
+        public void AddFinanceItem_Should_Throw_When_Command_Is_Null() {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.AddFinanceItem(null, CancellationToken.None));
+        }
+
+        [Test]
+        public async Task AddFinanceItem() {
+            var expectedFinance = new AddFinanceItemCommand() {
+                Name = "Financa",
+                Date = DateTime.Now,
+                Value = 10,
+                Supplier = "Empresa",
+            };
+
+            var result = await splanAppService.AddFinanceItem(expectedFinance, CancellationToken.None);
+
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result, Is.TypeOf<Guid>());
+
+            await globalRepository.Received(1).AddFinanceItem(Arg.Any<FinanceItem>(), Arg.Any<CancellationToken>());
+        }
+
+        [Test]
+        public void AddRhFinance_Should_Throw_When_Command_Is_Null() {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.AddRhFinance(null, CancellationToken.None));
+        }
+        /* public async Task AddRhFinance() {
+             var expectedFinance = new AddFinanceItemCommand() {
+                 Name = "Financa",
+                 Date = DateTime.Now,
+                 Value = 10,
+                 Supplier = "Empresa",
+             };
+
+             var result = await splanAppService.AddFinanceItem(expectedFinance, CancellationToken.None);
+
+             Assert.That(result, Is.Not.Empty);
+             Assert.That(result, Is.TypeOf<Guid>());
+
+             //await globalRepository.Received(1).AddFinanceItemAsync(Arg.Any<Phase>(), Arg.Any<CancellationToken>());
+         }*/
+
+        [Test]
+        public void UpdatePhase_Should_Throw_When_Command_Is_Null() {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await splanAppService.UpdatePhase(null, CancellationToken.None));
+        }
+
+        [Test]
+        public async Task UpdatePhase() {
+
+            var expectedPhase = new Phase() {
+                Stage = "Inicio1",
+                Description = "Descricao1",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+            };
+
+            globalRepository.GetPhaseAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedPhase);
+
+
+            var command = new UpdatePhaseCommand() {
+                 Stage = "Final",
+                 Description = "Palavra",
+                 StartDate = expectedPhase.StartDate,
+                 EndDate = expectedPhase.EndDate,
+                 PhaseId = Guid.NewGuid(),
+             };
+
+            var result = await splanAppService.UpdatePhase(command, CancellationToken.None);
+
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.TypeOf<Phase>());
+            Assert.That(result.Stage, Is.EqualTo("Final"));
+
+            
+            await globalRepository.Received(1).UpdateGlobalDatabase(Arg.Any<CancellationToken>());
+        }
     }
 }
+
+
