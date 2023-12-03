@@ -38,7 +38,7 @@ namespace SplanApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListEmployees(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> ListProjects(CancellationToken cancellationToken = default)
         {
             var projects = await SplanAppService.List(cancellationToken);
 

@@ -1,11 +1,8 @@
-﻿using Splan.Platform.Application.Phase;
-using Splan.Platform.Domain.Enums;
-
-namespace Splan.Platform.Domain.Project
+﻿namespace Splan.Platform.Domain.Project
 {
     public static class ProjectFactory
     {
-        public static Project Create(string name, string company, DateTime startDate, DateTime expirationDate, ProjectStatus status)
+        public static Project Create(string name, string company, DateTime startDate, DateTime expirationDate, bool status)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException(nameof(name));
