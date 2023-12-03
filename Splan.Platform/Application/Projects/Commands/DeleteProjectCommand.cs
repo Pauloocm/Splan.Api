@@ -2,6 +2,6 @@
 {
     public class DeleteProjectCommand
     {
-        public Guid Id { get; set; }
+        public Guid ProjectId { get; set; }
     }
 }

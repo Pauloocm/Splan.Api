@@ -4,7 +4,7 @@ namespace Splan.Platform.Application.Projects.Commands
 {
     public class UpdateProjectCommand
     {
-        public Guid projectId {  get; set; }
+        public Guid ProjectId {  get; set; }
 
         public string Name { get; set; }
 
@@ -14,6 +14,6 @@ namespace Splan.Platform.Application.Projects.Commands
 
         public DateTime ExpirationDate { get; set; }
 
-        public ProjectStatus Status { get; set; }
+        public bool Status { get; set; }
     }
 }

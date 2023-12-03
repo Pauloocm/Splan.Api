@@ -17,6 +17,6 @@ namespace Splan.Platform.Application.Projects.Commands
         public DateTime ExpirationDate { get; set; }
 
         [Required]
-        public ProjectStatus Status { get; set; }
+        public bool Status { get; set; }
     }
 }

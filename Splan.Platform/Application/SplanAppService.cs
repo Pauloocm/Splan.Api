@@ -213,7 +213,7 @@ namespace Splan.Platform.Application
 
             await EmployeesRepository.AddProject(project, cancellationToken);
 
-            return project.Key;
+            return project.ProjectId;
         }
 
         public async Task Update(UpdateProjectCommand command, CancellationToken cancellationToken = default)
@@ -221,10 +221,10 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var project = await EmployeesRepository.GetProject(command.projectId, cancellationToken);
+            var project = await EmployeesRepository.GetProject(command.ProjectId, cancellationToken);
 
             if (project is null)
-                throw new ProjectNotFoundException(command.projectId);
+                throw new ProjectNotFoundException(command.ProjectId);
 
             project.Update(command.Name, command.Company, command.StartDate, command.ExpirationDate, command.Status);
 
@@ -241,12 +241,12 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var project = await EmployeesRepository.GetProject(command.Id, cancellationToken);
+            var project = await EmployeesRepository.GetProject(command.ProjectId, cancellationToken);
 
             if (project is null)
-                throw new ProjectNotFoundException(command.Id);
+                throw new ProjectNotFoundException(command.ProjectId);
 
-            await EmployeesRepository.DeleteProject(command.Id, cancellationToken);
+            await EmployeesRepository.DeleteProject(command.ProjectId, cancellationToken);
         }
     }
 }
