@@ -1,10 +1,8 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Splan.Platform.Application.Phase
+﻿namespace Splan.Platform.Application.Phase
 {
     public static class PhaseFactory
     {
-        public static Phase Create(string stage, string description, Guid projectId)
+        public static Phase Create(string stage, string description, Guid projectId, DateTime startDate, DateTime endDate)
         {
             if (string.IsNullOrWhiteSpace(stage))
                 throw new ArgumentException(nameof(stage));
@@ -19,7 +17,9 @@ namespace Splan.Platform.Application.Phase
             {
                 Stage = stage,
                 Description = description,
-                ProjectId = projectId
+                ProjectId = projectId,
+                StartDate = startDate,
+                EndDate = endDate
             };
 
             return phase;
