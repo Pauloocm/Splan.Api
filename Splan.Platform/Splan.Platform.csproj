@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="Application\Finances\Dtos\" />
     <Folder Include="Application\Pdf\Dtos\" />
+    <Folder Include="Application\Projects\Dtos\" />
     <Folder Include="Domain\GlobalServices\RhFinancesService\" />
     <Folder Include="Domain\Pdf\Exceptions\" />
   </ItemGroup>

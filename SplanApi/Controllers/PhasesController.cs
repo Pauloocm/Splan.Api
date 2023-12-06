@@ -5,7 +5,7 @@ using Splan.Platform.Application.Phase.Commands;
 namespace SplanApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/{projectId:guid}")]
     public class PhasesController : ControllerBase
     {
         private readonly ISplanAppService SplanAppService;
@@ -15,43 +15,43 @@ namespace SplanApi.Controllers
             SplanAppService = splanAppService;
         }
 
-        [HttpPost("/AddPhase")]
-        public async Task<IActionResult> Add([FromBody] AddPhaseCommand addPhaseCommand, CancellationToken cancellationToken = default)
+        [HttpPost]
+        public async Task<IActionResult> Add([FromRoute] Guid projectId, [FromBody] AddPhaseCommand addPhaseCommand, CancellationToken cancellationToken = default)
         {
             if (addPhaseCommand is null)
                 throw new ArgumentNullException(nameof(addPhaseCommand));
 
-            var phaseId = await SplanAppService.AddPhase(addPhaseCommand, cancellationToken);
+            var phaseId = await SplanAppService.AddPhase(addPhaseCommand, projectId, cancellationToken);
 
             return Ok(phaseId);
         }
 
-        [HttpPut("/UpdatePhase")]
-        public async Task<IActionResult> Update([FromBody] UpdatePhaseCommand updatePhaseCommand, CancellationToken cancellationToken = default)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromRoute] Guid projectId, [FromBody] UpdatePhaseCommand updatePhaseCommand, CancellationToken cancellationToken = default)
         {
             if (updatePhaseCommand is null)
                 throw new ArgumentNullException(nameof(updatePhaseCommand));
 
-            var phaseResult = await SplanAppService.UpdatePhase(updatePhaseCommand, cancellationToken);
+            var phaseResult = await SplanAppService.UpdatePhase(updatePhaseCommand, projectId, cancellationToken);
 
             return Ok(phaseResult);
         }
 
-        [HttpGet("/ListPhases")]
-        public async Task<IActionResult> ListPhases(CancellationToken cancellationToken = default)
+        [HttpGet]
+        public async Task<IActionResult> ListPhases([FromRoute] Guid projectId, CancellationToken cancellationToken = default)
         {
-            var phases = await SplanAppService.ListAllPhases(cancellationToken);
+            var phases = await SplanAppService.ListAllPhases(projectId, cancellationToken);
 
             return Ok(phases);
         }
 
-        [HttpDelete("/DeletePhase")]
-        public async Task<IActionResult> Delete([FromBody] DeletePhaseCommand deletePhaseCommand, CancellationToken cancellationToken = default)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromRoute] Guid projectId, [FromBody] DeletePhaseCommand deletePhaseCommand, CancellationToken cancellationToken = default)
         {
             if (deletePhaseCommand is null)
                 throw new ArgumentNullException(nameof(deletePhaseCommand));
 
-            await SplanAppService.DeletePhase(deletePhaseCommand, cancellationToken);
+            await SplanAppService.DeletePhase(deletePhaseCommand, projectId, cancellationToken);
 
             return Ok();
         }

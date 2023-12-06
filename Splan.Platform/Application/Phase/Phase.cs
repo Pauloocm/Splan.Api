@@ -5,10 +5,10 @@ namespace Splan.Platform.Application.Phase
     public class Phase
     {
         [Key]
-        public Guid Key { get; set; }
+        public Guid Id { get; set; }
+        public Guid ProjectId { get; set; }
 
         public string Stage { get; set; }
-
         public string Description { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -16,7 +16,7 @@ namespace Splan.Platform.Application.Phase
 
         public Phase()
         {
-            Key = Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
 
         public void Update(string stage, string description, DateTime startDate, DateTime endDate)

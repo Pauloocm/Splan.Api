@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Splan.Platform.Application.Finances.Dtos;
 using Splan.Platform.Domain.Employee;
+using Splan.Platform.Domain.Finances;
+using Splan.Platform.Domain.Project;
 
 namespace Splan.Platform.Infrastructure.Database.Repositories
 {
@@ -16,51 +19,82 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
         {
             if (employee is null)
                 throw new ArgumentNullException(nameof(employee));
+
             await DbContext.Employees.AddAsync(employee, cancellationToken);
             DbContext.SaveChanges();
         }
 
-        public async Task Delete(Guid employeeId, CancellationToken cancellationToken = default)
+        public async Task AddProject(Project project, CancellationToken cancellationToken)
         {
-            if (employeeId == Guid.Empty)
-                throw new ArgumentNullException(nameof(employeeId));
+            if (project is null)
+                throw new ArgumentNullException(nameof(project));
 
-            var employeeToBeDeleted = await DbContext.Employees.FindAsync(employeeId, cancellationToken);
+            await DbContext.Projects.AddAsync(project, cancellationToken);
+            DbContext.SaveChanges();
+        }
 
-            if (employeeToBeDeleted is null)
-                throw new ArgumentNullException(employeeId.ToString());
+        public async Task Delete(Guid key, Guid projectId, CancellationToken cancellationToken = default)
+        {
+            if (projectId == Guid.Empty)
+                throw new ArgumentNullException(nameof(projectId));
 
+            var employeeToBeDeleted = await DbContext.Employees.Where(e => e.ProjectId == projectId).FirstOrDefaultAsync(e => e.Key == key, cancellationToken);
 
             DbContext.Employees.Remove(employeeToBeDeleted);
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task DeleteProject(Guid id, CancellationToken cancellationToken)
         {
-            var result = await DbContext.Employees.ToListAsync(cancellationToken);
+            if (id == Guid.Empty)
+                throw new ArgumentNullException(nameof(id));
+
+            var project = DbContext.Projects.Find(id);
+
+            DbContext.Projects.Remove(project);
+            await DbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<IList<Employee>> ListAll(Guid projectId, CancellationToken cancellationToken = default)
+        {
+            var result = await DbContext.Employees.Where(e => e.ProjectId == projectId).ToListAsync(cancellationToken);
 
             return result;
         }
 
-#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-        public async Task<Employee?> GetById(Guid id, CancellationToken cancellationToken = default)
-#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        public async Task<IList<Project>> ListAllProjects(CancellationToken cancellationToken)
         {
-            var result = await DbContext.Employees.FindAsync(id, cancellationToken);
+            return await DbContext.Projects.ToListAsync(cancellationToken);
+        }
+
+        public async Task<Employee> GetById(Guid employeeId, Guid projectId, CancellationToken cancellationToken = default)
+        {
+            var result = await DbContext.Employees.Where(e => e.ProjectId == projectId).FirstOrDefaultAsync(e => e.Key == employeeId);
+
+            if (result is null)
+                return null;
 
             return result;
         }
 
-#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-        public async Task<Employee?> GetSingleOrDefaultAsync(Guid id, CancellationToken cancellationToken = default)
-#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        public async Task<Project> GetProject(Guid projectId, CancellationToken cancellationToken)
         {
-            var employee = await DbContext.Employees.FirstOrDefaultAsync(e => e.Key == id, cancellationToken);
+            return await DbContext.Projects.FindAsync(projectId, cancellationToken);
+        }
+
+        public async Task<Employee> GetSingleOrDefaultAsync(Guid projectId, Guid id, CancellationToken cancellationToken = default)
+        {
+            var employee = await DbContext.Employees.Where(e => e.ProjectId == projectId).FirstOrDefaultAsync(e => e.Key == id, cancellationToken);
 
             return employee;
         }
 
-        public async Task UpdateDatabase(CancellationToken cancellationToken)
+        public async Task<IList<FinanceItem>> ListRhItens(Guid projectId, CancellationToken cancellationToken)
+        {
+            return await DbContext.Itens.Where(p => p.ProjectId == projectId).ToListAsync(cancellationToken);
+        }
+
+        public async Task UpdateDatabase(CancellationToken cancellationToken = default)
         {
             await DbContext.SaveChangesAsync(cancellationToken);
         }

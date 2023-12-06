@@ -7,6 +7,9 @@ namespace Splan.Platform.Domain.Employee
     {
         [Key]
         public Guid Key { get; set; }
+        public Guid ProjectId { get; set; }
+
+
         public string Name { get; set; }
 
         public string Function { get; set; }

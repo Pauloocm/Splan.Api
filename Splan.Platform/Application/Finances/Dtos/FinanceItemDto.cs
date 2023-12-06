@@ -29,7 +29,7 @@ namespace Splan.Platform.Application.Finances.Dtos
             return dto;
         }
 
-        public static List<FinanceItemDto> ToDto(List<FinanceItem> itensList)
+        public static IList<FinanceItemDto> ToDto(IList<FinanceItem> itensList)
         {
             if (itensList is null)
                 return Enumerable.Empty<FinanceItemDto>().ToList();
