@@ -61,7 +61,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             if (phaseId == Guid.Empty)
                 throw new ArgumentNullException(phaseId.ToString());
 
-            var phase = await DbContext.Phases.Where(p => p.ProjectId == projectId).FirstOrDefaultAsync(p => p.Key == phaseId, cancellationToken);
+            var phase = await DbContext.Phases.Where(p => p.ProjectId == projectId).FirstOrDefaultAsync(p => p.Id == phaseId, cancellationToken);
 
             if (phase is null)
                 throw new ArgumentNullException(phaseId.ToString());
@@ -90,7 +90,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
         public async Task<Phase> GetPhaseAsync(Guid phaseId, Guid projectId, CancellationToken cancellationToken = default)
         {
             var phase = await DbContext.Phases.Where(p => p.ProjectId == projectId).
-                FirstOrDefaultAsync(p => p.Key == phaseId, cancellationToken);
+                FirstOrDefaultAsync(p => p.Id == phaseId, cancellationToken);
 
             return phase;
         }
