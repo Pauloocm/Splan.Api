@@ -5,6 +5,6 @@ namespace Splan.Platform.Application.Phase.Commands
     public class DeletePhaseCommand
     {
         [Required]
-        public Guid PhaseId { get; set; }
+        public Guid Id { get; set; }
     }
 }
