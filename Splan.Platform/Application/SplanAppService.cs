@@ -100,7 +100,7 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var phase = PhaseFactory.Create(command.Stage, command.Description, projectId);
+            var phase = PhaseFactory.Create(command.Stage, command.Description, projectId, command.StartDate, command.EndDate);
 
             await GlobalRepository.AddPhaseAsync(phase, cancellationToken);
 
@@ -112,7 +112,7 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var phase = await GetPhase(command.PhaseId, projectId, cancellationToken);
+            var phase = await GetPhase(command.Id, projectId, cancellationToken);
 
             phase.Update(command.Stage, command.Description, command.StartDate, command.EndDate);
 
@@ -126,8 +126,8 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var phase = await GetPhase(command.PhaseId, projectId, cancellationToken) ??
-                throw new PhaseNotFoundException(command.PhaseId);
+            var phase = await GetPhase(command.Id, projectId, cancellationToken) ??
+                throw new PhaseNotFoundException(command.Id);
 
             await GlobalRepository.DeletePhase(phase.Id, projectId, cancellationToken);
         }

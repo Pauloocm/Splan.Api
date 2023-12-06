@@ -192,7 +192,7 @@ namespace Splan.Platform.Tests
         {
             var command = new UpdatePhaseCommand()
             {
-                PhaseId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Description = "desc",
                 EndDate = DateTime.Now,
                 Stage = "Inicio",
@@ -207,7 +207,7 @@ namespace Splan.Platform.Tests
         {
             var command = new UpdatePhaseCommand()
             {
-                PhaseId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 Description = "Descricao atualizada!!!!",
                 EndDate = DateTime.Now,
                 Stage = "Inicio",
