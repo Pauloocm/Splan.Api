@@ -104,7 +104,7 @@ namespace Splan.Platform.Application
 
             await GlobalRepository.AddPhaseAsync(phase, cancellationToken);
 
-            return phase.Key;
+            return phase.Id;
         }
 
         public async Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, Guid projectId, CancellationToken cancellationToken = default)
@@ -129,7 +129,7 @@ namespace Splan.Platform.Application
             var phase = await GetPhase(command.PhaseId, projectId, cancellationToken) ??
                 throw new PhaseNotFoundException(command.PhaseId);
 
-            await GlobalRepository.DeletePhase(phase.Key, projectId, cancellationToken);
+            await GlobalRepository.DeletePhase(phase.Id, projectId, cancellationToken);
         }
 
         public async Task<IList<Phase.Phase>> ListAllPhases(Guid projectId, CancellationToken cancellationToken = default)
