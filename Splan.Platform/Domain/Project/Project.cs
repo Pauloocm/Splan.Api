@@ -31,6 +31,7 @@ namespace Splan.Platform.Domain.Project
             StartDate = startDate;
             ExpirationDate = expirationDate;
             Status = status;
+
         }
     }
 }
