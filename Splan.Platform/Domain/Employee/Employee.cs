@@ -74,5 +74,19 @@ namespace Splan.Platform.Domain.Employee
                 Classification = rhClassification;
             }
         }
+
+        internal void UpdateRhFinance(decimal valuePerHour, int hoursWorkedMonth, DateTime contractDateMonth)
+        {
+            if(valuePerHour > 0)
+            {
+                ValuePerHour = valuePerHour;
+            }
+            if (hoursWorkedMonth > 0)
+            {
+                HoursWorkedMonth = hoursWorkedMonth;
+            }
+             
+            ContractDate = contractDateMonth;
+        }
     }
 }
