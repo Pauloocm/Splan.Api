@@ -18,6 +18,8 @@ namespace Splan.Platform.Application
         Task<IList<EmployeeDto>> ListEmployees(Guid projectId, CancellationToken cancellationToken = default);
         Task DeleteEmployee(DeleteEmployeeCommand command, Guid projectId, CancellationToken cancellationToken = default);
 
+
+        Task<RhFinanceDto> UpdateRhFinance(UpdateRhFinanceCommand command, Guid projectId, CancellationToken cancellationToken = default);
         Task<Guid> AddPhase(AddPhaseCommand command, Guid projectId, CancellationToken cancellationToken = default);
         Task<Phase.Phase> UpdatePhase(UpdatePhaseCommand command, Guid projectId, CancellationToken cancellationToken = default);
         Task DeletePhase(DeletePhaseCommand command, Guid projectId, CancellationToken cancellationToken = default);

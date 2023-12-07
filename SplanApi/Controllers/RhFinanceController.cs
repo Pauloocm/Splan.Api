@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
+using Splan.Platform.Application.Finances.Commands;
 
 namespace SplanApi.Controllers
 {
@@ -34,7 +35,17 @@ namespace SplanApi.Controllers
             return Ok(rhFinances);
         }
 
-        //TODO fazer método delete
+        [HttpPut]
+        public async Task<IActionResult> UpdateRhFinance([FromRoute] Guid projectId, UpdateRhFinanceCommand command,
+            CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var rhFinance = await SplanAppService.UpdateRhFinance(command, projectId, cancellationToken);
+
+            return Ok(rhFinance);
+        }
 
     }
 }
