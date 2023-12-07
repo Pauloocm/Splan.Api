@@ -248,5 +248,19 @@ namespace Splan.Platform.Application
 
             await EmployeesRepository.DeleteProject(command.ProjectId, cancellationToken);
         }
+
+        public async Task<RhFinanceDto> UpdateRhFinance(UpdateRhFinanceCommand command, Guid projectId, CancellationToken cancellationToken = default)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var employee = await EmployeesRepository.GetSingleOrDefaultAsync(projectId, command.EmployeeKey, cancellationToken);
+
+            employee.UpdateRhFinance(command.ValuePerHour, command.HoursWorkedMonth, command.ContractDateMonth);
+
+            await EmployeesRepository.UpdateDatabase();
+
+            return employee.ToRhFinanceDto();
+        }
     }
 }
