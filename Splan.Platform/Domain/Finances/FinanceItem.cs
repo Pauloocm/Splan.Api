@@ -28,9 +28,12 @@ namespace Splan.Platform.Domain.Finances
             {
                 Supplier = supplier;
             }
+            if (value > 0)
+            {
+                Value = value;
+            }
 
             Date = date;
-            Value = value;
         }
     }
 }

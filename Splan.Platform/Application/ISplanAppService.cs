@@ -38,5 +38,7 @@ namespace Splan.Platform.Application
         Task Update(UpdateProjectCommand command, CancellationToken cancellationToken = default);
         Task<IList<Project>> List(CancellationToken cancellationToken = default);
         Task Delete(DeleteProjectCommand command, CancellationToken cancellationToken = default);
+        Task UpdateFinanceItem(Guid projectId, UpdateFinanceItemCommand command, CancellationToken cancellationToken);
+        Task DeleteFinanceItem(Guid projectId, DeleteFinanceItemCommand command, CancellationToken cancellationToken);
     }
 }

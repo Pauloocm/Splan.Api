@@ -28,11 +28,27 @@ namespace SplanApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRhFinance([FromRoute] Guid projectId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetFinanceItens([FromRoute] Guid projectId, CancellationToken cancellationToken = default)
         {
             var itensDto = await SplanAppService.ListFinanceItens(projectId, cancellationToken);
 
             return Ok(itensDto);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateFinanceItem([FromRoute] Guid projectId, UpdateFinanceItemCommand command, CancellationToken cancellationToken = default)
+        {
+            await SplanAppService.UpdateFinanceItem(projectId, command, cancellationToken);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFinanceItem([FromRoute] Guid projectId, DeleteFinanceItemCommand command, CancellationToken cancellationToken = default)
+        {
+            await SplanAppService.DeleteFinanceItem(projectId, command, cancellationToken);
+
+            return Ok();
         }
 
         [HttpPost("/UploadPdf")]
