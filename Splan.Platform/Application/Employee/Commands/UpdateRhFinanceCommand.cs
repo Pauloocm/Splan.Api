@@ -1,4 +1,4 @@
-﻿namespace Splan.Platform.Application.Finances.Commands
+﻿namespace Splan.Platform.Application.Employee.Commands
 {
     public class UpdateRhFinanceCommand
     {

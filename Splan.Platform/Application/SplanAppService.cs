@@ -258,9 +258,21 @@ namespace Splan.Platform.Application
 
             employee.UpdateRhFinance(command.ValuePerHour, command.HoursWorkedMonth, command.ContractDateMonth);
 
-            await EmployeesRepository.UpdateDatabase();
+            await EmployeesRepository.UpdateDatabase(cancellationToken);
 
             return employee.ToRhFinanceDto();
+        }
+
+        public async Task UpdateFinanceItem(Guid projectId, UpdateFinanceItemCommand command, CancellationToken cancellationToken)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            var financeItem = await GlobalRepository.GetFinanceItem(command.ItemId, projectId, cancellationToken);
+
+            financeItem.Update(command.Name, command.Date, command.Value, command.Supplier);
+
+            await EmployeesRepository.UpdateDatabase(cancellationToken);
         }
     }
 }

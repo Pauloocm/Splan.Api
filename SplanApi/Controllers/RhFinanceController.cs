@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
-using Splan.Platform.Application.Finances.Commands;
 using System.Net;
 
 namespace SplanApi.Controllers
