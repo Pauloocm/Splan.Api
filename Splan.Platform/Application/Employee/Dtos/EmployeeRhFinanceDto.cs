@@ -2,7 +2,7 @@
 {
     public class EmployeeRhFinanceDto
     {
-        public Guid Key { get; set; }
+        public Guid EmployeeKey { get; set; }
         public string Name { get; set; }
         public DateTime ContractDate { get; set; }
         public decimal ValuePerHour { get; set; }
@@ -22,7 +22,7 @@
 
             var dto = new EmployeeRhFinanceDto()
             {
-                Key = employee.Key,
+                EmployeeKey = employee.Key,
                 Name = employee.Name,
                 HoursWorkedMonth = employee.HoursWorkedMonth,
                 ValuePerHour = employee.ValuePerHour,
