@@ -15,7 +15,7 @@
             Value = ValuePerHour * HoursWorkedMonth;
         }
 
-        public static EmployeeRhFinanceDto ToDto(Splan.Platform.Domain.Employee.Employee employee)
+        public static EmployeeRhFinanceDto ToDto(Domain.Employee.Employee employee)
         {
             if (employee is null)
                 throw new ArgumentNullException(nameof(employee));
@@ -34,7 +34,7 @@
             return dto;
         }
 
-        public static IList<EmployeeRhFinanceDto> ToDto(IList<Splan.Platform.Domain.Employee.Employee> listEmployees)
+        public static IList<EmployeeRhFinanceDto> ToDto(IList<Domain.Employee.Employee> listEmployees)
         {
             if (listEmployees is null)
                 return Enumerable.Empty<EmployeeRhFinanceDto>().ToList();
