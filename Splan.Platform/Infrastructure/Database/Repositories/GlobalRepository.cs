@@ -97,8 +97,6 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
         public async Task<List<FinanceItem>> ListAllFinanceItens(Guid projectId, CancellationToken cancellationToken = default)
         {
-            var itensTotal = DbContext.Itens.Count();
-
             var itens = await DbContext.Itens.Where(i => i.ProjectId == projectId).ToListAsync(cancellationToken);
 
             if (itens is null)

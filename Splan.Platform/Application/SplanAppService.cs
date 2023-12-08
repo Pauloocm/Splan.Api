@@ -274,5 +274,13 @@ namespace Splan.Platform.Application
 
             await EmployeesRepository.UpdateDatabase(cancellationToken);
         }
+
+        public async Task DeleteFinanceItem(Guid projectId, DeleteFinanceItemCommand command, CancellationToken cancellationToken)
+        {
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            await GlobalRepository.DeleteFinanceItem(command.Id, projectId, cancellationToken);
+        }
     }
 }
