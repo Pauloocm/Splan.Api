@@ -2,21 +2,24 @@
 using Splan.Platform.Application;
 using Splan.Platform.Application.Employee.Commands;
 using Splan.Platform.Application.Finances.Commands;
+using System.Net;
 
 namespace SplanApi.Controllers
 {
     [ApiController]
     [Route("[controller]/{projectId:guid}")]
-    public class RhFinacesController : ControllerBase
+    public class RhFinancesController : ControllerBase
     {
         private readonly ISplanAppService SplanAppService;
 
-        public RhFinacesController(ISplanAppService splanAppService)
+        public RhFinancesController(ISplanAppService splanAppService)
         {
             SplanAppService = splanAppService;
         }
 
+
         [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Add([FromRoute] Guid projectId, [FromBody] AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default)
         {
             if (command is null)
