@@ -77,9 +77,9 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             return pdf;
         }
 
-        public async Task<FinanceItem> GetFinanceItem(Guid itemId, CancellationToken cancellationToken = default)
+        public async Task<FinanceItem> GetFinanceItem(Guid itemId, Guid projectId, CancellationToken cancellationToken = default)
         {
-            var item = await DbContext.Itens.FindAsync(itemId, cancellationToken);
+            var item = await DbContext.Itens.Where(p => p.ProjectId == projectId).SingleOrDefaultAsync(i => i.Key == itemId, cancellationToken);
 
             if (item is null)
                 return null;

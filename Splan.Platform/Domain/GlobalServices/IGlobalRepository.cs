@@ -12,7 +12,7 @@ namespace Splan.Platform.Domain.GlobalServices
         Task<List<Phase>> ListAllPhasesAsync(Guid projectId, CancellationToken cancellationToken = default);
 
         Task AddFinanceItem(Finances.FinanceItem financeItem, CancellationToken cancellationToken = default);
-        Task<Finances.FinanceItem> GetFinanceItem(Guid itemId, CancellationToken cancellationToken = default);
+        Task<Finances.FinanceItem> GetFinanceItem(Guid itemId, Guid projectId, CancellationToken cancellationToken = default);
         Task DeleteFinanceItem(Guid itemId, Guid projectId, CancellationToken cancellationToken = default);
         Task<List<Finances.FinanceItem>> ListAllFinanceItens(Guid projectId, CancellationToken cancellationToken = default);
 
