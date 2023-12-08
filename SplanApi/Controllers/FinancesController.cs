@@ -43,6 +43,14 @@ namespace SplanApi.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFinanceItem([FromRoute] Guid projectId, DeleteFinanceItemCommand command, CancellationToken cancellationToken = default)
+        {
+            await SplanAppService.DeleteFinanceItem(projectId, command, cancellationToken);
+
+            return Ok();
+        }
+
         [HttpPost("/UploadPdf")]
         public async Task<IActionResult> UploadPdf([FromForm] AddPdfViewModel pdfViewModel, CancellationToken cancellationToken = default)
         {
