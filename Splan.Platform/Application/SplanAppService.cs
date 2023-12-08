@@ -142,8 +142,8 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var employee = await EmployeesRepository.GetById(command.Key, projectId, cancellationToken) ??
-                throw new EmployeeNotFoundException(command.Key);
+            var employee = await EmployeesRepository.GetById(command.EmployeeKey, projectId, cancellationToken) ??
+                throw new EmployeeNotFoundException(command.EmployeeKey);
 
             employee.SetRhFinances(command.ContractDateMonth, command.ValuePerHour, command.HoursWorkedMonth);
 
