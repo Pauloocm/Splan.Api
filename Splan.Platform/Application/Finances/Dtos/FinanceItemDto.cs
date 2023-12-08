@@ -4,6 +4,7 @@ namespace Splan.Platform.Application.Finances.Dtos
 {
     public class FinanceItemDto
     {
+        public Guid FinanceKey { get; set; }
         public string Name { get; set; }
 
         public DateTime Date { get; set; }
@@ -20,6 +21,7 @@ namespace Splan.Platform.Application.Finances.Dtos
 
             var dto = new FinanceItemDto()
             {
+                FinanceKey = financeItem.Key,
                 Name = financeItem.Name,
                 Date = financeItem.Date,
                 Supplier = financeItem.Supplier,

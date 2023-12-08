@@ -5,7 +5,7 @@ namespace Splan.Platform.Application.Employee.Commands
     public class AddRhFinanceFromEmployee
     {
         [Required]
-        public Guid Key { get; set; }
+        public Guid EmployeeKey { get; set; }
 
         [Required]
         public DateTime ContractDateMonth { get; set; }
