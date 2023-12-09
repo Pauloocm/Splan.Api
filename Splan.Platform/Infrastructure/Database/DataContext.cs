@@ -15,6 +15,8 @@ namespace Splan.Platform.Infrastructure.Database
         }
 
         public DbSet<Project> Projects { get; set; }
+        
+        public DbSet<AdminDataModel> Admin { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Phase> Phases { get; set; }
