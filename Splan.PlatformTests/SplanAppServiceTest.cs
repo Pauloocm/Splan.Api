@@ -9,14 +9,14 @@ using Splan.Platform.Application.Phase.Exceptions;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
 using Splan.Platform.Domain.GlobalServices;
-using System.Runtime.InteropServices;
+using Splan.Platform.Domain.Project;
 
 namespace Splan.Platform.Tests
 {
     [TestFixture]
     public class SplanAppServiceTest
     {
-        private IEmployeeRepository employeeRepositoryMock;
+        private IProjectRepository projectRepositoryMock;
         private ISplanAppService splanAppService;
         private IGlobalRepository globalRepository;
 
@@ -24,8 +24,8 @@ namespace Splan.Platform.Tests
         public void Setup()
         {
             globalRepository = Substitute.For<IGlobalRepository>();
-            employeeRepositoryMock = Substitute.For<IEmployeeRepository>();
-            splanAppService = new SplanAppService(employeeRepositoryMock, globalRepository);
+            projectRepositoryMock = Substitute.For<IProjectRepository>();
+            splanAppService = new SplanAppService(projectRepositoryMock, globalRepository);
         }
 
 
@@ -63,7 +63,7 @@ namespace Splan.Platform.Tests
         [Test]
         public void GetById_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul()
         {
-            employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>()).Returns(default(Employee));
+            projectRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>()).Returns(default(Employee));
 
             Assert.ThrowsAsync<EmployeeNotFoundException>(async () => await splanAppService.GetEmployeeById(Guid.NewGuid(), Guid.NewGuid()));
         }
@@ -81,7 +81,7 @@ namespace Splan.Platform.Tests
                 Classification = "indireto"
             };
 
-            employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>()).Returns(expectedEmployee);
+            projectRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>()).Returns(expectedEmployee);
 
             var result = await splanAppService.GetEmployeeById(Guid.NewGuid(), Guid.NewGuid());
 
@@ -106,7 +106,7 @@ namespace Splan.Platform.Tests
         [Test]
         public void Delete_Should_Throw_EmployeeNotFound_When_Employee_Is_Nul()
         {
-            employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>()).Returns(default(Employee));
+            projectRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>()).Returns(default(Employee));
 
             var command = new DeleteEmployeeCommand()
             {
@@ -132,7 +132,7 @@ namespace Splan.Platform.Tests
                 Key = expectedEmployee.Key
             };
 
-            employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
+            projectRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
 
             await splanAppService.DeleteEmployee(command, Guid.NewGuid());
 
@@ -141,7 +141,7 @@ namespace Splan.Platform.Tests
 
             Assert.That(result, Is.Not.Null);
 
-            await employeeRepositoryMock.Received(1).Delete(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+            await projectRepositoryMock.Received(1).Delete(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace Splan.Platform.Tests
                 Key = Guid.NewGuid()
             };
 
-            employeeRepositoryMock.GetSingleOrDefaultAsync(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
+            projectRepositoryMock.GetSingleOrDefaultAsync(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
 
             var command = new UpdateEmployeeCommand()
             {
@@ -166,13 +166,13 @@ namespace Splan.Platform.Tests
 
             await splanAppService.UpdateEmployee(command, Guid.NewGuid());
 
-            employeeRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
+            projectRepositoryMock.GetById(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedEmployee);
 
             var result = await splanAppService.GetEmployeeById(command.Key, Guid.NewGuid());
 
             Assert.That(result.Name, Is.EqualTo(command.Name));
 
-            await employeeRepositoryMock.Received(1).UpdateDatabase(Arg.Any<CancellationToken>());
+            await projectRepositoryMock.Received(1).UpdateDatabase(Arg.Any<CancellationToken>());
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace Splan.Platform.Tests
                 StartDate = DateTime.Now,
             };
 
-            globalRepository.GetPhaseAsync(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedPhase);
+            projectRepositoryMock.GetPhaseAsync(Arg.Any<Guid>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(expectedPhase);
 
             await splanAppService.UpdatePhase(command, Guid.NewGuid(), CancellationToken.None);
             Assert.That(expectedPhase.Description, Is.EqualTo("Descricao atualizada!!!!"));
