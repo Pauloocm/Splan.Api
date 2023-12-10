@@ -4,16 +4,9 @@
     {
         public Guid EmployeeKey { get; set; }
         public string Name { get; set; }
-        public DateTime ContractDate { get; set; }
+        public DateTime contractDateMonth { get; set; }
         public decimal ValuePerHour { get; set; }
         public int HoursWorkedMonth { get; set; }
-        public string FormatedDate { get; set; }
-        public decimal Value { get; set; }
-
-        public EmployeeRhFinanceDto()
-        {
-            Value = ValuePerHour * HoursWorkedMonth;
-        }
 
         public static EmployeeRhFinanceDto ToDto(Domain.Employee.Employee employee)
         {
@@ -26,9 +19,7 @@
                 Name = employee.Name,
                 HoursWorkedMonth = employee.HoursWorkedMonth,
                 ValuePerHour = employee.ValuePerHour,
-                ContractDate = employee.ContractDate,
-                FormatedDate = employee.ContractDate.ToString("MM/yyyy"),
-                Value = employee.ValuePerHour * employee.HoursWorkedMonth
+                contractDateMonth = employee.ContractDate,
             };
 
             return dto;
