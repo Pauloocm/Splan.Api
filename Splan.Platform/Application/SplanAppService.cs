@@ -268,7 +268,7 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            var financeItem = await ProjectRepository.GetFinanceItem(command.ItemId, projectId, cancellationToken);
+            var financeItem = await ProjectRepository.GetFinanceItem(command.FinanceKey, projectId, cancellationToken);
 
             financeItem.Update(command.Name, command.Date, command.Value, command.Supplier);
 
@@ -280,7 +280,7 @@ namespace Splan.Platform.Application
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            await ProjectRepository.DeleteFinanceItem(command.Id, projectId, cancellationToken);
+            await ProjectRepository.DeleteFinanceItem(command.FinanceKey, projectId, cancellationToken);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class DeleteFinanceItemCommand
     {
-        public Guid Id { get; set; }
+        public Guid FinanceKey { get; set; }
     }
 }
