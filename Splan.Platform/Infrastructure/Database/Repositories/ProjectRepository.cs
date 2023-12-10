@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Splan.Platform.Application.Phase;
+using Splan.Platform.Domain.Dashboard;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Finances;
 using Splan.Platform.Domain.Pdf;
@@ -200,6 +201,50 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             var phases = await DbContext.Phases.Where(p => p.ProjectId == projectId).ToListAsync(cancellationToken);
 
             return phases;
+        }
+
+        public async Task<Dashboard> GetDashboardResults(Guid projectId, CancellationToken cancellationToken = default)
+        {
+            if (projectId == Guid.Empty)
+                throw new ArgumentNullException(projectId.ToString());
+
+            var totalEmployees = await DbContext.Employees.CountAsync(cancellationToken);
+
+            var totalFinanceItens = await DbContext.Itens.CountAsync(cancellationToken);
+
+            var project = await DbContext.Projects.FirstOrDefaultAsync(p => p.ProjectId == projectId, cancellationToken);
+
+            var remainingDays = project.ExpirationDate - DateTime.Now;
+
+            var itens = await DbContext.Itens.ToListAsync(cancellationToken);
+
+            decimal totalSpendByFinanceItens = 0;
+
+            foreach (var item in itens)
+            {
+                totalSpendByFinanceItens += item.Value;
+            }
+
+            var employeesList = await DbContext.Employees.ToListAsync(cancellationToken);
+
+            decimal totalSpendByEmployees = 0;
+
+            foreach (var employee in employeesList)
+            {
+                totalSpendByFinanceItens += (employee.ValuePerHour * employee.HoursWorkedMonth);
+            }
+
+            var totalSpend = totalSpendByFinanceItens + totalSpendByEmployees;
+
+            var dashboard = new Dashboard
+            {
+                FinanceItens = totalFinanceItens,
+                QuantityEmployees = totalEmployees,
+                RemainingDays = remainingDays,
+                TotalSpend = totalSpend
+            };
+
+            return dashboard;
         }
     }
 }

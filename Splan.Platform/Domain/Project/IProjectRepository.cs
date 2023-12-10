@@ -34,5 +34,8 @@ namespace Splan.Platform.Domain.Project
         Task<Phase> GetPhaseAsync(Guid phaseId, Guid projectId, CancellationToken cancellationToken = default);
         Task DeletePhase(Guid phaseId, Guid projectId, CancellationToken cancellationToken = default);
         Task<List<Phase>> ListAllPhasesAsync(Guid projectId, CancellationToken cancellationToken = default);
+
+        Task<Dashboard.Dashboard> GetDashboardResults(Guid projectId, CancellationToken cancellationToken = default);
+        
     }
 }

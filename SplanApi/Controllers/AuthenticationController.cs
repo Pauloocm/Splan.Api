@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Splan.Platform.Application.Admin.Commands;
+using Splan.Platform.Application.Services;
 using Splan.Platform.Domain.GlobalServices;
 
 namespace SplanApi.Controllers
@@ -18,8 +19,8 @@ namespace SplanApi.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] AdminLoginCommand command, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(command.Email) || string.IsNullOrWhiteSpace(command.Password))
-                return BadRequest("Email or password invalid");
+            if (command.Email.IsValidEmail() || command.Password.IsValidPassword())
+                return BadRequest("Invalid email or password");
 
             await GlobalRepository.Register(command.Email, command.Password, cancellationToken);
 
@@ -35,7 +36,7 @@ namespace SplanApi.Controllers
             var result = await GlobalRepository.Login(command.Email, command.Password);
 
             if(string.IsNullOrWhiteSpace(result))
-                return BadRequest("Email or password invalid");
+                return BadRequest("Invalid email or password");
 
             return Ok(result);
         }
