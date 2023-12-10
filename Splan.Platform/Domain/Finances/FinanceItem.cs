@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Splan.Platform.Domain.Pdf;
+using System.ComponentModel.DataAnnotations;
 
 namespace Splan.Platform.Domain.Finances
 {
@@ -12,6 +13,7 @@ namespace Splan.Platform.Domain.Finances
         public DateTime Date { get; set; }
         public decimal Value { get; set; }
         public string Supplier { get; set; }
+        public Pdf.Pdf Pdf { get; set; }
 
         public FinanceItem()
         {
