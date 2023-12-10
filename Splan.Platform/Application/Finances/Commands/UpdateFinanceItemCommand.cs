@@ -5,7 +5,7 @@ namespace Splan.Platform.Application.Finances.Commands
 {
     public class UpdateFinanceItemCommand
     {
-        public Guid ItemId { get; set; }
+        public Guid FinanceKey { get; set; }
 
         [AllowNull]
         [DefaultValue("")]
