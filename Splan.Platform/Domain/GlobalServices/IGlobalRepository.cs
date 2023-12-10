@@ -10,6 +10,6 @@ namespace Splan.Platform.Domain.GlobalServices
 
         Task UpdateGlobalDatabase(CancellationToken cancellationToken = default);
         Task Register(string email, string password, CancellationToken cancellationToken = default);
-        Task<bool> Login(string email, string password, CancellationToken cancellationToken = default);
+        Task<string> Login(string email, string password, CancellationToken cancellationToken = default);
     }
 }
