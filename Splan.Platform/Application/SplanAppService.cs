@@ -8,6 +8,7 @@ using Splan.Platform.Application.Phase;
 using Splan.Platform.Application.Phase.Commands;
 using Splan.Platform.Application.Phase.Exceptions;
 using Splan.Platform.Application.Projects.Commands;
+using Splan.Platform.Domain.Dashboard.Dtos;
 using Splan.Platform.Domain.Employee;
 using Splan.Platform.Domain.Employee.Exceptions;
 using Splan.Platform.Domain.Finances;
@@ -281,6 +282,16 @@ namespace Splan.Platform.Application
                 throw new ArgumentNullException(nameof(command));
 
             await ProjectRepository.DeleteFinanceItem(command.FinanceKey, projectId, cancellationToken);
+        }
+
+        public async Task<DashboardDto> GetDashboard(Guid projectId, CancellationToken cancellationToken = default)
+        {
+            if (projectId == Guid.Empty)
+                throw new ArgumentNullException(nameof(projectId));
+
+            var dashboard = await ProjectRepository.GetDashboardResults(projectId, cancellationToken);
+
+            return DtoExtensions.ToDashboardDto(dashboard);
         }
     }
 }
