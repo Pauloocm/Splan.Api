@@ -104,6 +104,11 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             if (pdf is null)
                 throw new ArgumentNullException(nameof(pdf));
 
+            var exist = await DbContext.Pdfs.SingleOrDefaultAsync(p => p.FinanceItemId == pdf.FinanceItemId, cancellationToken);
+
+            if (exist != null)
+                DbContext.Pdfs.Remove(exist);
+
             await DbContext.Pdfs.AddAsync(pdf, cancellationToken);
             DbContext.SaveChanges();
         }
