@@ -18,8 +18,8 @@ namespace SplanApi.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] AdminLoginCommand command, CancellationToken cancellationToken = default)
         {
-            if (command is null)
-                throw new ArgumentNullException(nameof(command));
+            if (string.IsNullOrWhiteSpace(command.Email) || string.IsNullOrWhiteSpace(command.Password))
+                return BadRequest("Email or password invalid");
 
             await GlobalRepository.Register(command.Email, command.Password, cancellationToken);
 
@@ -28,11 +28,14 @@ namespace SplanApi.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] AdminLoginCommand command)
-        {
+         {
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
             var result = await GlobalRepository.Login(command.Email, command.Password);
+
+            if(string.IsNullOrWhiteSpace(result))
+                return BadRequest("Email or password invalid");
 
             return Ok(result);
         }

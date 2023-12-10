@@ -20,11 +20,8 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
         public async Task Register(string email, string password, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentNullException(nameof(email));
-
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentNullException(nameof(password));
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                throw new ArgumentNullException(nameof(email), "Invalid login");
 
             var hashedPassword = Services.GenerateMD5Hash(password);
 
@@ -34,19 +31,24 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> Login(string email, string password, CancellationToken cancellationToken = default)
+        public async Task<string> Login(string email, string password, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentNullException(nameof(email));
-
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentNullException(nameof(password));
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                throw new ArgumentNullException(nameof(email), "Invalid login");
 
             var hashedPassword = Services.GenerateMD5Hash(password);
 
             var findedAdmin = await DbContext.Admin.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 
-            return string.Equals(findedAdmin.Password, hashedPassword, StringComparison.OrdinalIgnoreCase);
+            if (findedAdmin != null)
+            {
+                var result = string.Equals(findedAdmin.Password, hashedPassword, StringComparison.OrdinalIgnoreCase);
+
+                if (result)
+                    return findedAdmin.Email;
+            }
+
+            return string.Empty;
         }
     }
 }
