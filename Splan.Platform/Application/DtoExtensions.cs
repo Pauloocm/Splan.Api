@@ -1,4 +1,6 @@
 ﻿using Splan.Platform.Application.Employee.Dtos;
+using Splan.Platform.Domain.Dashboard;
+using Splan.Platform.Domain.Dashboard.Dtos;
 
 namespace Splan.Platform.Application
 {
@@ -16,6 +18,19 @@ namespace Splan.Platform.Application
             };
 
             return rhFinanceDto;
+        }
+
+        public static DashboardDto ToDashboardDto(Dashboard dashboard)
+        {
+            var dashboardDto = new DashboardDto()
+            {
+                QuantityEmployees = dashboard.QuantityEmployees,
+                FinanceItens = dashboard.FinanceItens,
+                RemainingDays = dashboard.RemainingDays,
+                TotalSpend = dashboard.TotalSpend,
+            };
+
+            return dashboardDto;
         }
     }
 }

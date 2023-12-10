@@ -6,6 +6,7 @@ using Splan.Platform.Application.Finances.Dtos;
 using Splan.Platform.Application.Pdf.Commands;
 using Splan.Platform.Application.Phase.Commands;
 using Splan.Platform.Application.Projects.Commands;
+using Splan.Platform.Domain.Dashboard.Dtos;
 using Splan.Platform.Domain.Project;
 
 namespace Splan.Platform.Application
@@ -40,5 +41,7 @@ namespace Splan.Platform.Application
         Task Delete(DeleteProjectCommand command, CancellationToken cancellationToken = default);
         Task UpdateFinanceItem(Guid projectId, UpdateFinanceItemCommand command, CancellationToken cancellationToken);
         Task DeleteFinanceItem(Guid projectId, DeleteFinanceItemCommand command, CancellationToken cancellationToken);
+
+        Task<DashboardDto> GetDashboard(Guid projectId, CancellationToken cancellationToken = default);
     }
 }
