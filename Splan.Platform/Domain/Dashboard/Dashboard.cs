@@ -4,7 +4,7 @@
     {
         public int QuantityEmployees { get; set; }
         public int FinanceItens { get; set; }
-        public TimeSpan RemainingDays { get; set; }
+        public int RemainingDays { get; set; }
         public decimal TotalSpend { get; set; }
     }
 }
