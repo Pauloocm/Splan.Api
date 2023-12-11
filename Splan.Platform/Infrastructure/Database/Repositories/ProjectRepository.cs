@@ -216,6 +216,8 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
             var remainingDays = project.ExpirationDate - DateTime.Now;
 
+            int remainingDaysInMinutes = (int)remainingDays.TotalMinutes;
+
             var itens = await DbContext.Itens.ToListAsync(cancellationToken);
 
             decimal totalSpendByFinanceItens = 0;
@@ -240,7 +242,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             {
                 FinanceItens = totalFinanceItens,
                 QuantityEmployees = totalEmployees,
-                RemainingDays = remainingDays,
+                RemainingDays = remainingDaysInMinutes,
                 TotalSpend = totalSpend
             };
 
