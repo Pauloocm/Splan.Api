@@ -208,9 +208,9 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
             if (projectId == Guid.Empty)
                 throw new ArgumentNullException(projectId.ToString());
 
-            var totalEmployees = await DbContext.Employees.CountAsync(cancellationToken);
+            var totalEmployees = await DbContext.Employees.Where(p => p.ProjectId == projectId).CountAsync(cancellationToken);
 
-            var totalFinanceItens = await DbContext.Itens.CountAsync(cancellationToken);
+            var totalFinanceItens = await DbContext.Itens.Where(p => p.ProjectId == projectId).CountAsync(cancellationToken);
 
             var project = await DbContext.Projects.FirstOrDefaultAsync(p => p.ProjectId == projectId, cancellationToken);
 
@@ -218,7 +218,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
 
             int remainingDaysInMinutes = (int)remainingDays.TotalMinutes;
 
-            var itens = await DbContext.Itens.ToListAsync(cancellationToken);
+            var itens = await DbContext.Itens.Where(p => p.ProjectId == projectId).ToListAsync(cancellationToken);
 
             decimal totalSpendByFinanceItens = 0;
 
@@ -227,7 +227,7 @@ namespace Splan.Platform.Infrastructure.Database.Repositories
                 totalSpendByFinanceItens += item.Value;
             }
 
-            var employeesList = await DbContext.Employees.ToListAsync(cancellationToken);
+            var employeesList = await DbContext.Employees.Where(p => p.ProjectId == projectId).ToListAsync(cancellationToken);
 
             decimal totalSpendByEmployees = 0;
 
