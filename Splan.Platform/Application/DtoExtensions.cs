@@ -20,7 +20,7 @@ namespace Splan.Platform.Application
             return rhFinanceDto;
         }
 
-        public static DashboardDto ToDashboardDto(Dashboard dashboard)
+        public static DashboardDto ToDashboardDto(this Dashboard dashboard)
         {
             var dashboardDto = new DashboardDto()
             {
