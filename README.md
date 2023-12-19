@@ -19,7 +19,7 @@ Created with the aim of digitizing processes that were previously done manually,
 
 ## Contributors
 
-- [Anthony Sacramento](https://github.com/team-member-1)
+- [Anthony Sacramento](https://github.com/AnthonySacramento)
 - [André Luis](https://github.com/AndreLuisT7)
 - [Joao Manuel](https://github.com/JoaoSilvaDeveloper)
 - [Filipe Silva](https://github.com/FilipeSS01)
