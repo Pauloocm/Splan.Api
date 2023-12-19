@@ -18,7 +18,6 @@ namespace SplanApi.Controllers
 
 
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Add([FromRoute] Guid projectId, [FromBody] AddRhFinanceFromEmployee command, CancellationToken cancellationToken = default)
         {
             if (command is null)

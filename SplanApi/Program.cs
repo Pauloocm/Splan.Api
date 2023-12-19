@@ -17,9 +17,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
+
 builder.Services.AddTransient<ISplanAppService, SplanAppService>();
 builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
 builder.Services.AddTransient<IGlobalRepository, GlobalRepository>();
+
 var app = builder.Build();
 
 #region [Cors]
