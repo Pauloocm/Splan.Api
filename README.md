@@ -7,18 +7,26 @@ Just a simple project developed for the conclusion work of the Systems Developme
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Contributors](#contributors)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
+
 
 ## Getting Started
 
-[Explain what your project is and what it does]
+Created with the aim of digitizing processes that were previously done manually, the expectation is to generate greater reliability, time savings and practicality for our client.
+
+## Contributors
+
+- [Anthony Sacramento](https://github.com/team-member-1)
+- [André Luis](https://github.com/AndreLuisT7)
+- [Joao Manuel](https://github.com/JoaoSilvaDeveloper)
+- [Filipe Silva](https://github.com/FilipeSS01)
 
 ## Prerequisites
 
-[Detail any prerequisites or system requirements]
+.NET 8
 
 ## Installation
 
@@ -124,6 +132,19 @@ This documentation provides details about the endpoints available in the Splan A
     "id": 1
   }
 ```
+### Get Dashboard
+
+- **Endpoint:** `GET /Dashboard/{projectId}`
+- **Description:** Endpoint allows users to retrieve dashboard information for a specified project.
+- **Response:** 200 OK - Dashboard information retrieved successfully / 400 Bad Request - Invalid project ID / 404 Not Found - Project not found or no dashboard information available.
+#### Example
+
+  ```http
+  GET /Dashboard/{projectId}
+  Content-Type: application/json
+
+{}
+```
 ### Add Employee
 
 - **Endpoint:** `POST /Employees/{projectId}`
@@ -214,4 +235,224 @@ This documentation provides details about the endpoints available in the Splan A
     "EmployeeId": "1"
   }
 ```
+### Add Phase
 
+- **Endpoint:** `POST /Phases/{projectId}`
+- **Description:** Endpoint allows users to add a phase to a specified project.
+- **Request Body:** JSON representing an `AddPhaseCommand`.
+- **Response:** 200 OK - Phase added to the project successfully, returns the phase ID / 400 Bad Request - Invalid or missing phase details or project ID
+#### Example
+
+  ```http
+  POST /Phases/{projectId}
+  Content-Type: application/json
+
+{
+  "stage": "PhaseStage",
+  "description": "PhaseDescription",
+  "startDate": "2023-01-01",
+  "endDate": "2023-12-31"
+}
+```
+### Update Phase
+
+- **Endpoint:** `PUT /Phases/{projectId}`
+- **Description:** Endpoint allows users to update phase details within a specified project.
+- **Request Body:** JSON representing an `UpdatePhaseCommand`.
+- **Response:** 200 OK - Phase details updated successfully / 400 Bad Request - Invalid or missing phase details or project ID
+#### Example
+
+  ```http
+  PUT /Phases/{projectId}
+  Content-Type: application/json
+
+{
+  "PhaseId": "1",
+  "stage": "PhaseStage",
+  "description": "PhaseDescription",
+  "startDate": "2023-01-01",
+  "endDate": "2023-12-31"
+}
+```
+### Update Phase
+
+- **Endpoint:** `GET /ListPhases/{projectId}`
+- **Description:** Endpoint allows users to retrieve a list of phases within a specified project.
+- **Response:** 200 OK - List of phases retrieved successfully / 400 Bad Request - Invalid project ID / 404 - Not Found - Project not found.
+#### Example
+
+  ```http
+  GET /ListPhases/{projectId}
+  Content-Type: application/json
+
+{}
+```
+### Delete Phase
+
+- **Endpoint:** `DELETE /Phases/{projectId}`
+- **Description:** Endpoint allows users to remove a phase from a specified project.
+- **Request Body:** JSON representing an `DeletePhaseCommand`.
+- **Response:** 200 OK - Phase deleted successfully / 400 Bad Request - Invalid or missing phase details or project ID
+#### Example
+
+  ```http
+  DELETE /Phases/{projectId}
+  Content-Type: application/json
+
+{
+  "PhaseId": "1",
+}
+```
+### Add FinanceItem
+
+- **Endpoint:** `POST /Finances/{projectId}`
+- **Description:** Endpoint allows users to add a finance item to a specified project.
+- **Request Body:** JSON representing an `AddFinanceItemCommand`.
+- **Response:** 200 OK - Finance item added to the project successfully / 400 Bad Request - Invalid or missing phase details or project ID
+#### Example
+
+  ```http
+  POST /Finances/{projectId}
+  Content-Type: application/json
+
+{
+  "name": "ItemName",
+  "date": "2023-01-01",
+  "value": 100.0,
+  "supplier": "SupplierName"
+}
+```
+### Get FinanceItens
+
+- **Endpoint:** `GET /Finances/{projectId}`
+- **Description:** Endpoint allows users to retrieve a list of finance items within a specified project.
+- **Response:** 200 OK - List of finance items retrieved successfully / 400 Bad Request - Invalid project ID / 404 Not Found - Project not found.
+#### Example
+
+  ```http
+  GET /Finances/{projectId}
+  Content-Type: application/json
+
+{}
+```
+### Update FinanceItem
+
+- **Endpoint:** `PUT /Finances/{projectId}`
+- **Description:** Endpoint allows users to add a finance item to a specified project.
+- **Request Body:** JSON representing an `UpdateFinanceItemCommand`.
+- **Response:** 200 OK - Finance item details updated successfully / 400 Bad Request - Invalid or missing finance item details or project ID
+#### Example
+
+  ```http
+  PUT /Finances/{projectId}
+  Content-Type: application/json
+
+{
+  "financeItemId": "ItemID",
+  "name": "UpdatedItemName",
+  "date": "2023-01-01",
+  "value": 150.0,
+  "supplier": "UpdatedSupplierName"
+}
+```
+### Update FinanceItem
+
+- **Endpoint:** `DELETE /Finances/{projectId}`
+- **Description:** Endpoint allows users to remove a finance item from a specified project.
+- **Request Body:** JSON representing an `DeleteFinanceItemCommand`.
+- **Response:** 200 OK - Finance item deleted successfully / 400 Bad Request - Invalid or missing finance item details or project ID
+#### Example
+
+  ```http
+  DELETE /Finances/{projectId}
+  Content-Type: application/json
+
+{
+  "financeItemId": "ItemID"
+}
+```
+### Upload PDF
+
+- **Endpoint:** `POST /UploadPdf`
+- **Description:** Endpoint allows users to upload a PDF file.
+- **Request Form:** PDF file
+- **Request Body:** JSON representing an `AddPdfViewModel`.
+- **Response:** 200 OK - File uploaded successfully, returns the PDF ID / 400 Bad Request - No file uploaded, invalid file format, or missing required 
+#### Example
+
+  ```http
+  POST /UploadPdf
+  Content-Type: application/json
+
+{
+  "name": "pdfName",
+  "financeItemId": "1"
+}
+```
+### Download PDF
+
+- **Endpoint:** `GET /DownloadPdf`
+- **Description:** Endpoint allows users to upload a PDF file.
+- **Request Body:** JSON representing an `financeItemId`.
+- **Response:** 200 OK - File downloaded successfully, returns the PDF file / 400 Bad Request - Invalid or missing ItemId / 404 Not Found - PDF file or associated item not found.
+#### Example
+
+  ```http
+  GET /DownloadPdf
+  Content-Type: application/json
+
+{
+  "financeItemId": "1"
+}
+```
+### Add RhFinance
+
+- **Endpoint:** `POST /Rhfinances/{projectId}`
+- **Description:** Endpoint allows users to add finance information from an employee to a specified project.
+- **Request Body:** JSON representing an `AddRhFinanceFromEmployee`.
+- **Response:** 200 OK - File downloaded successfully, returns the PDF file / 400 Bad Request - Invalid or missing ItemId / 404 Not Found - PDF file or associated item not found.
+#### Example
+
+  ```http
+  POST /Rhfinances/{projectId}
+  Content-Type: application/json
+
+{
+  "employeeId": "1",
+  "contractDateMonth": "2023-01-01",
+  "valuePerHour": 25.0,
+  "hoursWorkedMonth": 160
+}
+```
+### Get RhFinances
+
+- **Endpoint:** `GET /Rhfinances/{projectId}`
+- **Description:** Endpoint allows users to list finance information related to employees in a specified project.
+- **Response:** 200 OK -  Finance information related to employees listed successfully / 400 Bad Request - Invalid project ID / 404 Not Found - Project not found.
+#### Example
+
+  ```http
+  GET /Rhfinances/{projectId}
+  Content-Type: application/json
+
+{}
+```
+### Update RhFinance
+
+- **Endpoint:** `PUT /Rhfinances/{projectId}`
+- **Description:** Endpoint allows users to update finance information related to employees in a specified project.
+- **Request Body:** JSON representing an `UpdateRhFinanceCommand`.
+- **Response:** 200 OK -  Finance information related to employees updated successfully / 400 Bad Request - Invalid project ID / 404 Not Found - Project not found.
+#### Example
+
+  ```http
+  PUT /Rhfinances/{projectId}
+  Content-Type: application/json
+
+{
+  "employeeId": "1",
+  "contractDateMonth": "2023-01-01",
+  "valuePerHour": 30.0,
+  "hoursWorkedMonth": 180
+}
+```
