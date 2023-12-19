@@ -1,5 +1,4 @@
-﻿using Splan.Platform.Domain.Pdf;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Splan.Platform.Domain.Finances
 {

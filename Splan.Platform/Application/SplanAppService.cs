@@ -291,7 +291,7 @@ namespace Splan.Platform.Application
 
             var dashboard = await ProjectRepository.GetDashboardResults(projectId, cancellationToken);
 
-            return DtoExtensions.ToDashboardDto(dashboard);
+            return dashboard.ToDashboardDto();
         }
     }
 }
